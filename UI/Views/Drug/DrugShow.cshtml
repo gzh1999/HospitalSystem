@@ -43,6 +43,7 @@
             <th>生产厂家</th>
             <th>状态</th>
             <th>创建时间</th>
+            <th>药品类型</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -71,9 +72,10 @@
                             + '<td>' + this.DrugName + '</td>'
                             + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.DrugSelling + '</td>'
-                            + '<td>' + this.Manufacturers + '</td>'
-                            + '<td>' + this.DrugStatus + '</td>'
+                            + '<td>' + this.ManufacturersId + '</td>'
+                            + '<td>' + (this.DrugStatus?"启用":"禁用") + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
+                            + '<td>' + this.DrugTypeId + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })

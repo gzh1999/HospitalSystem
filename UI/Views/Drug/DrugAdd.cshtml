@@ -3,7 +3,7 @@
     ViewBag.Title = "DrugAdd";
 }
 
-<h1 style="color:blue;margin-left:40px;">基本信息</h1>
+
 <script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
@@ -24,15 +24,68 @@
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-        
-    }
-    .p{
-        font-size:20px;
     }
 
+    .p {
+        font-size: 20px;
+    }
+
+    .box {
+        width: 500px;
+        margin-top: 10%;
+        margin: auto;
+        padding: 28px;
+        height: 350px;
+        border: 1px #111 solid;
+        display: none; /* 默认对话框隐藏 */
+        background-color: antiquewhite;
+    }
+
+        .box.show {
+            display: block;
+            position: relative;
+        }
+
+        .box .x {
+            font-size: 18px;
+            text-align: right;
+            display: block;
+        }
+
+        .box input {
+            width: 80%;
+            font-size: 18px;
+            margin-top: 18px;
+        }
+
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
 </style>
+<h1 style="color:blue;margin-left: 40px">基本信息</h1>
 
-<div style="margin-left: 200px;width:1300px">
+<div style="margin-left: 200px;width:1300px;">
     <div>
         <div style="float:left">
             <p class="p">药品编码：</p>
@@ -50,28 +103,61 @@
                 </select>
             </div>
             <div style="float:right">
-                <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="DrugTypeAdd()" />
+                <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="DrugTypeAdd(1)" />
             </div>
-              
         </div>
     </div>
     <div>
         <div style="float:left">
-            <p class="p">药品规格：</p>
-            <input id="DrugNumber" class="form-control" type="text" />
-        </div>
-        <div style="float:right;margin-left: 400px">
-            <p class="p">生产厂家：</p>
-            <input id="DrugName" class="form-control" type="text" />
+            <p class="p">采药价格：</p>
+            <input id="DrugPrice" class="form-control" type="text" />
         </div>
         <div style="float:right;">
             <p class="p">药品状态：</p>
             <div style="float:left">
                 <input id="Radio1" type="radio" name="DrugStatus" />启用
-                <input id="Radio1" type="radio" name="DrugStatus"  />禁用
-            </div>            
+                <input id="Radio1" type="radio" name="DrugStatus" />禁用
+            </div>
+        </div>
+        <div style="float:right;margin-right: 400px">
+            <p class="p">生产厂家：</p>
+            <div style="float:left">
+                <select id="ManufacturersName" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+            <div style="float:right">
+                <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="Manufacturers(1)" />
+            </div>
         </div>
     </div>
+    <div>
+        <div style="float:left">
+            <p class="p">药品售价：</p>
+            <input id="DrugSelling" class="form-control" type="text" />
+        </div>
+        <div style="float:right;margin-left: 200px">
+            <p class="p">创建时间：</p>
+            <input id="DrugCreateTime" class="form-control" type="datetime-local" />
+        </div>
+    </div>
+
+</div>
+
+<input id="Button1" class="button" type="button" value="添加" onclick="DrugAdd()" />
+
+
+<div id='inputbox' class="box">
+    <a class='x' href='' ; onclick="DrugTypeAdd(0); return false;">关闭</a>
+    <input type="text" id="name">
+    <input type="button" value="确定" onclick="DrugTypeAdd1()">
+</div>
+
+
+<div id='inputbox1' class="box">
+    <a class='x' href='' ; onclick="Manufacturers(0); return false;">关闭</a>
+    <input type="text" id="name1">
+    <input type="button" value="确定" onclick="ManufacturersAdd1()">
 </div>
 
 @section scripts{
@@ -92,33 +178,102 @@
                         var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
                         $("#DrugTypeName").append(opt);
                     })
+                    ManufacturersBandsel();
                 }
             })
         }
-        function DrugTypeAdd()
-        {
+        function ManufacturersBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Manufacturers',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#ManufacturersName").empty();
+                    $("#ManufacturersName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
+                        $("#ManufacturersName").append(opt);
+                    })
+                }
+            })
+        }
+        //弹出药品类型输入框
+        function DrugTypeAdd(n) {
+            document.getElementById('inputbox').style.display = n ? 'block' : 'none';     /* 点击按钮打开/关闭 对话框 */
 
-            var Name = prompt("请输入类型", ""); 
+        }
+        //弹出药品生产地址框
+        function Manufacturers(a) {
+            document.getElementById('inputbox1').style.display = a ? 'block' : 'none';     /* 点击按钮打开/关闭 对话框 */
+
+        }
+        function DrugTypeAdd1() {
             var obj = {};
-            obj.Name = $("Name").val();
-            if (Name != null && Name != "") {
-                $.ajax({
-                    url: 'http://localhost:65510/api/DrugType',
-                    type: 'post',
-                    data: obj,
-                    dataType: 'json',
-                    success: function (d) {
-                        if (d > 0) {
-                            alert('输入成功');
-                        }
-                        else {
-                            alert('输入失败');
-                        }
+            obj.DrugTypeName = $("#name").val();
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugType',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('输入成功');
+                        location.href = '/Drug/DrugAdd';
                     }
-                })
-            }           
+                    else {
+                        alert('输入失败');
+                    }
+                }
+            })
+        }
+        function ManufacturersAdd1() {
+            var obj = {};
+            obj.ManufacturersName = $("#name1").val();
+            $.ajax({
+                url: 'http://localhost:65510/api/Manufacturers',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('输入成功');
+                        location.href = '/Drug/DrugAdd';
+                    }
+                    else {
+                        alert('输入失败');
+                    }
+                }
+            })
+        }
+        //添加药品
+        function DrugAdd() {
+            var obj = {};
+            obj.DrugNumber = $("#DrugNumber").val();
+            obj.DrugName = $("#DrugName").val();
+            obj.DrugPrice = $("#DrugPrice").val();
+            obj.DrugSelling = $("#DrugSelling").val();
+            obj.ManufacturersId = $("#DrugTypeName").val();
+            obj.DrugStatus = $("#DrugStatus").val();
+            obj.DrugCreateTime = $("#DrugCreateTime").val();
+            obj.DrugTypeId = $("#ManufacturersName").val();
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('新增药品成功');
+                        location.href = '/Drug/DrugShow';
+                    }
+                    else {
+                        alert('新增药品失败');
+                    }
+                }
+            })
         }
     </script>
-    }
+}
 
 

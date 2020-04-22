@@ -245,7 +245,6 @@
     <Content Include="layui-v2.5.6\layui-v2.5.6\layui\lay\modules\util.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="yiyuan.png" />
     <Content Include="layui-v2.5.6\dropdown_2.0.0\readme.md" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\layui\font\iconfont.eot" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\layui\font\iconfont.ttf" />
@@ -256,6 +255,7 @@
     <Content Include="layui-v2.5.6\layui-v2.5.6\文档与示例\在线示例.url" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\文档与示例\快速上手.url" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\更新日志.url" />
+    <Content Include="yiyuan.jpg" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

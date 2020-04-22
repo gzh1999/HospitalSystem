@@ -158,6 +158,7 @@
     <Compile Include="Controllers\DrugController.cs" />
     <Compile Include="Controllers\DrugTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManufacturersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

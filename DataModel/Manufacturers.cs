@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace DataModel
 {
     /// <summary>
-    /// 药品类别表
+    /// 生产厂家表
     /// </summary>
-    public class DrugType
+    public class Manufacturers
     {
         public int Id { get; set; }
-        public string DrugTypeName { get; set; }
+        public string ManufacturersName { get; set; }
     }
 }

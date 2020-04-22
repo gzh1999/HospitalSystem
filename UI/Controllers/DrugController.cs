@@ -25,8 +25,9 @@ namespace UI.Controllers
         }
 
         // POST: api/Drug
-        public void Post([FromBody]string value)
+        public int Post([FromBody]Drug m)
         {
+            return dal.DrugAdd(m);
         }
 
         // PUT: api/Drug/5

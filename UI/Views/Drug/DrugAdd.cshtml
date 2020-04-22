@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "DrugAdd";
+}
+
+<h1 style="color:blue;margin-left:40px;">基本信息</h1>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<style>
+    .form-control {
+        display: block;
+        width: 300px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        
+    }
+    .p{
+        font-size:20px;
+    }
+
+</style>
+
+<div style="margin-left: 200px;width:1300px">
+    <div>
+        <div style="float:left">
+            <p class="p">药品编码：</p>
+            <input id="DrugNumber" class="form-control" type="text" />
+        </div>
+        <div style="float:right;margin-left: 200px">
+            <p class="p">药品通用名：</p>
+            <input id="DrugName" class="form-control" type="text" />
+        </div>
+        <div style="float:right;">
+            <p class="p">药品分类：</p>
+            <div style="float:left">
+                <select id="DrugTypeName" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+            <div style="float:right">
+                <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="DrugTypeAdd()" />
+            </div>
+              
+        </div>
+    </div>
+    <div>
+        <div style="float:left">
+            <p class="p">药品规格：</p>
+            <input id="DrugNumber" class="form-control" type="text" />
+        </div>
+        <div style="float:right;margin-left: 400px">
+            <p class="p">生产厂家：</p>
+            <input id="DrugName" class="form-control" type="text" />
+        </div>
+        <div style="float:right;">
+            <p class="p">药品状态：</p>
+            <div style="float:left">
+                <input id="Radio1" type="radio" name="DrugStatus" />启用
+                <input id="Radio1" type="radio" name="DrugStatus"  />禁用
+            </div>            
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            DrugTypeBandsel();
+        });
+        //药品分类绑定
+        function DrugTypeBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugType',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#DrugTypeName").empty();
+                    $("#DrugTypeName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
+                        $("#DrugTypeName").append(opt);
+                    })
+                }
+            })
+        }
+        function DrugTypeAdd()
+        {
+
+            var Name = prompt("请输入类型", ""); 
+            var obj = {};
+            obj.Name = $("Name").val();
+            if (Name != null && Name != "") {
+                $.ajax({
+                    url: 'http://localhost:65510/api/DrugType',
+                    type: 'post',
+                    data: obj,
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('输入成功');
+                        }
+                        else {
+                            alert('输入失败');
+                        }
+                    }
+                })
+            }           
+        }
+    </script>
+    }
+
+

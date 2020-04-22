@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "DrugShow";
+}
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<style>
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+</style>
+
+<input class="button" type="button" value="新增药品" style="float:right;margin-bottom:15px"  onclick="location.href='/Drug/DrugAdd'" />
+
+<table class="table table-bordered" style="margin-left:40px;width:1900px;height:500px;font-size:20px">
+    <thead style="background:#a9c6c9">
+        <tr>
+            <th>药品编码</th>
+            <th>药品名称</th>
+            <th>采药价格</th>
+            <th>售药价</th>
+            <th>生产厂家</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody id="td" style="font-size:40px;color:brown">
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            DrugShow();
+        });
+
+        //药品显示表
+        function DrugShow() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#td").empty();
+                    $(d).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.DrugNumber + '</td>'
+                            + '<td>' + this.DrugName + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '<td>' + this.Manufacturers + '</td>'
+                            + '<td>' + this.DrugStatus + '</td>'
+                            + '<td>' + this.DrugCreateTime + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+    </script>
+}
+

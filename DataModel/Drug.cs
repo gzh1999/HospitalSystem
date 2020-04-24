@@ -18,7 +18,17 @@ namespace DataModel
         public decimal DrugSelling    { get; set; }
         public int ManufacturersId { get; set; }
         public bool DrugStatus     { get; set; }
-        public DateTime DrugCreateTime { get; set; }
+        public string DrugCreateTime { get; set; }
         public int DrugTypeId { get; set; }
+        public string Specification { get; set; }
+        public int InventoryUpperLimit { get; set; }
+        public int InventoryLowerLimit { get; set; }
+        public string DrugContent { get; set; }
+
+
+
+        public string DrugTypeName { get; set; }
+        public string ManufacturersName { get; set; }
+
     }
 }

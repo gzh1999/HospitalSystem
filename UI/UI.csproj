@@ -283,6 +283,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Drug\DrugShow.cshtml" />
     <Content Include="Views\Drug\DrugAdd.cshtml" />
+    <Content Include="Views\Drug\DrugUpt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

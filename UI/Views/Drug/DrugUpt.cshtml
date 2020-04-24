@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />
+    @*<link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />*@
 </head>
 <body>
     <div style="width:99%; height:565px;">
@@ -115,18 +115,18 @@
                         <label id="Label6">药品状态</label>
                     </div>
                     <div>
-                        <input id="Radio1" type="radio" name="DrugStatus" />启用
-                        <input id="Radio1" type="radio" name="DrugStatus" />禁用
+                        <input id="Radio1" type="radio" name="DrugStatus" value="true" />启用
+                        <input id="Radio2" type="radio" name="DrugStatus" value="false" />禁用
                     </div>
                 </div>
             </div>
             <br />
             <div class="divRow">
-                <input id="Button1" type="button" class="button" value="添加药品" onclick="DrugAdd()" />
+                <input id="Button1" type="button" class="button" value="编辑药品" onclick="DrugUpt()" />
             </div>
         </div>
     </div>
-    <div style="text-align:center; background-color:aqua;">  欢迎登陆医院系统</div>
+    <div style="text-align:center; background-color:aqua;">欢迎登陆医院系统</div>
 
     <div id='inputbox' class="box">
         <a class='x' href='' ;=; onclick="DrugTypeAdd(0); return false;">关闭</a>
@@ -266,7 +266,9 @@
 @section scripts{
     <script>
         $(function () {
+
             DrugTypeBandsel();
+
         });
         //药品分类绑定
         function DrugTypeBandsel() {
@@ -297,9 +299,76 @@
                         var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
                         $("#ManufacturersName").append(opt);
                     })
+                    DrugFill();
                 }
             })
         }
+        //反填药品
+
+        function DrugFill() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#DrugNumber").val(d.DrugNumber);
+                    $("#DrugName").val(d.DrugName);
+                    $("#DrugPrice").val(d.DrugPrice);
+                    $("#DrugSelling").val(d.DrugSelling);
+                    $("#ManufacturersName").val(d.ManufacturersId);
+                    if (d.DrugStatus) {
+                        Radio1.checked = true;
+                    }
+                    else {
+                        Radio2.checked = true;
+                    }
+                    $("#DrugCreateTime").val(d.DrugCreateTime);
+                    $("#DrugTypeName").val(d.DrugTypeId);
+                    $("#Specification").val(d.Specification);
+                    $("#InventoryUpperLimit").val(d.InventoryUpperLimit);
+                    $("#InventoryLowerLimit").val(d.InventoryLowerLimit);
+                    $("#DrugContent").val(d.DrugContent);
+                }
+            })
+        }
+        //修改药品
+        function DrugUpt()
+        {
+            var id=@ViewContext.RouteData.Values["id"];
+            var obj = {};
+            obj.Id = id;
+            obj.DrugNumber = $("#DrugNumber").val();
+            obj.DrugName = $("#DrugName").val();
+            obj.DrugPrice = $("#DrugPrice").val();
+            obj.DrugSelling = $("#DrugSelling").val();
+            obj.ManufacturersId = $("#ManufacturersName").val();
+            obj.DrugStatus = $("#Radio1").prop("checked");
+            obj.DrugCreateTime = $("#DrugCreateTime").val();
+            obj.DrugTypeId = $("#DrugTypeName").val();
+
+            obj.Specification = $("#Specification").val();
+            obj.InventoryUpperLimit = $("#InventoryUpperLimit").val();
+            obj.InventoryLowerLimit = $("#InventoryLowerLimit").val();
+            obj.DrugContent = $("#DrugContent").val();
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Put',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('编辑药品成功');
+                        location.href = '/Drug/DrugShow';
+                    }
+                    else {
+                        alert('编辑药品失败');
+                    }
+                }
+            })
+        }
+
+
         //弹出药品类型输入框
         function DrugTypeAdd(n) {
             document.getElementById('inputbox').style.display = n ? 'block' : 'none';     /* 点击按钮打开/关闭 对话框 */
@@ -348,39 +417,8 @@
                 }
             })
         }
-        //添加药品
-        function DrugAdd() {
-            var obj = {};
-            obj.DrugNumber = $("#DrugNumber").val();
-            obj.DrugName = $("#DrugName").val();
-            obj.DrugPrice = $("#DrugPrice").val();
-            obj.DrugSelling = $("#DrugSelling").val();
-            obj.ManufacturersId = $("#ManufacturersName").val();
-            obj.DrugStatus = $("#Radio1").prop("checked");
-            obj.DrugCreateTime = $("#DrugCreateTime").val();
-            obj.DrugTypeId = $("#DrugTypeName").val();
 
-            obj.Specification = $("#Specification").val();
-            obj.InventoryUpperLimit = $("#InventoryUpperLimit").val();
-            obj.InventoryLowerLimit = $("#InventoryLowerLimit").val();
-            obj.DrugContent = $("#DrugContent").val();
 
-            $.ajax({
-                url: 'http://localhost:65510/api/Drug/Post',
-                type: 'post',
-                data: obj,
-                dataType: 'json',
-                success: function (d) {
-                    if (d > 0) {
-                        alert('新增药品成功');
-                        location.href = '/Drug/DrugShow';
-                    }
-                    else {
-                        alert('新增药品失败');
-                    }
-                }
-            })
-        }
     </script>
 }
 

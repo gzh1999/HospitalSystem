@@ -29,5 +29,15 @@ namespace UI.Controllers
         {
             return View();
         }
+        //药品反填
+        public ActionResult DrugFill()
+        {
+            return View();
+        }
+        //药品修改
+        public ActionResult DrugUpt()
+        {
+            return View();
+        }
     }
 }

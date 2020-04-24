@@ -4,6 +4,8 @@
 }
 <script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+
 <style>
     .button {
         display: inline-block;
@@ -29,9 +31,45 @@
             box-shadow: 0 5px #666;
             transform: translateY(4px);
         }
+
+    .form-control {
+        display: block;
+        width: 300px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
 </style>
 
 <input class="button" type="button" value="新增药品" style="float:right;margin-bottom:15px"  onclick="location.href='/Drug/DrugAdd'" />
+
+<div style="margin-left:50px;margin-top:20px">
+    <table>
+        <tr>
+            <td>请选择药品名称：</td>
+            <td><input id="DrugName" type="text" class="form-control" /></td>
+            <td>选择创建日期：</td>
+            <td><input id="Time" type="date" class="form-control" /></td>
+            <td>药品状态：</td>
+            <td>
+                <select id="DrugTypeId"class="form-control" >
+                    <option></option>
+                </select>
+            </td>
+            <td><input id="Button1" type="button" value="查询啊" class="btn btn-danger" onclick="DrugShow(1)" /></td>
+        </tr>
+    </table>
+</div>
 
 <table class="table table-bordered" style="margin-left:40px;width:1900px;height:500px;font-size:20px">
     <thead style="background:#a9c6c9">
@@ -51,31 +89,85 @@
     </tbody>
 </table>
 
+<table class=" table-bordered table" style="margin-left:50px;">
+    <tr>
+        <td>总记录数<span id="TotalCount"></span>条</td>
+        <td>总共<span id="TotalPage"></span>页</td>
+        <td>当前第<span id="CurrentPage"></span>页</td>
+        <td><a href="javascript:;" onclick="DrugShow(1)">首页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a></td>
+    </tr>
+</table>
+
 
 @section scripts{
     <script>
-        $(function () {
-            DrugShow();
-        });
+        var PageSize = 3;
+        var CurrentPage = 1;
+        var TotalPage = 1;
 
-        //药品显示表
-        function DrugShow() {
+        $(function () {
+            DrugTypeBandsel();            
+        });
+        //药品分类绑定
+
+        function DrugTypeBandsel() {
             $.ajax({
-                url: 'http://localhost:65510/api/Drug',
+                url: 'http://localhost:65510/api/DrugType/Get',
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
-                    $("#td").empty();
+                    $("#DrugTypeId").empty();
+                    $("#DrugTypeId").append("<option value=''>==请选择==</option>");
                     $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
+                        $("#DrugTypeId").append(opt);
+                    }) 
+                    DrugShow(1);
+                }
+            })
+        }
+
+        //药品显示表
+        function DrugShow(page) {
+            var obj = {};
+            obj.DrugName = $("#DrugName").val();
+            obj.DrugCreateTime = $("#Time").val();
+            obj.DrugTypeId = $("#DrugTypeId").val();
+
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Get',
+                type: 'get',
+                data:obj,
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+
+
+                    $("#td").empty();
+                    $(d.drugs).each(function () {
                         var line = '<tr>'
                             + '<td>' + this.DrugNumber + '</td>'
                             + '<td>' + this.DrugName + '</td>'
                             + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.DrugSelling + '</td>'
-                            + '<td>' + this.ManufacturersId + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
                             + '<td>' + (this.DrugStatus?"启用":"禁用") + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
-                            + '<td>' + this.DrugTypeId + '</td>'
+                            + '<td>' + this.DrugTypeName + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })

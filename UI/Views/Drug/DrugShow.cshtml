@@ -49,9 +49,36 @@
         -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
 </style>
 
 <input class="button" type="button" value="新增药品" style="float:right;margin-bottom:15px"  onclick="location.href='/Drug/DrugAdd'" />
+<input class="button"  type="button" style="float:right;margin-bottom:15px" value="导出" onclick="btn_ExPortPage()" />
+
 
 <div style="margin-left:50px;margin-top:20px">
     <table>
@@ -71,7 +98,7 @@
     </table>
 </div>
 
-<table class="table table-bordered" style="margin-left:40px;width:1900px;height:500px;font-size:20px">
+<table class="table" style="margin-left:40px;width:1900px;height:200px;font-size:20px">
     <thead style="background:#a9c6c9">
         <tr>
             <th>药品编码</th>
@@ -85,7 +112,7 @@
             <th>操作</th>
         </tr>
     </thead>
-    <tbody id="td" style="font-size:40px;color:brown">
+    <tbody id="td" style="font-size:30px;color:brown">
     </tbody>
 </table>
 
@@ -104,7 +131,7 @@
 
 @section scripts{
     <script>
-        var PageSize = 3;
+        var PageSize = 6;
         var CurrentPage = 1;
         var TotalPage = 1;
 
@@ -164,16 +191,40 @@
                             + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.DrugSelling + '</td>'
                             + '<td>' + this.ManufacturersName + '</td>'
-                            + '<td>' + (this.DrugStatus?"启用":"禁用") + '</td>'
+                            + '<td>' + (this.DrugStatus ? "启用" : "禁用") + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
                             + '<td>' + this.DrugTypeName + '</td>'
-                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + "<a onclick=DrugStatusUpt(" + this.Id + ")>"+(this.DrugStatus?"禁用":"启用")+"</a>" + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })
                 }
             })
         }
+  
+        //修改药品状态
+        function DrugStatusUpt(id)
+        {
+            if (confirm("确认要操作此药品吗？"))
+            {
+                $.ajax({
+                    url: 'http://localhost:65510/api/DrugStatusUpt/Put/' + id,
+                    type: 'post',
+                    data: {id:id},
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('修改状态成功');
+                            DrugShow();
+                        }
+                        else {
+                            alert('修改状态失败');
+                        }
+                    }
+                })
+            }          
+        }
+
     </script>
 }
 

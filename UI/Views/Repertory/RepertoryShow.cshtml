@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "RepertoryShow";
+}
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+    .form-control {
+        display: block;
+        width: 300px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #a9c6c9;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+</style>
+<input class="button" type="button" value="☺新增入库"style="margin-left:1500px" onclick="location.href='/Repertory/RepertoryAdd'" />
+<hr style="margin-left:100px;height:2px;border-top:2px dotted #555555" />
+<div style="margin-left:50px;margin-top:20px">
+    <table>
+        <tr>
+            <td>审核状态：</td>
+            <td>
+                <select id="AuditStatusId" class="form-control">
+                    <option></option>
+                </select>
+            </td>
+            <td>入库类型：</td>
+            <td>
+                <select id="RepertoryTypeId" class="form-control">
+                    <option></option>
+                </select>
+            </td>
+            <td><input id="RepertoryNumber" type="text" placeholder="输入入库单号" class="form-control" /></td>
+            <td><input id="Button1" type="button" value="查询啊" class="btn btn-danger" onclick="RepertoryShow(1)" /></td>
+        </tr>
+    </table>
+</div>
+
+<table class="table" style="margin-left:40px;width:1900px;height:200px;font-size:20px">
+    <thead style="background:#a9c6c9">
+        <tr>
+            <th>入库编号</th>
+            <th>入库类型</th>
+            <th>供应商名称</th>
+            <th>入库人员</th>
+            <th>购买金额</th>
+            <th>创建时间</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody id="td">
+    </tbody>
+</table>
+
+<table class="table table-bordered" style="margin-left:150px;">
+    <tr>
+        <td>总记录数<span id="TotalCount"></span>条</td>
+        <td>总共<span id="TotalPage"></span>页</td>
+        <td>当前第<span id="CurrentPage"></span>页</td>
+        <td><a href="javascript:;" onclick="DrugShow(1)">首页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a></td>
+        <td><a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a></td>
+    </tr>
+</table>
+
+@section scripts{
+    <script>
+        var PageSize = 3;
+        var CurrentPage = 1;
+        var TotalPage = 1;
+
+        $(function () {
+            AuditStatusBandsel();
+            RepertoryTypeBandsel();
+        });
+
+
+        //绑定核审状态
+        function AuditStatusBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/AuditStatus/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#AuditStatusId").empty();
+                    $("#AuditStatusId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.AuditStatusName + "</option>";
+                        $("#AuditStatusId").append(opt);
+                    })
+                }
+            })
+        }
+        //绑定入库类型
+
+        function RepertoryTypeBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/RepertoryType/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#RepertoryTypeId").empty();
+                    $("#RepertoryTypeId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.RepertoryTypeName + "</option>";
+                        $("#RepertoryTypeId").append(opt);
+                    })
+                    RepertoryShow(1);
+                }
+            })
+        }
+        //药品显示表
+        function RepertoryShow(page) {
+            var obj = {};
+            obj.AuditStatusId = $("#AuditStatusId").val();
+            obj.RepertoryTypeId = $("#RepertoryTypeId").val();
+            obj.RepertoryNumber = $.trim($("#RepertoryNumber").val())
+
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Repertory/Get',
+                type: 'get',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+
+
+                    $("#td").empty();
+                    $(d.repertories).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.RepertoryNumber + '</td>'
+                            + '<td>' + this.RepertoryTypeName + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
+                            + '<td>' + this.RoleName + '</td>'
+                            + '<td>' + this.AmountOfPurchase + '</td>'
+                            + '<td>' + this.RepertoryTime + '</td>'
+                            + '<td>' + this.AuditStatusName + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + "<a onclick=DrugStatusUpt(" + this.Id + ")>" + (this.DrugStatus ? "禁用" : "启用") + "</a>" + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+    </script>
+}

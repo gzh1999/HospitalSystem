@@ -39,5 +39,11 @@ namespace UI.Controllers
         {
             return View();
         }
+        //修改药品状态
+        public ActionResult DrugStatusUpt()
+        {
+            return View();
+        }
+
     }
 }

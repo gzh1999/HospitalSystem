@@ -1,0 +1,406 @@
+﻿
+<style>
+    body {
+        background-color: LightBlue;
+        font-family: Verdana;
+        font-size: 13px;
+    }
+
+    .divHeaderTable {
+        width: 100%;
+        padding-bottom: 5px;
+        display: block;
+    }
+
+    .divHeaderRow {
+        width: 100%; /* add extra that you want to for header column */
+        display: block;
+        height: 105px;
+    }
+
+    .divHeaderColumn {
+        float: left;
+        width: 33%;
+        display: block;
+    }
+
+    .divTable {
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .divRow {
+        width: 99%;
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .divColumn {
+        float: left;
+        width: 24%;
+        display: block;
+    }
+
+    .form-control {
+        display: block;
+        width: 300px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #3c00ff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    .black_overlay {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 1001;
+        /*-moz-opacity: 0.8;*/
+        opacity: .80;
+        filter: alpha(opacity=88);
+    }
+
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 55%;
+        height: 55%;
+        padding: 20px;
+        border: 10px solid orange;
+        background-color: white;
+        z-index: 1002;
+        overflow: auto;
+    }
+</style>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    @*<link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />*@
+</head>
+<body>
+    <input id="Button1" type="button" style="margin-left:40px;" class="button" value="审核提交" onclick="DrugUpt()" />
+    <input id="Button1" type="button" class="button" value="直接入库" onclick="DrugUpt()" />
+    <input id="Button1" type="button" class="button" value="返回" onclick="DrugUpt()" />
+
+    <hr style="margin-left:100px;height:2px;border-top:2px dotted #555555" />
+    <div style="width:99%; height:250px;border:1px solid #000;margin-left:60px;background-color:LightBlue">
+        <div id="divHeader" class="divHeaderTable">
+            <h1 style="color:blue;margin-left: 40px">新增入库信息</h1>
+        </div>
+        <div id="content" class="divTable">
+            <div class="divRow">
+                <div class="divColumn">
+                    <div>
+                        <label id="lblSolutation"> 入库单号</label>
+                    </div>
+                    <div>
+                        <input type="text" id="RepertoryNumber" class="form-control" />
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="lblFname"> 入库日期</label>
+                    </div>
+                    <div>
+                        <input id="RepertoryTime" class="form-control" style="height:50px" type="date" />
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="lblMname">入库人员</label>
+                    </div>
+                    <div>
+                        <select id="RoleName" style="width: 320px;height: 65px;">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="lblLname"> 入库类型</label>
+                    </div>
+                    <div>
+                        <select id="RepertoryTypeName" style="width: 320px;height: 65px;">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="divRow">
+                <div class="divColumn">
+                    <div>
+                        <label id="Label10"> 供应商</label>
+                    </div>
+                    <div>
+                        <select id="ManufacturersName" style="width: 320px;height: 65px;">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="Label9"> 制单日期</label>
+                    </div>
+                    <div>
+                        <input id="DrugCreateTime" class="form-control" disabled="true" style="height:50px" type="date" />
+                    </div>
+
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="Label7"> 制单人员</label>
+                    </div>
+                    <div>
+                        <input type="text" id="RepertoryNumber" disabled="true" class="form-control" value="张三" />
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="Label8"> 备注</label>
+                    </div>
+                    <div>
+                        <input type="text" id="RepertoryNumber" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table" style="margin-left:45px;width:1600px;height:200px;font-size:20px">
+        <thead style="background:#a9c6c9">
+            <tr>
+                <th>药品编码</th>
+                <th>药品名称</th>
+                <th>采药价格</th>
+                <th>售药价</th>
+                <th>生产厂家</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>药品类型</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:40px;color:brown">
+        </tbody>
+    </table>
+    <div style="margin-left:700px;margin-top:50px;">
+        <input id="Button1" class="button" type="button" value="添加药品" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'" />
+    </div>
+    <div id="light" class="white_content">
+        <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">点这里关闭本窗口</a>
+        <br />
+        <table class="table" style="margin-left:45px;width:1200px;height:200px;font-size:20px">
+            <thead style="background:#a9c6c9">
+                <tr>
+                    <th>
+                        <input class="top" type="checkbox" onclick="xuan()" />
+                    </th>
+                    <th>序号</th>
+                    <th>药品编码</th>
+                    <th>药品名称</th>
+                    <th>药品类别</th>
+                    <th>规格</th>
+                    <th>生产厂家</th>
+                    <th>库存</th>
+                    <th>采购价格</th>
+                    <th>零售价格</th>
+                </tr>
+            </thead>
+            <tbody id="td" style="color:brown">
+            </tbody>
+        </table>
+        总记录数<span id="TotalCount"></span>条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        总共<span id="TotalPage"></span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        当前第<span id="CurrentPage"></span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" onclick="DrugShow(1)">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a>
+
+    </div>
+    <div id="fade" class="black_overlay"></div>
+
+    <div style="text-align:center; background-color:aqua;margin-left:60px;margin-top:100px">欢迎登陆医院系统</div>
+</body>
+</html>
+
+@section scripts{
+    <script>
+        $(function () {
+            RoleBandsel();
+            RepertoryTypeBandsel();
+            ManufacturersBandsel();
+        });
+        //绑定入库人员表
+        function RoleBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Role/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#RoleName").empty();
+                    $("#RoleName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.CreatePerson + "</option>";
+                        $("#RoleName").append(opt);
+                    })
+                }
+            })
+        }
+        //绑定入库类型表
+        function RepertoryTypeBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/RepertoryType/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#RepertoryTypeName").empty();
+                    $("#RepertoryTypeName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.RepertoryTypeName + "</option>";
+                        $("#RepertoryTypeName").append(opt);
+                    })
+                }
+            })
+        }
+        //绑定生产厂家
+        function ManufacturersBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Manufacturers/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#ManufacturersName").empty();
+                    $("#ManufacturersName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
+                        $("#ManufacturersName").append(opt);
+                    })
+                    DrugShow();
+                }
+            })
+        }
+        var PageSize = 6;
+        var CurrentPage = 1;
+        var TotalPage = 1;
+        //显示药品表
+        function DrugShow(page) {
+            var obj = {};
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Get',
+                type: 'get',
+                data:obj,
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+
+                    $("#td").empty();
+                    $(d.drugs).each(function () {
+                        var line = '<tr>'
+                            + '<td><input class="cktop" type="checkbox" value=' + this.Id + ' /></td>'
+                            + '<td>' + this.Id + '</td>'
+                            + '<td>' + this.DrugNumber + '</td>'
+                            + '<td>' + this.DrugName + '</td>'
+                            + '<td>' + this.DrugTypeName + '</td>'
+                            + '<td>' + this.Specification + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
+                            + '<td>' + this.InventoryUpperLimit + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+        //全选和反选
+        function xuan() {
+            if ($(".top").prop("checked")) {
+                $(".cktop").prop("checked", true);
+            }
+            else {
+                $(".cktop").each(function () {
+                    this.checked = !this.checked;
+                })
+            }
+        }
+    </script>
+}

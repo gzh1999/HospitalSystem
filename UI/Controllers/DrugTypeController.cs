@@ -11,6 +11,9 @@ namespace UI.Controllers
 {
     public class DrugTypeController : ApiController
     {
+        /// <summary>
+        /// 药品类型操作
+        /// </summary>
         DrugDAL dal = new DrugDAL();
         // GET: api/DrugType
         public IEnumerable<DrugType> Get()

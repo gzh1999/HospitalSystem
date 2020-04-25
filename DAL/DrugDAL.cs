@@ -65,5 +65,48 @@ namespace DAL
                 m.DrugNumber, m.DrugName, m.DrugPrice, m.DrugSelling, m.ManufacturersId, m.DrugStatus, m.DrugCreateTime, m.DrugTypeId, m.Specification, m.InventoryUpperLimit, m.InventoryLowerLimit, m.DrugContent,m.Id);
             return db.ExecuteNonQuery(sql);
         }
+        //停用or启用药品状态
+        public int DrugStatusUpt(Drug m)
+        {
+            string sql = string.Format("update Drug set DrugStatus=DrugStatus-1 where Id='{0}'",m.Id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //库存表显示
+        public List<Repertory> RepertoryShow()
+        {
+            string sql = "select * from Repertory r join RepertoryType t on r.RepertoryTypeId = t.Id join Manufacturers m on r.ManufacturersId=m.Id join Role e on r.RoleId = e.Id join AuditStatus a on r.AuditStatusId = a.Id";
+            return db.GetToList<Repertory>(sql);
+        }
+        //绑定审核状态表
+        public List<AuditStatus> AuditStatusBandsel()
+        {
+            string sql = "select * from AuditStatus ";
+            return db.GetToList<AuditStatus>(sql);
+        }
+        //绑定入库类型
+        public List<RepertoryType> RepertoryTypeBandsel()
+        {
+            string sql = "select * from RepertoryType ";
+            return db.GetToList<RepertoryType>(sql);
+        }
+        //新增入库
+        public int RepertoryAdd(Repertory m)
+        {
+            string sql = string.Format("insert into Repertory values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
+                m.RepertoryNumber, m.RepertoryTypeId, m.ManufacturersId, m.RoleId, m.AmountOfPurchase, m.RepertoryTime, m.MakeTime=DateTime.Now, m.AuditStatusId, m.DrugId,m.Remark);
+            return db.ExecuteNonQuery(sql);
+        }
+        //删除入库信息
+        public int RepertoryDel(int id)
+        {
+            string sql = "select * from Repertory where Id in ("+id+")";
+            return db.ExecuteNonQuery(sql);
+        }
+        //绑定角色表
+        public List<Role> RoleBandsel()
+        {
+            string sql = "select * from Role ";
+            return db.GetToList<Role>(sql);
+        }
     }
 }

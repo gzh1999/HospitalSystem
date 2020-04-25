@@ -11,9 +11,12 @@ namespace UI.Controllers
 {
     public class DrugController : ApiController
     {
+        /// <summary>
+        /// 药品表操作
+        /// </summary>
         DrugDAL dal = new DrugDAL();
         // GET: api/Drug
-        public PageInfo Get(string DrugTypeId = null,string DrugCreateTime=null, string DrugName=null,int CurrentPage = 1,int PageSize=3)
+        public PageInfo Get(string DrugTypeId = null,string DrugCreateTime=null, string DrugName=null,int CurrentPage = 1,int PageSize=6)
         {
             var name = dal.DrugShow();
 

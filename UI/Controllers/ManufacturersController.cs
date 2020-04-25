@@ -11,6 +11,9 @@ namespace UI.Controllers
 {
     public class ManufacturersController : ApiController
     {
+        /// <summary>
+        /// 生产厂家操作
+        /// </summary>
         DrugDAL dal = new DrugDAL();
         // GET: api/Manufacturers
         public IEnumerable<Manufacturers> Get()

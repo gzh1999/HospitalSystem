@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "RepertoryFill3";
+}
+
+    <h2>编辑入库信息</h2>
+    <div>
+        <input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/RepertoryShow'" />
+        <input id="Button1" type="button" class="button" value="审核通过" onclick="AuditStatusUptTG()" />
+        <input id="Button1" type="button" class="button" value="审核不通过" onclick="AuditStatusUptBTG()" />
+    </div>
+<html>
+<head>
+    <style>
+        div.table {
+            font-size: 0;
+            width: 400px;
+            /*border-top-style: solid;
+            border-top-width: 1px;
+            border-left-style: solid;
+            border-left-width: 1px;*/
+            /*margin: 0 auto;*/
+        }
+
+
+            div.table > div > div {
+                font-size: 18px;
+                /*border-right-width: 1px;
+                border-right-style: solid;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;*/
+                width: 199px;
+                display: inline-block;
+                margin: 0px;
+                padding: 0px;
+                text-align: center;
+            }
+
+
+
+        /*div.table > div:first-child {
+                background-color: pink;
+            }*/
+
+        /*文本框样式*/
+        .text {
+            background: none transparent scroll repeat 0% 0%;
+            border: 0px;
+        }
+
+        /*表格框样式*/
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+            table td, table th {
+                border: 1px solid #cad9ea;
+                color: #666;
+                height: 30px;
+            }
+
+            table thead th {
+                background-color: #CCE8EB;
+                width: 100px;
+            }
+
+            table tr:nth-child(odd) {
+                background: #fff;
+            }
+
+            table tr:nth-child(even) {
+                background: #F5FAFA;
+            }
+
+        /*button按钮样式*/
+        .button {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #00ffb1;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+        }
+
+            .button:hover {
+                background-color: #ff00f6
+            }
+
+            .button:active {
+                background-color: #00ff51;
+                box-shadow: 0 5px #666;
+                transform: translateY(4px);
+            }
+    </style>
+</head>
+<body>
+    <div class="table" style="float:left;margin-top:20px;">
+        <div>
+            <div>入库订单:</div>
+            <div><input id="RepertoryNumber" type="text" class="text" readonly="readonly" /></div>
+        </div>
+
+        <div>
+            <div>供应商:</div>
+            <div><input id="ManufacturersId" type="text" class="text" readonly="readonly" /></div>
+        </div>
+        <div>
+            <div>入库日期:</div>
+            <div><input id="RepertoryTime" type="text" class="text" readonly="readonly" /></div>
+        </div>
+
+    </div>
+    <div class="table" style="float: left">
+        <div>
+            <div>制单日期:</div>
+            <div><input id="MakeTime" type="text" class="text" readonly="readonly" /></div>
+        </div>
+
+        <div>
+            <div>入库人员:</div>
+            <div><input id="RoleId" type="text" class="text" readonly="readonly" /></div>
+        </div>
+        <div>
+            <div>入库类型:</div>
+            <div><input id="RepertoryTypeId" type="text" class="text" readonly="readonly" /></div>
+        </div>
+    </div>
+    <div class="table" style="float:left">
+        <div>
+            <div>备注:</div>
+            <div><input id="Remark" type="text" class="text" readonly="readonly" /></div>
+        </div>
+    </div>
+    <table class="table" style="width:1400px">
+        <thead style="background:#a9c6c9">
+            <tr>
+                <th style="text-align:center;">药品编码</th>
+                <th style="text-align:center;">药品名称</th>
+                <th style="text-align:center;">采药价格</th>
+                <th style="text-align:center;">售药价</th>
+                <th style="text-align:center;">生产厂家</th>
+                <th style="text-align:center;">药品数量</th>
+                <th style="text-align:center;">创建时间</th>
+                <th style="text-align:center;">药品类型</th>
+            </tr>
+        </thead>
+        <tbody id="DrugShow" style="color:brown">
+        </tbody>
+    </table>
+</body>
+</html>
+
+@section scripts{
+    <script>
+        $(function () {
+            RepertoryFill1();
+        });
+
+        var RepertoryId = this.location.search.substr(this.location.search.indexOf('=') + 1);
+        //反填入库详情审核通过
+        function RepertoryFill1() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Repertory/Get/' + RepertoryId,
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#RepertoryNumber").val(d.RepertoryNumber);
+                    $("#ManufacturersId").val(d.ManufacturersId);
+                    $("#RepertoryTime").val(d.RepertoryTime);
+                    $("#MakeTime").val(d.MakeTime);
+                    $("#RoleId").val(d.RoleId);
+                    $("#RepertoryTypeId").val(d.RepertoryTypeId);
+                    $("#Remark").val(d.Remark);
+
+                    $("#DrugId").val(d.DrugId);
+
+                }
+            })
+            DrugRepertoryShow();
+        }
+        //显示药品入库信息
+        function DrugRepertoryShow() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugRepertory/Get/' + RepertoryId,
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#DrugShow").empty();
+                    $(d).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.DrugNumber + '</td>'
+                            + '<td>' + this.DrugName + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
+                            + '<td>' + this.DrugCount + '</td>'
+                            + '<td>' + this.DrugCreateTime + '</td>'
+                            + '<td>' + this.DrugTypeName + '</td>'
+                            + '</tr>'
+                        $("#DrugShow").append(line);
+                    })
+                }
+            })
+        }
+        //修改药品状态审核通过
+        function AuditStatusUptTG() {
+            if (confirm("确认要操作此药品吗？")) {
+                $.ajax({
+                    url: 'http://localhost:65510/api/Repertory/Put/' + RepertoryId,
+                    type: 'post',
+                    data: { id: RepertoryId },
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('修改审核已通过');
+                            location.href ='/Repertory/RepertoryShow'
+                        }
+                        else {
+                            alert('修改审核未通过');
+                        }
+                    }
+                })
+            }
+        }
+        //修改药品状态审核不通过
+        function AuditStatusUptBTG() {
+            if (confirm("确认要操作此药品吗？")) {
+                $.ajax({
+                    url: 'http://localhost:65510/api/DrugRepertory/Put/' + RepertoryId,
+                    type: 'post',
+                    data: { id: RepertoryId },
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('修改审核不通过');
+                            location.href = '/Repertory/RepertoryShow'
+                        }
+                        else {
+                            alert('修改审核不通过失败');
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+

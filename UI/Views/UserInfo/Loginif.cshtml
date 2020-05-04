@@ -1,0 +1,137 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>医院登录页面</title>
+    <link href="~/html登录模板/css/demo.css" rel="stylesheet" />
+    <link href="~/html登录模板/css/normalize.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <link href="~/html登录模板/css/component.css" rel="stylesheet" />
+
+
+    <link href="~/html登录模板/js/vendor/jgrowl/css/jquery.jgrowl.min.css" rel="stylesheet" />
+
+    <!--必要样式-->
+    <!--[if IE]>
+    <script src="js/html5.js"></script>
+    <![endif]-->
+    <style>
+        input::-webkit-input-placeholder {
+            color: rgba(0, 0, 0, 0.726);
+        }
+
+        input::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: rgba(0, 0, 0, 0.726);
+        }
+
+        input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: rgba(0, 0, 0, 0.726);
+        }
+
+        input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: rgba(0, 0, 0, 0.726);
+        }
+    </style>
+</head>
+<body>
+    <div class="container demo-1">
+        <div class="content">
+            <div id="large-header" class="large-header">
+                <canvas id="demo-canvas"></canvas>
+                <div class="logo_box">
+                    <h3>DoctorLogin System</h3>
+                    <form action="#" name="f" method="post">
+                        <div class="input_outer">
+                            <span class="u_user"></span>
+                            <input id="ID" name="logname" class="text" style="color:#ff0000 !important" type="text" placeholder="请输入账户">
+                        </div>
+                        <div class="input_outer">
+                            <span class="us_uer"></span>
+                            <input id="PASSWORD" name="logpass" class="text" style="color: #000000 !important; position:absolute; z-index:100;" value="" type="password" placeholder="请输入密码">
+                        </div>
+                        <div class="input_outer">
+                            <span class="ui-resizable-e"></span>
+                            <input id="qwe" name="logname" class="text" style="color: #000000 !important" type="text" placeholder="请输入验证码">
+                            <div class="layui-inline">
+                                <img class="verifyImg" src="/Content/ValidateCode.ashx" onclick="this.src = '/Content/ValidateCode.ashx?d='+new Date()" />
+                                <a id="abiqoqian">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp忘记密码</a>
+                                @*<img class="verifyImg" onclick="this.src=this.src+'?c='+Math.random();" src="../../static/admin/images/login/yzm.jpg" />*@
+                            </div>
+                        </div>
+
+                        <div id="LOGIN" class="mb2"><a class="act-but submit" href="javascript:;" onclick="login()" style="color: #FFFFFF">登录</a></div>
+                        <div id="LOGIN1" class="mb2"><a href="javascript:;" onclick="zhuce()" style="color: #000000">还没有账号嘛，点击立即注册</a></div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- /container -->
+    <script src="~/html登录模板/js/TweenLite.min.js"></script>
+    <script src="~/html登录模板/js/TweenLite.min.js"></script>
+    <script src="~/html登录模板/js/EasePack.min.js"></script>
+    <script src="~/html登录模板/js/jquery.js"></script>
+    <script src="~/html登录模板/js/rAF.js"></script>
+    <script src="~/html登录模板/js/demo-1.js"></script>
+    <script src="~/html登录模板/js/vendor/jgrowl/jquery.jgrowl.min.js"></script>
+
+    <script src="~/html登录模板/js/Longin.js"></script>
+    <div style="text-align:center;">
+    </div>
+</body>
+</html>
+<script>
+    $("#abiqoqian").click(function () {
+        var zhh = $("#ID").val();
+        location.href = '/UserInfo/ForgetPwd/?zhang=' + zhh;
+
+    })
+    $("#LOGIN1").click(function () {
+        location.href = '/UserInfo/Register';
+    })
+
+     $("#LOGIN").click(function () {
+            var account = $("#ID").val();
+            var password = $("#PASSWORD").val();
+            var yzm = $("#qwe").val();
+
+            $.ajax({
+                url: "/UserInfo/Indexyanz",
+                type: "POST",
+                dataType: "json",
+                data: { yan: yzm },
+                success: function (res) {
+                    if (res > 0) {
+                        $.ajax({
+                            url: "http://localhost:65510/api/UserInfo/LoginIf",
+                            type: "get",
+                            dataType: "json",
+                            data: { zh: account, pwd: password },
+                            success: function (res) {
+                                if (res > 0) {
+                                    alert('登录成功');
+                                    location.href = "/Probably/ProbablyShow";
+                                }
+                                else {
+                                    alert('登录失败,用户名或密码输入有误,请重新输入');
+                                    //location.href = "/GaiKuang/Index";
+                                }
+                            }
+                        });
+                    }
+                    else {
+
+                        alert('验证码输入有误,请重新输入!');
+                        return;
+                    }
+                }
+            })
+        })
+</script>

@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+
+<div>
+    <div style="float:left"><h2>新增员工信息</h2></div>
+    <div style="float:right"><input id="Submit1" type="submit" value="保存" onclick="Add()" /></div>
+    <div style="float:right"><input id="Button1" type="button" value="返回" onclick="location.href='/Hospital/Show'" /></div>
+</div>
+
+<table>
+    <tr>
+        <td>员工编号</td>
+        <td>员工姓名</td>
+        <td>员工年龄</td>
+        <td>性别</td>
+    </tr>
+    <tr>
+        <td><input id="StaffNumber" type="text" placeholder="请输入员工编号" /></td>
+        <td><input id="StaffName" type="text" placeholder="请输入员工姓名" /></td>
+        <td><input id="StaffAge" type="text" placeholder="请输入员工年龄" /></td>
+        <td><input id="RadioBoy" type="radio" />男<input id="RadioGirl" type="radio" />女</td>
+    </tr>
+    <tr>
+        <td>手机号码</td>
+        <td>电子邮箱</td>
+        <td>证件号码</td>
+        <td>职位</td>
+    </tr>
+    <tr>
+        <td><input id="StaffPhone" type="text" placeholder="请输入手机号码" /></td>
+        <td><input id="StaffEmail" type="text" placeholder="请输入电子邮箱" /></td>
+        <td><input id="StaffCertificateNumber" type="text" placeholder="请输入证件号码" /></td>
+        <td><input id="StaffPosition" type="text" placeholder="请输入职位名称" /></td>
+    </tr>
+    <tr>
+        <td>地址</td>
+        <td>详细地址</td>
+        <td></td>
+        <td>所属诊所</td>
+    </tr>
+    <tr>
+        <td>
+            <select id="Pro" onchange="BandCity(this.value)"></select>
+            <select id="City"></select>
+        </td>
+        <td>
+            <input id="StaffSiteTionContent" type="text" placeholder="请输入详细地址" />
+        </td>
+        <td></td>
+        <td><input id="StaffBelong" type="text" placeholder="请输入诊所" /></td>
+    </tr>
+    <tr>
+        <td>所属科室</td>
+        <td>角色</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><select id="OfficeName"></select></td>
+        <td><select id="RoleName"></select></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>密码</td>
+        <td>员工状态</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><input id="Password" type="text" placeholder="6-12位，包含数字和字母" /></td>
+        <td>启用<input id="Checkbox1" type="checkbox" /></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+@section scripts{
+    <script>
+        //第一次加载
+        $(function () {
+            BandOffice();
+            BandRole();
+            BandPro();
+        })
+        //绑定科室下拉
+        function BandOffice() {
+            $.ajax({
+                url: "http://localhost:65510/api/BandOffice/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    //清空下拉框
+                    $("#OfficeName").empty();
+                    $("#OfficeName").append("<option value=''>==请选择==</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.Id + ">" + this.OfficeName + "</option>";
+                        //将数据放入表格
+                        $("#OfficeName").append(opt);
+                    });
+                }
+            })
+        }
+        //绑定角色下拉
+        function BandRole() {
+            $.ajax({
+                url: "http://localhost:65510/api/Role/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    //清空下拉框
+                    $("#RoleName").empty();
+                    $("#RoleName").append("<option value=''>==请选择==</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.Id + ">" + this.RoleName + "</option>";
+                        //将数据放入表格
+                        $("#RoleName").append(opt);
+                    });
+
+                }
+            })
+        }
+        ///二级联动一级
+        function BandPro() {
+            $.ajax({
+                url: "http://localhost:65510/api/SelectPro/Get",
+                type: "get",
+                success: function (d) {
+                    //清空下拉框
+                    $("#Pro").empty();
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.Id + ">" + this.AddressName + "</option>";
+                        //将数据放入表格
+                        $("#Pro").append(opt);
+                        BandCity($("#Pro").val());
+                    });
+                }
+            })
+        }
+        ///二级联动二级
+        function BandCity(proid) {
+            $.ajax({
+                url: "http://localhost:65510/api/SelectCity/Get",
+                type: "get",
+                data: { proid: proid},
+                success: function (d) {
+                    //清空下拉框
+                    $("#City").empty();
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.Id + ">" + this.AddressName + "</option>";
+                        //将数据放入表格
+                        $("#City").append(opt);
+                    });
+                }
+            })
+        }
+
+        //新增员工信息
+        function Add() {
+            //获取表单的值
+            var obj = {};
+            obj.StaffNumber = $("#StaffNumber").val();
+            obj.StaffName = $("#StaffName").val();
+            obj.StaffAge = $("#StaffAge").val();
+            obj.StaffPhone = $("#StaffPhone").val();
+            obj.StaffEmail = $("#StaffEmail").val();
+            obj.StaffCertificateNumber = $("#StaffCertificateNumber").val();
+            obj.StaffPosition = $("#StaffPosition").val();
+            obj.StaffSiteTionContent = $("#StaffSiteTionContent").val();
+            obj.StaffBelong = $("#StaffBelong").val();
+            obj.OfficeId = $("#OfficeName").val();
+            obj.RoleId = $("#RoleName").val();
+            obj.Password = $("#Password").val();
+            obj.StaffSiteTionId = $("#StaffSiteTionId").val();
+            //单选的获取
+            obj.StaffSex = $("#RadioBoy").prop("checked");
+            //多选框
+            if (Checkbox1.checked) {
+                obj.Checkbox1 = Checkbox1.value;
+            }
+            //二级联动
+            obj.StaffSiteTionId = $("#Pro option:selected").val() + $("#City option:selected").val();
+
+            //添加（ajax）
+            $.ajax({
+                url: "http://localhost:65510/api/AddStaff/Post",
+                type: "post",
+                data:  obj,
+                success: function (d) {
+                    if (d > 0) {
+                        alert("添加成功");
+                        location.href = "/Hospital/Show";
+                    }
+                    else {
+                        alert("添加失败");
+                        location.href = "/Hospital/Show";
+                    }
+                }
+            })
+        }
+    </script>
+}

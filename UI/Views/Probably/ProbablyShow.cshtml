@@ -1,0 +1,355 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台模板</title>
+    <link rel="stylesheet" href="~/后台模板/assets/css/amazeui.css" />
+    <link rel="stylesheet" href="~/后台模板/assets/css/core.css" />
+    <link rel="stylesheet" href="~/后台模板/assets/css/menu.css" />
+    <link rel="stylesheet" href="~/后台模板/assets/css/index.css" />
+    <link rel="stylesheet" href="~/后台模板/assets/css/admin.css" />
+    <link rel="stylesheet" href="~/后台模板/assets/css/page/typography.css" />
+
+
+</head>
+<body>
+    <!-- Begin page -->
+    <!-- end page -->
+
+
+    <div class="admin">
+
+
+        <!-- Start content -->
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-md-3">
+                <div class="card-box widget-user">
+                    <div>
+                        <img src="~/后台模板/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">
+                        <div class="wid-u-info">
+                            <h4 class="m-t-0 m-b-5 font-600">雷神山</h4>
+                            <p class="text-muted m-b-5 font-13">什么都不能打败中国</p>
+                            <small class="text-warning"><b>院长</b></small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="am-u-md-3">
+                <div class="card-box widget-user">
+                    <div>
+                        <img src="~/后台模板/assets/img/avatar-2.jpg" class="img-responsive img-circle" alt="user">
+                        <div class="wid-u-info">
+                            <h4 class="m-t-0 m-b-5 font-600">张疫苗</h4>
+                            <p class="text-muted m-b-5 font-13">争分夺表就是在抢救病人</p>
+                            <small class="text-custom"><b>急救中心主任</b></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="am-u-md-3">
+                <div class="card-box widget-user">
+                    <div>
+                        <img src="~/后台模板/assets/img/avatar-4.jpg" class="img-responsive img-circle" alt="user">
+                        <div class="wid-u-info">
+                            <h4 class="m-t-0 m-b-5 font-600">张纪律</h4>
+                            <p class="text-muted m-b-5 font-13">克己自律，必能成功</p>
+                            <small class="text-success"><b>纪委处，处长</b></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="am-u-md-3">
+                <div class="card-box widget-user">
+                    <div>
+                        <img src="~/后台模板/assets/img/avatar-10.jpg" class="img-responsive img-circle" alt="user">
+                        <div class="wid-u-info">
+                            <h4 class="m-t-0 m-b-5 font-600">李子衿</h4>
+                            <p class="text-muted m-b-5 font-13">服务好每一位病人就是我们的职责</p>
+                            <small class="text-info"><b>护理部，部长</b></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="am-u-md-12">
+                <!-- 动态数据+时间坐标轴 -->
+                <div class="widget-chart-box-1">
+                    <div style="height:300px;" id="index-pie-1">
+
+
+                    </div>
+                </div>
+                <div class="card-box">
+                    <div style="height:300px;" id="Stack">
+
+
+                    </div>
+                </div>
+                <div class="card-box">
+                    <div style="height:300px;" id="trends">
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+    <!-- Row end -->
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+    <script src="~/后台模板/assets/js/charts/echarts.min.js"></script>
+
+    <script type="text/javascript" src="~/后台模板/assets/js/jquery-2.1.0.js"></script>
+
+    <script type="text/javascript" src="~/后台模板/assets/js/blockUI.js"></script>
+
+
+</body>
+
+</html>
+<script>
+    (function(){
+	var myChart = echarts.init(document.getElementById("index-pie-1"));
+
+	option = {
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:['儿童人数','少年人数','青年人数','中年人数','老年人数']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {
+                show: true,
+                type: ['pie', 'funnel'],
+                option: {
+                    funnel: {
+                        x: '25%',
+                        width: '50%',
+                        funnelAlign: 'center',
+                        max: 1548
+                    }
+                }
+            },
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    series : [
+        {
+            name:'访问来源：某某市',
+            type:'pie',
+            radius : ['50%', '70%'],
+            itemStyle : {
+                normal : {
+                    label : {
+                        show : false
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                },
+                emphasis : {
+                    label : {
+                        show : true,
+                        position : 'center',
+                        textStyle : {
+                            fontSize : '20',
+                            fontWeight : 'bold'
+                        }
+                    }
+                }
+            },
+            data:[
+                {value:335, name:'儿童人数'},
+                {value:310, name:'少年人数'},
+                {value:234, name:'青年人数'},
+                {value:135, name:'中年人数'},
+                {value:1548, name:'老年人数'}
+            ]
+        }
+    ]
+};
+
+
+
+	myChart.setOption(option);
+})();
+    (function(){
+
+	var myChart = echarts.init(document.getElementById("Stack"));
+
+	option = {
+    title: {
+        text: '各年龄段收入趋势'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['儿童人数','少年人数','青年人数','中年人数','老年人数']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['周一','周二','周三','周四','周五','周六','周日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'儿童人数',
+            type:'line',
+            stack: '总量',
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'少年人数',
+            type:'line',
+            stack: '总量',
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name:'青年人数',
+            type:'line',
+            stack: '总量',
+            data:[150, 232, 201, 154, 190, 330, 410]
+        },
+        {
+            name:'中年人数',
+            type:'line',
+            stack: '总量',
+            data:[320, 332, 301, 334, 390, 330, 320]
+        },
+        {
+            name:'老年人数',
+            type:'line',
+            stack: '总量',
+            data:[820, 932, 901, 934, 1290, 1330, 1320]
+        }
+    ]
+};
+
+myChart.setOption(option);
+    })();
+    //动态数据+时间坐标轴
+(function(){
+
+	var trends = echarts.init(document.getElementById("trends"));
+
+	function randomData() {
+    now = new Date(+now + oneDay);
+    value = value + Math.random() * 21 - 10;
+    return {
+        name: now.toString(),
+        value: [
+            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+            Math.round(value)
+        ]
+    }
+}
+
+var data = [];
+var now = +new Date(1997, 9, 3);
+var oneDay = 24 * 3600 * 1000;
+var value = Math.random() * 1000;
+for (var i = 0; i < 1000; i++) {
+    data.push(randomData());
+}
+
+option = {
+    title: {
+        text: '大数据预测未来医院收入趋势'
+    },
+    tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+            params = params[0];
+            var date = new Date(params.name);
+            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+        },
+        axisPointer: {
+            animation: false
+        }
+    },
+    xAxis: {
+        type: 'time',
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+            show: false
+        }
+    },
+    series: [{
+        name: '模拟数据',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data
+    }]
+};
+
+	timeTicket = setInterval(function () {
+
+	    for (var i = 0; i < 5; i++) {
+	        data.shift();
+	        data.push(randomData());
+	    }
+
+	    trends.setOption({
+	        series: [{
+	            data: data
+	        }]
+	    });
+	}, 1000);
+
+trends.setOption(option);
+})();
+</script>
+
+
+

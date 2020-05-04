@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "MenberShow";
+}
+
+<p $nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;></p>
+
+<h2>
+    <input id="Button1" type="button" class="btn btn-default" value="会员列表" onclick="location.href=' /Stu/MenberShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="储值管理" onclick="location.href=' MenbeShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="积分管理" onclick="location.href=' MenbShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="会员设置" onclick="location.href=' SettingShow'" />
+    <input id="Checkbox1" type="checkbox" /> 会员预警到期
+</h2>
+<br /><br />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<title>纯css编写开关按钮（一）</title>
+<style type="text/css">
+    .chooseBtn {
+        display: none;
+    }
+
+    .choose-label {
+        box-shadow: #ccc 0px 0px 0px 1px;
+        width: 40px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        position: relative;
+        background-color: #bdbdbd;
+        overflow: hidden;
+    }
+
+        .choose-label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border-radius: 20px;
+            background-color: #fff;
+            z-index: 20;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+    .chooseBtn:checked + label.choose-label:before {
+        left: 20px;
+    }
+
+    .chooseBtn:checked + label.choose-label {
+        background-color: #51ccee;
+    }
+</style>
+ 会员等级
+<select id="selectTravelCity" title="Select Travel Destination" class=" btn btn-group-vertical">
+</select>
+
+<input id="name" type="text" placeholder="会员姓名" style="width: 900px; height: 50px; position: absolute; top: 150px; left: 800px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+<input id="Submit1" type="submit" value="查找" class=" btn btn-primary" onclick="MenberShow(1)" style="width: 70px;height: 50px;position: absolute;top: 150px;left: 1150px" />
+
+<table class="table alert-warning">
+    <thead style="background:#a9c6c9">
+        <tr>
+            <th>序号</th>
+            <th>卡号</th>
+            <th>会员类型</th>
+            <th>会员等级</th>
+            <th>会员姓名</th>
+            <th>手机号码</th>
+            <th>累计消费（元）</th>
+            <th>储值余额（元）</th>
+            <th>累计储值（元）</th>
+            <th>积分</th>
+            <th>开卡时间</th>
+            <th>到期时间</th>
+            <th>会员状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody id="td" style="font-size:10px">
+    </tbody>
+</table>
+
+
+
+<table class=" table-bordered table">
+    <tr>
+        <td>总记录数<span id="TotalCount"></span>条</td>
+        <td>总共<span id="TotalPage"></span>页</td>
+        <td>当前第<span id="CurrentPage"></span>页</td>
+        <td><a href="javascript:;" onclick="MenberShow(1)">首页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(CurrentPage-1)">上一页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(CurrentPage+1)">下一页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(TotalPage)">尾页</a></td>
+    </tr>
+</table>
+</div>
+@section scripts{
+    <script>
+        $(function () {
+            MenberShow();
+            Bandla();
+        })
+        //绑定品牌下拉
+        function Bandla() {
+            $.ajax({
+                url: "https://localhost:44329/api/Brands/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    //清空下拉框
+                    $("#selectTravelCity").empty();
+                    $("#selectTravelCity").append("<option value=0>全部</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.SettingId + ">" + this.SettingGrade + "</option>";
+                        //将数据放入表格
+                        $("#selectTravelCity").append(opt);
+                    });
+                    MenberShow(1)
+                }
+            })
+        }
+        //会员显示表
+        function MenberShow(page) {
+            var asd = {};
+            asd.SettingGrade = $("#selectTravelCity").val();
+            asd.MenberName = $("#name").val();
+            asd.MenberCard = $("#name").val();
+            asd.MenberPhone = $("#band").val();
+            $.ajax({
+                url: 'https://localhost:44329/api/Stu/Get',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    name: $("#name").val(), type: $("#type").val(), band: $("#band").val(), pricemin: $("#Pricemin").val(), pricemax: $("#Pricemax").val(), CurrentPage: page
+                },
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#td").empty();
+                    $(d.shopModels).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.MenberId + '</td>'
+                            + '<td>' + this.MenberCard + '</td>'
+                            + '<td>' + this.SettingGrade + '</td>'
+                            + '<td>' + this.MenberType + '</td>'
+                            + '<td>' + this.MenberName + '</td>'
+                            + '<td>' + this.MenberPhone + '</td>'
+                            + '<td>' + this.Cumulative + '</td>'
+                            + '<td>' + this.Storage + '</td>'
+                            + '<td>' + this.Accumulative + '</td>'
+                            + '<td>' + this.Integral + '</td>'
+                            + '<td>' + this.Activate + '</td>'
+                            + '<td>' + this.Expiration + '</td>'
+                            + '<td>' +'<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'+ '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">操作</a>" + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+        function MenberUpt(id) {
+            $.ajax({
+                url: 'https://localhost:44329/api/Stu/Put/',
+                type: 'post',
+                data: { MenberId: id },
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('修改状态成功');
+                        SettingShow();
+                    }
+                    else {
+                        alert('修改状态失败');
+                    }
+                }
+            })
+        }
+    </script>
+
+}
+
+

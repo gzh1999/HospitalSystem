@@ -1,0 +1,278 @@
+﻿@model UI.Models.Setting
+@{
+    ViewBag.Title = "SettingShow";
+}
+
+    <h2>
+        <input id="Button1" class="btn btn-default" type="button" value="会员列表" onclick="location.href=' /Stu/MenberShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="储值管理" onclick="location.href=' MenbeShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="积分管理" onclick="location.href=' MenbShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="会员设置" onclick="location.href=' SettingShow'" />
+    </h2>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<title>纯css编写开关按钮（一）</title>
+<style type="text/css">
+    .chooseBtn {
+        display: none;
+    }
+
+    .choose-label {
+        box-shadow: #ccc 0px 0px 0px 1px;
+        width: 40px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        position: relative;
+        background-color: #bdbdbd;
+        overflow: hidden;
+    }
+
+        .choose-label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border-radius: 20px;
+            background-color: #fff;
+            z-index: 20;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+    .chooseBtn:checked + label.choose-label:before {
+        left: 20px;
+    }
+
+    .chooseBtn:checked + label.choose-label {
+        background-color: #51ccee;
+    }
+</style>
+<body>
+    <input class="btn btn-primary" type="button" value="+ 新增会员类型" data-toggle='modal' data-target='#myModal2' style="float:right;margin-bottom:15px" />
+    <input class="btn btn-warning" type="button" value="❁ 会员条件设置" data-toggle='modal' data-target='#myModal1' style="float:right;margin-bottom:15px" />
+
+    <table class="table table-bordered">
+        <thead class="alert-dismissable" style="background:#a9c6c9">
+            <tr>
+                <th>序号</th>
+                <th>会员等级</th>
+                <th>会员名称</th>
+                <th>折扣</th>
+                <th>最低积分</th>
+                <th>升级所需积分</th>
+                <th>备注</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="td" style="font-size:10px;">
+        </tbody>
+    </table>
+    <table class=" table-bordered table">
+        <tr>
+            <td>总记录数<span id="TotalCount"></span>条</td>
+            <td>总共<span id="TotalPage"></span>页</td>
+            <td>当前第<span id="CurrentPage"></span>页</td>
+            <td><a href="javascript:;" onclick="SettingShow(1)">首页</a></td>
+            <td><a href="javascript:;" onclick="SettingShow(CurrentPage-1)">上一页</a></td>
+            <td><a href="javascript:;" onclick="SettingShow(CurrentPage+1)">下一页</a></td>
+            <td><a href="javascript:;" onclick="SettingShow(TotalPage)">尾页</a></td>
+        </tr>
+    </table>
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加会员类型</h4>
+                </div>
+                <br /><br />
+                @Html.LabelFor(model => model.SettingGrade, "会员折扣功能", new { htmlAttributes = new { @class = "form-control" } })  <input type="checkbox" name="sex" id="male" class="chooseBtn" /><label for="male" class="choose-label"></label>    <br /><br />
+                @Html.LabelFor(model => model.SettingGrade, "会员升级功能", new { htmlAttributes = new { @class = "form-control" } })  <input type="checkbox" name="asd" id="sdf" class="chooseBtn" /><label for="sdf" class="choose-label"></label>    <br /><br />
+                @Html.LabelFor(model => model.SettingGrade, "消费积分比例", new { htmlAttributes = new { @class = "form-control" } }) 人民币：积分=1:
+                <input id="Text1" type="text" style="width: 60px; height: 20px;  border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;" /> <input id="Checkbox1" type="checkbox" />开启<br /><br />
+                @Html.LabelFor(model => model.SettingGrade, "充值积分比例", new { htmlAttributes = new { @class = "form-control" } }) 人民币：积分=1:
+                <input id="Text1" type="text" style="width: 60px; height: 20px;  border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;" /> <input id="Checkbox1" type="checkbox" />开启<br /><br />
+                @Html.LabelFor(model => model.SettingGrade, "单次积分上限", new { htmlAttributes = new { @class = "form-control" } }) <input id="Text1" type="text" style="width: 60px; height: 20px;  border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;" /><br /><br />
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="rcbtn" onclick="SettingShow()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加会员类型</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.SettingGrade, "会员等级", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.SettingGrade, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SettingGrade, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.MenberType, "会员名称", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.MenberType, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MenberType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.Discount, "折扣", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.Integral, "最低消费积分", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Integral, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Integral, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.Upgrade, "升级所需积分", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Upgrade, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Upgrade, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.Remarks, "备注", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.Condition, "状态", new { htmlAttributes = new { @class = "form-control" } })<br />
+                                <input type="checkbox" name="sex" id="zt" class="chooseBtn" />
+                                <label for="zt" class="choose-label"></label>
+                                @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="rcbtn" onclick="SettingAdd()">确定</button>
+                        </div>
+                    </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+    </div>
+
+</body>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            SettingShow();
+        });
+
+        //会员显示表
+        function SettingShow(page) {
+            $.ajax({
+                url: 'https://localhost:44329/api/Put/Get',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    name: $("#name").val(), type: $("#type").val(), band: $("#band").val(), pricemin: $("#Pricemin").val(), pricemax: $("#Pricemax").val(), CurrentPage: page
+                },
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#td").empty();
+                    $(d.Settings).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.SettingId + '</td>'
+                            + '<td>' + this.SettingGrade + '</td>'
+                            + '<td>' + this.MenberType + '</td>'
+                            + '<td>' + this.Discount + '</td>'
+                            + '<td>' + this.Integral + '</td>'
+                            + '<td>' + this.Upgrade + '</td>'
+                            + '<td>' + this.Remarks + '</td>'
+                            + '<td>' +'<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'+ '</td>'
+                            + '<td>' + "<a data-toggle='modal' data-target='#myModal2'" + this.Id + ">编辑</a>" + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }                                   
+            })
+        }
+        // "<a onclick=SettingUpt(" + this.SettingId + ")>" + (this.Condition ? type = true : type = false) + + "</a>" 
+       // '<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'
+        function SettingAdd() {
+            var obj = {};
+            obj.SettingGrade = $("#SettingGrade").val();
+            obj.MenberType = $("#MenberType").val();
+            obj.Discount = $("#Discount").val();
+            obj.Integral = $("#Integral").val();
+            obj.Upgrade = $("#Upgrade").val();
+            obj.Remarks = $("#Remarks").val();
+            obj.Condition = $("#Condition").val();
+            $.ajax({
+                url: 'https://localhost:44329/api/Put/Post',
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                success: function (d) {
+                    if (d == 1) {
+                        location.href = "/Stu/SettingShow";
+                    }
+                }
+            })
+        }
+        function SettingUpt(id) {
+            $.ajax({
+                url: 'https://localhost:44329/api/Put/Put/',
+                type: 'post',
+                data: { SettingId: id},
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('修改状态成功');
+                        SettingShow();
+                    }
+                    else {
+                        alert('修改状态失败');
+                    }
+                }
+            })
+        }
+    </script>
+}
+

@@ -31,9 +31,10 @@
         table tr:nth-child(even) {
             background: #F5FAFA;
         }
+
     .form-control {
         display: block;
-        width: 300px;
+        width: 250px;
         height: 50px;
         padding: 6px 12px;
         font-size: 14px;
@@ -48,6 +49,7 @@
         -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
+
     .button {
         display: inline-block;
         padding: 15px 25px;
@@ -72,9 +74,44 @@
             box-shadow: 0 5px #666;
             transform: translateY(4px);
         }
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
 </style>
-<input class="button" type="button" value="☺新增入库"style="margin-left:1500px" onclick="location.href='/Repertory/RepertoryAdd'" />
-<hr style="margin-left:100px;height:2px;border-top:2px dotted #555555" />
+<input class="button" type="button" value="☺新增入库" style="margin-left:1000px" onclick="location.href='/Repertory/RepertoryAdd'" />
+<hr style="height:2px;border-top:2px dotted #555555" />
 <div style="margin-left:50px;margin-top:20px">
     <table>
         <tr>
@@ -96,38 +133,35 @@
     </table>
 </div>
 
-<table class="table" style="margin-left:40px;width:1900px;height:200px;font-size:20px">
+<table class="table" style="width:1400px;height:100px">
     <thead style="background:#a9c6c9">
         <tr>
-            <th>入库编号</th>
-            <th>入库类型</th>
-            <th>供应商名称</th>
-            <th>入库人员</th>
-            <th>购买金额</th>
-            <th>创建时间</th>
-            <th>审核状态</th>
-            <th>操作</th>
+            <th style="text-align:center;">入库编号</th>
+            <th style="text-align:center;">入库类型</th>
+            <th style="text-align:center;">供应商名称</th>
+            <th style="text-align:center;">入库人员</th>
+            <th style="text-align:center;">采购金额</th>
+            <th style="text-align:center;">创建时间</th>
+            <th style="text-align:center;">审核状态</th>
+            <th style="text-align:center;">操作</th>
         </tr>
     </thead>
     <tbody id="td">
     </tbody>
 </table>
 
-<table class="table table-bordered" style="margin-left:150px;">
-    <tr>
-        <td>总记录数<span id="TotalCount"></span>条</td>
-        <td>总共<span id="TotalPage"></span>页</td>
-        <td>当前第<span id="CurrentPage"></span>页</td>
-        <td><a href="javascript:;" onclick="DrugShow(1)">首页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a></td>
-    </tr>
-</table>
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="RepertoryShow(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="RepertoryShow(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="RepertoryShow(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="RepertoryShow(TotalPage)" /></td>
+
 
 @section scripts{
     <script>
-        var PageSize = 3;
+        var PageSize = 6;
         var CurrentPage = 1;
         var TotalPage = 1;
 
@@ -204,15 +238,48 @@
                             + '<td>' + this.RepertoryTypeName + '</td>'
                             + '<td>' + this.ManufacturersName + '</td>'
                             + '<td>' + this.RoleName + '</td>'
-                            + '<td>' + this.AmountOfPurchase + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.RepertoryTime + '</td>'
                             + '<td>' + this.AuditStatusName + '</td>'
-                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + "<a onclick=DrugStatusUpt(" + this.Id + ")>" + (this.DrugStatus ? "禁用" : "启用") + "</a>" + '</td>'
+                            + '<td>' + (this.AuditStatusId == 1 ? "<a onclick=RepertoryFill3(" + this.Id + ")>编辑</a>" : (this.AuditStatusId == 2 ? "<a onclick=RepertoryFill1(" + this.Id + ")>查看</a>" : (this.AuditStatusId == 3 ? "<a onclick=RepertoryFill2(" + this.Id + ")>查看</a>" : null))) + "<a onclick=RepertoryDel(" + this.Id + ")>&nbsp;&nbsp;删除</a>"  + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })
                 }
             })
+        }
+        //入库详情审核通过
+        function RepertoryFill1(id)
+        {
+            location.href = '/Repertory/RepertoryFill1?id=' + id;
+        }
+        //入库详情审核提交未通过
+        function RepertoryFill2(id) {
+            location.href = '/Repertory/RepertoryFill2?id=' + id;
+        }
+        //入库详情审核编辑
+        function RepertoryFill3(id) {
+            location.href = '/Repertory/RepertoryFill3?id=' + id;
+        }
+        //删除入库信息
+        function RepertoryDel(Id) {
+            if (confirm("确认要删除吗？")) {
+                $.ajax({
+                    url: 'http://localhost:65510/api/Repertory/Delete/' + Id,
+                    type: 'Post',
+                    data: { Id: Id },
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('删除成功');
+                            RepertoryShow();
+                        }
+                        else {
+                            alert('删除失败');
+                        }
+                    }
+                })
+            }
         }
     </script>
 }

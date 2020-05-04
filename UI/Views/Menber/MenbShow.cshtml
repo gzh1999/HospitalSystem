@@ -1,0 +1,197 @@
+﻿
+@{
+    ViewBag.Title = "MenbShow";
+}
+
+<h2>
+    <input id="Button1" class="btn btn-default" type="button" value="会员列表" onclick="location.href=' /Menber/MenberShow'" />
+    <input id="Button1" class="btn btn-default" type="button" value="储值管理" onclick="location.href=' MenbeShow'" />
+    <input id="Button1" class="btn btn-default" type="button" value="积分管理" onclick="location.href=' MenbShow'" />
+    <input id="Button1" class="btn btn-default" type="button" value="会员设置" onclick="location.href=' SettingShow'" />
+</h2>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+会员等级
+<select id="selectTravelCity" title="Select Travel Destination" class=" btn btn-group-vertical">
+</select>
+
+<input id="name" type="text" placeholder="会员姓名" style="width: 900px; height: 50px; top: 110px; left: 950px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+<input id="Submit1" type="submit" value="查找" class=" btn btn-primary" onclick="MenberShow(1)" style="width: 70px;height: 50px;top: 110px;left: 1250px" />
+<body style="padding-top:100px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>卡号</th>
+                <th>会员类型</th>
+                <th>会员等级</th>
+                <th>会员姓名</th>
+                <th>手机号码</th>
+                <th>积分</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="td">
+        </tbody>
+    </table>
+</body>
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="MenberShow(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="MenberShow(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="MenberShow(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="MenberShow(TotalPage)" /></td>
+
+@section scripts{
+    <script>
+        $(function () {
+            MenberShow();
+            Bandla();
+        })
+        //绑定品牌下拉
+        function Bandla() {
+            $.ajax({
+                url: "http://localhost:65510/api/BrandSetting/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    //清空下拉框
+                    $("#selectTravelCity").empty();
+                    $("#selectTravelCity").append("<option value=0>全部</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.SettingId + ">" + this.SettingGrade + "</option>";
+                        //将数据放入表格
+                        $("#selectTravelCity").append(opt);
+                    });
+                    MenberShow(1)
+                }
+            })
+        }
+        //会员显示表
+        function MenberShow(page) {
+            var asd = {};
+            asd.SettingGrade = $("#selectTravelCity").val();
+            asd.MenberName = $("#name").val();
+            asd.MenberCard = $("#name").val();
+            asd.MenberPhone = $("#band").val();
+            $.ajax({
+                url: 'http://localhost:65510/api/Integral/Get',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    name: $("#name").val(), type: $("#type").val(), band: $("#band").val(), pricemin: $("#Pricemin").val(), pricemax: $("#Pricemax").val(), CurrentPage: page
+                },
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#td").empty();
+                    $(d.menbers).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.MenberId + '</td>'
+                            + '<td>' + this.MenberCard + '</td>'
+                            + '<td>' + this.SettingGrade + '</td>'
+                            + '<td>' + this.MenberType + '</td>'
+                            + '<td>' + this.MenberName + '</td>'
+                            + '<td>' + this.MenberPhone + '</td>'
+                            + '<td>' + this.Integral + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">积分变动</a>" + "<a href=/Drug/DrugUpt/" + this.Id + ">        积分变动记录</a>" + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+
+    </script>
+
+}
+<style>
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
+    /*表格样式*/
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+</style>

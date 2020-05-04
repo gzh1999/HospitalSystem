@@ -1,7 +1,7 @@
 ﻿
 <style>
     body {
-        background-color: LightBlue;
+        /*background-color: LightBlue;*/
         font-family: Verdana;
         font-size: 13px;
     }
@@ -47,7 +47,7 @@
 
     .form-control {
         display: block;
-        width: 300px;
+        width: 250px;
         height: 50px;
         padding: 6px 12px;
         font-size: 14px;
@@ -140,6 +140,41 @@
         z-index: 1002;
         overflow: auto;
     }
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
 </style>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -149,12 +184,12 @@
     @*<link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />*@
 </head>
 <body>
-    <input id="Button1" type="button" style="margin-left:40px;" class="button" value="审核提交" onclick="DrugUpt()" />
-    <input id="Button1" type="button" class="button" value="直接入库" onclick="DrugUpt()" />
-    <input id="Button1" type="button" class="button" value="返回" onclick="DrugUpt()" />
+    <input id="Button1" type="button" class="button" value="审核提交" onclick="RepertoryAddStatus()" />
+    <input id="Button1" type="button" class="button" value="直接入库" onclick="RepertoryAdd()" />
+    <input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/RepertoryShow'" />
 
-    <hr style="margin-left:100px;height:2px;border-top:2px dotted #555555" />
-    <div style="width:99%; height:250px;border:1px solid #000;margin-left:60px;background-color:LightBlue">
+    <hr style="height:2px;border-top:2px dotted #555555" />
+    <div style="width:99%; height:250px;border:1px solid #000;background-color:LightBlue">
         <div id="divHeader" class="divHeaderTable">
             <h1 style="color:blue;margin-left: 40px">新增入库信息</h1>
         </div>
@@ -181,7 +216,7 @@
                         <label id="lblMname">入库人员</label>
                     </div>
                     <div>
-                        <select id="RoleName" style="width: 320px;height: 65px;">
+                        <select id="RoleName" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                     </div>
@@ -191,7 +226,7 @@
                         <label id="lblLname"> 入库类型</label>
                     </div>
                     <div>
-                        <select id="RepertoryTypeName" style="width: 320px;height: 65px;">
+                        <select id="RepertoryTypeName" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                     </div>
@@ -203,7 +238,7 @@
                         <label id="Label10"> 供应商</label>
                     </div>
                     <div>
-                        <select id="ManufacturersName" style="width: 320px;height: 65px;">
+                        <select id="ManufacturersName" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                     </div>
@@ -230,26 +265,31 @@
                         <label id="Label8"> 备注</label>
                     </div>
                     <div>
-                        <input type="text" id="RepertoryNumber" class="form-control" />
+                        <input type="text" id="Remark" class="form-control" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <table class="table" style="margin-left:45px;width:1600px;height:200px;font-size:20px">
+    <table class="table" style="width:1400px">
         <thead style="background:#a9c6c9">
             <tr>
-                <th>药品编码</th>
-                <th>药品名称</th>
-                <th>采药价格</th>
-                <th>售药价</th>
-                <th>生产厂家</th>
-                <th>状态</th>
-                <th>创建时间</th>
-                <th>药品类型</th>
+                <th style="text-align:center;">
+                    <input class="top2" type="checkbox" onclick="xuan2()" />
+                </th>
+                <th style="text-align:center;">药品编码</th>
+                <th style="text-align:center;">药品名称</th>
+                <th style="text-align:center;">采药价格</th>
+                <th style="text-align:center;">售药价</th>
+                <th style="text-align:center;">生产厂家</th>
+                <th style="text-align:center;">药品数量</th>
+                <th style="text-align:center;">创建时间</th>
+                <th style="text-align:center;">药品类型</th>
+                <th style="text-align:center;">操作</th>
             </tr>
         </thead>
-        <tbody style="font-size:40px;color:brown">
+        <tbody id="DrugShow" style="color:brown">
+
         </tbody>
     </table>
     <div style="margin-left:700px;margin-top:50px;">
@@ -258,21 +298,35 @@
     <div id="light" class="white_content">
         <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">点这里关闭本窗口</a>
         <br />
-        <table class="table" style="margin-left:45px;width:1200px;height:200px;font-size:20px">
+        <div style="margin-left:0px;margin-top:20px">
+            <table>
+                <tr>
+                    <td>处方类别：</td>
+                    <td>
+                        <select id="DrugTypeId" class="form-control">
+                            <option></option>
+                        </select>
+                    </td>
+                    <td><input id="DrugName" type="text" class="form-control" placeholder="请输入药品名字"/></td>
+                    <td><input id="Button1" type="button" value="查询啊" class="btn btn-danger" onclick="DrugShow(1)" /></td>
+                </tr>
+            </table>
+        </div>
+        <table class="table" >
             <thead style="background:#a9c6c9">
                 <tr>
-                    <th>
+                    <th style="text-align:center;">
                         <input class="top" type="checkbox" onclick="xuan()" />
                     </th>
-                    <th>序号</th>
-                    <th>药品编码</th>
-                    <th>药品名称</th>
-                    <th>药品类别</th>
-                    <th>规格</th>
-                    <th>生产厂家</th>
-                    <th>库存</th>
-                    <th>采购价格</th>
-                    <th>零售价格</th>
+                    <th style="text-align:center;">序号</th>
+                    <th style="text-align:center;">药品编码</th>
+                    <th style="text-align:center;">药品名称</th>
+                    <th style="text-align:center;">药品类别</th>
+                    <th style="text-align:center;">规格</th>
+                    <th style="text-align:center;">生产厂家</th>
+                    <th style="text-align:center;">库存</th>
+                    <th style="text-align:center;">采购价格</th>
+                    <th style="text-align:center;">零售价格</th>
                 </tr>
             </thead>
             <tbody id="td" style="color:brown">
@@ -285,11 +339,12 @@
         <a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a>
-
+        <input id="Button1" class="button" type="button"  value="确定" onclick="DrugRepertoryAdd()" />
+        <input id="Button1" class="button" type="button" value="取消" onclick="location.href='/Repertory/RepertoryAdd'" />
     </div>
     <div id="fade" class="black_overlay"></div>
 
-    <div style="text-align:center; background-color:aqua;margin-left:60px;margin-top:100px">欢迎登陆医院系统</div>
+    <div style="text-align:center; background-color:aqua;margin-top:100px">欢迎登陆医院系统</div>
 </body>
 </html>
 
@@ -299,6 +354,8 @@
             RoleBandsel();
             RepertoryTypeBandsel();
             ManufacturersBandsel();
+            DrugTypeBandsel();
+            
         });
         //绑定入库人员表
         function RoleBandsel() {
@@ -345,7 +402,8 @@
                         var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
                         $("#ManufacturersName").append(opt);
                     })
-                    DrugShow();
+                    DrugShow(1);
+                    DrugRepertoryShow();
                 }
             })
         }
@@ -355,6 +413,8 @@
         //显示药品表
         function DrugShow(page) {
             var obj = {};
+            obj.DrugTypeId = $("#DrugTypeId").val();
+            obj.DrugName = $("#DrugName").val();
             obj.CurrentPage = page;
             obj.PageSize = PageSize;
             $.ajax({
@@ -391,7 +451,7 @@
                 }
             })
         }
-        //全选和反选
+        //全选和反选(药品表)
         function xuan() {
             if ($(".top").prop("checked")) {
                 $(".cktop").prop("checked", true);
@@ -401,6 +461,191 @@
                     this.checked = !this.checked;
                 })
             }
+        }
+        //绑定处方类别
+        function DrugTypeBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugType/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#DrugTypeId").empty();
+                    $("#DrugTypeId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
+                        $("#DrugTypeId").append(opt);
+                    })
+                    DrugShow(1);
+                }
+            })
+        }
+
+        
+        //选中药品添加到库存
+        function DrugRepertoryAdd()
+        {
+            var ids = [];
+            $(".cktop:checked").each(function () {
+                ids.push(this.value);
+            });
+            if (ids.length == 0) {
+                alert("请选择药品");
+                return;
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugRepertory/Post',
+                type: 'post',
+                data: { action: "DrugRepertoryAdd",ids:ids.toString()},
+                //data: JSON.stringify(ids),
+                dataType: 'json',
+                success: function (d) {
+                    if(d > 0)
+                    {
+                        alert("添加药品成功");
+                        location.href = '/Repertory/RepertoryAdd';
+                        
+                    }
+                    else
+                    {
+                        alert("添加药品失败");
+                    }
+                }                
+            })
+            
+        }
+        //显示药品入库信息
+        function DrugRepertoryShow() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugRepertory/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#DrugShow").empty();
+                    $(d).each(function () {
+                        var line = '<tr>'
+                            + '<td><input class="cktop2" type="checkbox" value=' + this.Id + ' /></td>'
+                            + '<td>' + this.DrugNumber + '</td>'
+                            + '<td>' + this.DrugName + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
+                            + '<td>' + this.DrugCount+ '</td>'
+                            + '<td>' + this.DrugCreateTime + '</td>'
+                            + '<td>' + this.DrugTypeName + '</td>'
+                            +'<td><input id="Button1" class="info-close" type="button" style="color:blue" value="×" onclick=DrugRepertoryDel('+this.Id+') /></td>'
+                            + '</tr>'
+                        $("#DrugShow").append(line);
+                    })
+                }
+            })
+        }
+        //删除药品入库信息
+        function DrugRepertoryDel(Id)
+        {
+            if (confirm("确认要删除吗？"))
+            {
+                $.ajax({
+                    url: 'http://localhost:65510/api/DrugRepertory/Delete/' + Id,
+                    type: 'Post',
+                    data: { Id: Id },
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('删除成功');
+                            DrugRepertoryShow();
+                        }
+                        else {
+                            alert('删除失败');
+                        }
+                    }
+                })
+            }
+        }
+        //全选和反选(药品入库信息)
+        function xuan2() {
+            if ($(".top2").prop("checked")) {
+                $(".cktop2").prop("checked", true);
+            }
+            else {
+                $(".cktop2").each(function () {
+                    this.checked = !this.checked;
+                })
+            }
+        }
+        //直接入库
+        function RepertoryAdd()
+        {
+            var ids = [];
+            $(".cktop2:checked").each(function () {
+                ids.push(this.value);
+            });
+            if (ids.length == 0) {
+                alert("请选择药品");
+                return;
+            }
+            var obj = {};
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.RepertoryTime = $("#RepertoryTime").val();
+            obj.RoleId = $("#RoleName").val();
+            obj.RepertoryTypeId = $("#RepertoryTypeName").val();
+            obj.ManufacturersId = $("#ManufacturersName").val();            
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.Remark = $("#Remark").val();
+            obj.DrugRepertoryId = ids;
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Repertory/Post',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('药品入库成功');
+                        location.href = '/Repertory/RepertoryShow';
+                    }
+                    else {
+                        alert('药品入库失败');
+                    }
+                }
+            })
+        }
+
+        //新增入库提交审核
+        function RepertoryAddStatus() {
+            var ids = [];
+            $(".cktop2:checked").each(function () {
+                ids.push(this.value);
+            });
+            if (ids.length == 0) {
+                alert("请选择药品");
+                return;
+            }
+            var obj = {};
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.RepertoryTime = $("#RepertoryTime").val();
+            obj.RoleId = $("#RoleName").val();
+            obj.RepertoryTypeId = $("#RepertoryTypeName").val();
+            obj.ManufacturersId = $("#ManufacturersName").val();
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.Remark = $("#Remark").val();
+            obj.DrugRepertoryId = ids;
+
+            $.ajax({
+                url: 'http://localhost:65510/api/RepertoryAddStatus/Post',
+                type: 'post',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert('药品入库成功');
+                        location.href = '/Repertory/RepertoryShow';
+                    }
+                    else {
+                        alert('药品入库失败');
+                    }
+                }
+            })
         }
     </script>
 }

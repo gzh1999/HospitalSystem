@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewBag.Title = "Show";
+}
+
+<style>
+    /*表格样式*/
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
+</style>
+
+
+<div>
+    <div style="float:left">
+        <input id="Button1" type="button" value="员工列表" />
+        <input id="Button1" type="button" value="科室列表" onclick="location.href='/Hospital/Showoff'" />
+        <input id="Button1" type="button" value="角色列表" onclick="location.href='/Hospital/Showrole'" />
+    </div>
+    <div style="float:right"><input id="Button1" type="button" value="＋新增" class="btn btn-info" onclick="location.href='/Hospital/Add'" /></div>
+</div>
+
+<hr style="color:blueviolet" />
+
+<div>
+    <table>
+        <tr>
+            <td></td>
+            <td>
+                所属科室
+                <select id="OfficeId">
+                    <option></option>
+
+                </select>
+            </td>
+            <td><input id="StaffName" type="text" placeholder="员工姓名" /></td>
+            <td><input id="Button1" type="button" value="搜索" class="btn btn-default" onclick="Show(1)" /></td>
+        </tr>
+    </table>
+</div>
+
+
+<table class="table">
+    <thead style="background:#a9c6c9">
+        <tr>
+            <td>序号</td>
+            <td>工号</td>
+            <td>员工姓名</td>
+            <td>员工性别</td>
+            <td>员工年龄</td>
+            <td>手机号码</td>
+            <td>所属诊所</td>
+            <td>所属科室</td>
+            <td>角色</td>
+            <td>创建时间</td>
+            <td>创建人员</td>
+            <td>员工状态</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody id="tb">
+    </tbody>
+</table>
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Show(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Show(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Show(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Show(TotalPage)" /></td>
+
+
+@section scripts{
+    <script>
+        //页面第一次加载
+        $(function () {
+            Band();
+        })
+        //绑定科室下拉
+        function Band() {
+            $.ajax({
+                url: "http://localhost:65510/api/BandOffice/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    Show(1);
+                    //清空下拉框
+                    $("#OfficeId").empty();
+                    $("#OfficeId").append("<option value=''>==请选择==</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.Id + ">" + this.OfficeName + "</option>";
+                        //将数据放入表格
+                        $("#OfficeId").append(opt);
+                    });
+
+                }
+            })
+        }
+        //商品列表显示
+        var PageSize = 6;
+        var CurrentPage = 1;
+        var TotalPage = 1;
+        function Show(page) {
+            var obj = {};
+            obj.StaffName = $("#StaffName").val();
+            obj.OfficeId = $("#OfficeId").val();
+
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
+            $.ajax({
+                url: "http://localhost:65510/api/AddStaff/Get",
+                type: "get",
+                data: obj,
+                dataType: "json",
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#tb").empty();
+                    //循环遍历
+                    $(d.addStaffs).each(function () {
+                        //拼接tr一行
+                        var line = '<tr>'
+                            + '<td>' + this.Id + '</td>'
+                            + '<td>' + this.StaffNumber + '</td>'
+                            + '<td>' + this.StaffName + '</td>'
+                            + '<td>' + (this.StaffSex ? "男" : "女") + '</td>'
+                            + '<td>' + this.StaffAge + '</td>'
+                            + '<td>' + this.StaffPhone + '</td>'
+                            + '<td>' + this.StaffBelong + '</td>'
+                            + '<td>' + this.OfficeName + '</td>'
+                            + '<td>' + this.RoleName + '</td>'
+                            + '<td>' + this.StaffAddTimes + '</td>'
+                            + '<td>' + this.CreatePerson + '</td>'
+                            + '<td>' + (this.StateIsok ? "启用" : "禁用") + '</td>'
+                            + '<td>' + "<a href=/Hospital/Upt/" + this.Id + ">编辑&nbsp;&nbsp;</a>" + "<a href='javascripts:;' onclick='Del(" + this.Id + ")'>删除</a>" + '</td>'
+                            + '</tr>'
+                        //将数据放入表格
+                        $("#tb").append(line);
+                    });
+                }
+            });
+        }
+        //删除员工信息
+        function Del(id) {
+            if (confirm("确认删除码？")) {
+                $.ajax({
+                    url: "http://localhost:65510/api/AddStaff/Delete/" + id,
+                    type: "post",
+                    data: { id: id },
+                    success: function (d) {
+                        if (d > 0) {
+                            alert("删除成功");
+                            location.href = "/Hospital/Show";
+                        }
+                        else {
+                            alert("删除失败");
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}

@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "MenbeShow";
+}
+
+    <h2>
+        <input id="Button1" class="btn btn-default" type="button" value="会员列表" onclick="location.href=' /Stu/MenberShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="储值管理" onclick="location.href=' MenbeShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="积分管理" onclick="location.href=' MenbShow'" />
+        <input id="Button1" class="btn btn-default" type="button" value="会员设置" onclick="location.href=' SettingShow'" />
+    </h2>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+会员等级
+<select id="selectTravelCity" title="Select Travel Destination" class=" btn btn-group">
+</select>
+
+<input id="name" type="text" placeholder="会员姓名" style="width: 900px; height: 50px; position: absolute; top: 110px; left: 950px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+<input id="Submit1" type="submit" value="查找" class=" btn btn-primary" onclick="MenberShow(1)" style="width: 70px;height: 50px;position: absolute;top: 110px;left: 1250px" />
+<body style="padding-top:100px;">
+    <table class="table alert-warning">
+        <thead style="background:#a9c6c9">
+            <tr>
+                <th>序号</th>
+                <th>卡号</th>
+                <th>会员类型</th>
+                <th>会员等级</th>
+                <th>会员姓名</th>
+                <th>手机号码</th>
+                <th>累计消费（元）</th>
+                <th>储值余额（元）</th>
+                <th>累计储值（元）</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="td" style="font-size:10px">
+        </tbody>
+</body>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">余额充值</h4>
+            </div>
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">充值金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">赠送金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+
+            <input id="Radio1" type="radio" />现金
+            <input id="Radio1" type="radio" />微信
+            <input id="Radio1" type="radio" />支付宝
+            <input id="Radio1" type="radio" />银行卡
+            <br /><br />
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="rcbtn" onclick="location.href=' MenbeShow'">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">余额退款</h4>
+            </div>
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">退款金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <input id="Radio1" type="radio" />现金
+            <input id="Radio1" type="radio" />微信
+            <input id="Radio1" type="radio" />支付宝
+            <input id="Radio1" type="radio" />银行卡
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">备注</label>
+                </div>
+                <div>
+                    <textarea id="TextArea1" rows="2" cols="20" class="form-control"></textarea>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="rcbtn" onclick="location.href=' MenbeShow'">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">充值退款记录</h4>
+            </div>
+            <br /><br />
+            <div>
+
+                <div>
+                    交易时间
+
+                    交易类型
+
+                    交易金额（元）
+
+                    赠送金额（元）
+
+                    合计金额（元）
+
+                    操作员
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="rcbtn" onclick="location.href=' MenbeShow'">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+</table>
+
+
+
+<table class=" table-bordered table">
+    <tr>
+        <td>总记录数<span id="TotalCount"></span>条</td>
+        <td>总共<span id="TotalPage"></span>页</td>
+        <td>当前第<span id="CurrentPage"></span>页</td>
+        <td><a href="javascript:;" onclick="MenberShow(1)">首页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(CurrentPage-1)">上一页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(CurrentPage+1)">下一页</a></td>
+        <td><a href="javascript:;" onclick="MenberShow(TotalPage)">尾页</a></td>
+    </tr>
+</table>
+</div>
+@section scripts{
+    <script>
+        $(function () {
+            MenberShow();
+            Bandla();
+        })
+        //绑定品牌下拉
+        function Bandla() {
+            $.ajax({
+                url: "https://localhost:44329/api/Brands/Get",
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    //清空下拉框
+                    $("#selectTravelCity").empty();
+                    $("#selectTravelCity").append("<option value=0>全部</option>");
+                    //拼接一个下拉项
+                    $(d).each(function () {
+                        var opt = "<option value=" + this.SettingId + ">" + this.SettingGrade + "</option>";
+                        //将数据放入表格
+                        $("#selectTravelCity").append(opt);
+                    });
+                    MenberShow(1)
+                }
+            })
+        }
+        //会员显示表
+        function MenberShow(page) {
+            var asd = {};
+            asd.SettingGrade = $("#selectTravelCity").val();
+            asd.MenberName = $("#name").val();
+            asd.MenberCard = $("#name").val();
+            asd.MenberPhone = $("#band").val();
+            $.ajax({
+                url: 'https://localhost:44329/api/Chu/Get',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    name: $("#name").val(), type: $("#type").val(), band: $("#band").val(), pricemin: $("#Pricemin").val(), pricemax: $("#Pricemax").val(), CurrentPage: page
+                },
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#td").empty();
+                    $(d.shopModels).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.MenberId + '</td>'
+                            + '<td>' + this.MenberCard + '</td>'
+                            + '<td>' + this.SettingGrade + '</td>'
+                            + '<td>' + this.MenberType + '</td>'
+                            + '<td>' + this.MenberName + '</td>'
+                            + '<td>' + this.MenberPhone + '</td>'
+                            + '<td>' + this.Cumulative + '</td>'
+                            + '<td>' + this.Storage + '</td>'
+                            + '<td>' + this.Accumulative + '</td>'
+                            + '<td>' + "<a data-toggle='modal' data-target='#myModal1'/" + this.MenberId + ">充值</a>" + "<a data-toggle='modal' data-target='#myModal2'/" + this.MenberId + ">        退款</a>" + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })
+                }
+            })
+        }
+        @*function MenberFill() {
+            $.ajax({
+                url: 'https://localhost:44329/api/Chu/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#MenberCard").val(d.MenberCard);
+                    $("#MenberName").val(d.MenberName);
+                    $("#Accumulative").val(d.Accumulative);
+                }
+            })
+        }*@
+    </script>
+
+}
+
+
+

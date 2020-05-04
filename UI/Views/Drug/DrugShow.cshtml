@@ -3,7 +3,8 @@
     ViewBag.Title = "DrugShow";
 }
 <script src="~/Scripts/bootstrap.min.js"></script>
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.js"></script>
 
 
 <style>
@@ -34,7 +35,7 @@
 
     .form-control {
         display: block;
-        width: 300px;
+        width: 250px;
         height: 50px;
         padding: 6px 12px;
         font-size: 14px;
@@ -74,10 +75,45 @@
         table tr:nth-child(even) {
             background: #F5FAFA;
         }
+
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
 </style>
 
-<input class="button" type="button" value="新增药品" style="float:right;margin-bottom:15px"  onclick="location.href='/Drug/DrugAdd'" />
-<input class="button"  type="button" style="float:right;margin-bottom:15px" value="导出" onclick="btn_ExPortPage()" />
+<input class="button" type="button" value="新增药品" style="float:right;margin-bottom:15px" onclick="location.href='/Drug/DrugAdd'" />
 
 
 <div style="margin-left:50px;margin-top:20px">
@@ -89,7 +125,7 @@
             <td><input id="Time" type="date" class="form-control" /></td>
             <td>药品状态：</td>
             <td>
-                <select id="DrugTypeId"class="form-control" >
+                <select id="DrugTypeId" class="form-control">
                     <option></option>
                 </select>
             </td>
@@ -98,35 +134,31 @@
     </table>
 </div>
 
-<table class="table" style="margin-left:40px;width:1900px;height:200px;font-size:20px">
+<table class="table" style="width:1400px;height:100px">
     <thead style="background:#a9c6c9">
         <tr>
-            <th>药品编码</th>
-            <th>药品名称</th>
-            <th>采药价格</th>
-            <th>售药价</th>
-            <th>生产厂家</th>
-            <th>状态</th>
-            <th>创建时间</th>
-            <th>药品类型</th>
-            <th>操作</th>
+            <th style="text-align:center;">药品编码</th>
+            <th style="text-align:center;">药品名称</th>
+            <th style="text-align:center;">采药价格</th>
+            <th style="text-align:center;">售药价</th>
+            <th style="text-align:center;">生产厂家</th>
+            <th style="text-align:center;">状态</th>
+            <th style="text-align:center;">创建时间</th>
+            <th style="text-align:center;">药品类型</th>
+            <th style="text-align:center;">操作</th>
         </tr>
     </thead>
-    <tbody id="td" style="font-size:30px;color:brown">
+    <tbody id="td" style="color:brown">
     </tbody>
 </table>
 
-<table class=" table-bordered table" style="margin-left:50px;">
-    <tr>
-        <td>总记录数<span id="TotalCount"></span>条</td>
-        <td>总共<span id="TotalPage"></span>页</td>
-        <td>当前第<span id="CurrentPage"></span>页</td>
-        <td><a href="javascript:;" onclick="DrugShow(1)">首页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a></td>
-        <td><a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a></td>
-    </tr>
-</table>
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="DrugShow(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="DrugShow(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="DrugShow(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="DrugShow(TotalPage)" /></td>                 
 
 
 @section scripts{
@@ -136,7 +168,7 @@
         var TotalPage = 1;
 
         $(function () {
-            DrugTypeBandsel();            
+            DrugTypeBandsel();
         });
         //药品分类绑定
 
@@ -151,7 +183,7 @@
                     $(d).each(function () {
                         var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
                         $("#DrugTypeId").append(opt);
-                    }) 
+                    })
                     DrugShow(1);
                 }
             })
@@ -170,7 +202,7 @@
             $.ajax({
                 url: 'http://localhost:65510/api/Drug/Get',
                 type: 'get',
-                data:obj,
+                data: obj,
                 dataType: 'json',
                 success: function (d) {
 
@@ -194,23 +226,21 @@
                             + '<td>' + (this.DrugStatus ? "启用" : "禁用") + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
                             + '<td>' + this.DrugTypeName + '</td>'
-                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑</a>" + "<a onclick=DrugStatusUpt(" + this.Id + ")>"+(this.DrugStatus?"禁用":"启用")+"</a>" + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">编辑&nbsp;&nbsp;</a>" + "<a onclick=DrugStatusUpt(" + this.Id + ")>" + (this.DrugStatus ? "禁用" : "启用") + "</a>" + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })
                 }
             })
         }
-  
+
         //修改药品状态
-        function DrugStatusUpt(id)
-        {
-            if (confirm("确认要操作此药品吗？"))
-            {
+        function DrugStatusUpt(id) {
+            if (confirm("确认要操作此药品吗？")) {
                 $.ajax({
                     url: 'http://localhost:65510/api/DrugStatusUpt/Put/' + id,
                     type: 'post',
-                    data: {id:id},
+                    data: { id: id },
                     dataType: 'json',
                     success: function (d) {
                         if (d > 0) {
@@ -222,7 +252,7 @@
                         }
                     }
                 })
-            }          
+            }
         }
 
     </script>

@@ -32,7 +32,7 @@
                         <label id="lblMname">药品分类</label>
                     </div>
                     <div>
-                        <select id="DrugTypeName" style="width: 300px;height: 65px;">
+                        <select id="DrugTypeName" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                         <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="DrugTypeAdd(1)" />
@@ -70,7 +70,7 @@
                         <label id="Label7"> 生产厂家</label>
                     </div>
                     <div>
-                        <select id="ManufacturersName" style="width: 300px;height: 65px;">
+                        <select id="ManufacturersName" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                         <input id="Button1" style="width:40px;background-color:cyan" type="button" value="+" onclick="Manufacturers(1)" />
@@ -111,12 +111,24 @@
                     </div>
                 </div>
                 <div class="divColumn">
+                    <div class="divColumn">
+                        <div>
+                            <label id="Label6">药品数量</label>
+                        </div>
+                        <div>
+                            <input type="text" id="DrugCount" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divRow">
+                <div class="divColumn">
                     <div>
                         <label id="Label6">药品状态</label>
                     </div>
                     <div>
-                        <input id="Radio1" type="radio" name="DrugStatus" value="true" />启用
-                        <input id="Radio2" type="radio" name="DrugStatus" value="false" />禁用
+                        <input id="Radio1" type="radio" name="DrugStatus" />启用
+                        <input id="Radio2" type="radio" name="DrugStatus" />禁用
                     </div>
                 </div>
             </div>
@@ -147,7 +159,7 @@
 
 <style>
     body {
-        background-color: LightBlue;
+        /*background-color: LightBlue;*/
         font-family: Verdana;
         font-size: 13px;
     }
@@ -193,7 +205,7 @@
 
     .form-control {
         display: block;
-        width: 300px;
+        width: 250px;
         height: 50px;
         padding: 6px 12px;
         font-size: 14px;
@@ -328,6 +340,7 @@
                     $("#InventoryUpperLimit").val(d.InventoryUpperLimit);
                     $("#InventoryLowerLimit").val(d.InventoryLowerLimit);
                     $("#DrugContent").val(d.DrugContent);
+                    $("#DrugCount").val(d.DrugCount);
                 }
             })
         }
@@ -345,6 +358,7 @@
             obj.DrugStatus = $("#Radio1").prop("checked");
             obj.DrugCreateTime = $("#DrugCreateTime").val();
             obj.DrugTypeId = $("#DrugTypeName").val();
+            obj.DrugCount = $("#DrugCount").val();
 
             obj.Specification = $("#Specification").val();
             obj.InventoryUpperLimit = $("#InventoryUpperLimit").val();

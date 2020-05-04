@@ -39,5 +39,50 @@ namespace UI.Controllers
         {
             return View();
         }
+        //药品入库信息表
+        public ActionResult DrugRepertoryAdd()
+        {
+            return View();
+        }
+        //显示药品入库信息
+        public ActionResult DrugRepertoryShow()
+        {
+            return View();
+        }
+        ////删除药品入库信息
+        public ActionResult DrugRepertoryDel()
+        {
+            return View();
+        }
+        //删除入库信息
+        public ActionResult RepertoryDel()
+        {
+            return View();
+        }
+        ////入库详情审核通过
+        public ActionResult RepertoryFill1()
+        {
+            return View();
+        }
+        ////入库详情审核提交未通过
+        public ActionResult RepertoryFill2()
+        {
+            return View();
+        }
+        ////入库详情审核编辑
+        public ActionResult RepertoryFill3()
+        {
+            return View();
+        }
+        //修改审核状态为通过
+        public ActionResult AuditStatusUptTG()
+        {
+            return View();
+        }
+        //修改审核状态未通过
+        public ActionResult AuditStatusUptBTG()
+        {
+            return View();
+        }
     }
 }

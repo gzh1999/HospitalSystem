@@ -16,12 +16,13 @@ namespace DataModel
         public int RepertoryTypeId  { get; set; }
         public int ManufacturersId { get; set; }
         public int RoleId           { get; set; }
-        public decimal AmountOfPurchase { get; set; }
         public DateTime RepertoryTime { get; set; }
         public DateTime MakeTime { get; set; }
         public int AuditStatusId { get; set; }
-        public int DrugId { get; set; }
+        public int DrugRepertoryId { get; set; }
         public string Remark { get; set; }
+        public decimal DrugPrice { get; set; }
+        public int DrugId { get; set; }
 
 
 
@@ -29,5 +30,15 @@ namespace DataModel
         public string ManufacturersName { get; set; }
         public string RoleName { get; set; }
         public string AuditStatusName { get; set; }
+
+
+        //反填时候的显示药品
+        public string DrugNumber { get; set; }
+        public string DrugName { get; set; }
+        public decimal DrugSelling { get; set; }
+        public int DrugCount { get; set; }
+        public string DrugCreateTime { get; set; }
+        public string DrugTypeName { get; set; }
+        public int InventoryUpperLimit { get; set; }
     }                 
 }

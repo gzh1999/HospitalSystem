@@ -24,6 +24,7 @@ namespace DataModel
         public int InventoryUpperLimit { get; set; }
         public int InventoryLowerLimit { get; set; }
         public string DrugContent { get; set; }
+        public int DrugCount { get; set; }
 
 
 

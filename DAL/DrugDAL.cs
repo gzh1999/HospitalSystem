@@ -47,8 +47,8 @@ namespace DAL
         //添加药品
         public int DrugAdd(Drug m)
         {
-            string sql = string.Format("insert into Drug values('{0}','{1} ','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}')",
-                m.DrugNumber, m.DrugName, m.DrugPrice, m.DrugSelling, m.ManufacturersId, m.DrugStatus, m.DrugCreateTime, m.DrugTypeId,m.Specification,m.InventoryUpperLimit,m.InventoryLowerLimit,m.DrugContent);
+            string sql = string.Format("insert into Drug values('{0}','{1} ','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}')",
+                m.DrugNumber, m.DrugName, m.DrugPrice, m.DrugSelling, m.ManufacturersId, m.DrugStatus, m.DrugCreateTime, m.DrugTypeId,m.Specification,m.InventoryUpperLimit,m.InventoryLowerLimit,m.DrugContent,m.DrugCount);
             return db.ExecuteNonQuery(sql);
         }
         //反填药品
@@ -61,8 +61,8 @@ namespace DAL
         //编辑药品
         public int DrugUpt(Drug m)
         {
-            string sql = string.Format("update Drug set DrugNumber='{0}',DrugName='{1} ',DrugPrice='{2}',DrugSelling='{3}',ManufacturersId='{4}',DrugStatus='{5}',DrugCreateTime='{6}',DrugTypeId='{7}',Specification='{8}',InventoryUpperLimit='{9}',InventoryLowerLimit='{10}',DrugContent='{11}' where Id='{12}'",
-                m.DrugNumber, m.DrugName, m.DrugPrice, m.DrugSelling, m.ManufacturersId, m.DrugStatus, m.DrugCreateTime, m.DrugTypeId, m.Specification, m.InventoryUpperLimit, m.InventoryLowerLimit, m.DrugContent,m.Id);
+            string sql = string.Format("update Drug set DrugNumber='{0}',DrugName='{1} ',DrugPrice='{2}',DrugSelling='{3}',ManufacturersId='{4}',DrugStatus='{5}',DrugCreateTime='{6}',DrugTypeId='{7}',Specification='{8}',InventoryUpperLimit='{9}',InventoryLowerLimit='{10}',DrugContent='{11}',DrugCount='{12}' where Id='{13}'",
+                m.DrugNumber, m.DrugName, m.DrugPrice, m.DrugSelling, m.ManufacturersId, m.DrugStatus, m.DrugCreateTime, m.DrugTypeId, m.Specification, m.InventoryUpperLimit, m.InventoryLowerLimit, m.DrugContent, m.DrugCount, m.Id);
             return db.ExecuteNonQuery(sql);
         }
         //停用or启用药品状态
@@ -74,7 +74,8 @@ namespace DAL
         //库存表显示
         public List<Repertory> RepertoryShow()
         {
-            string sql = "select * from Repertory r join RepertoryType t on r.RepertoryTypeId = t.Id join Manufacturers m on r.ManufacturersId=m.Id join Role e on r.RoleId = e.Id join AuditStatus a on r.AuditStatusId = a.Id";
+            string sql = "select * from Repertory r join RepertoryType t on r.RepertoryTypeId = t.Id join Manufacturers m on r.ManufacturersId=m.Id join Role e on r.RoleId = e.Id join AuditStatus a on r.AuditStatusId = a.Id join DrugRepertory d on r.DrugRepertoryId=d.Id join Drug g on g.Id = d.DrugId";
+
             return db.GetToList<Repertory>(sql);
         }
         //绑定审核状态表
@@ -89,17 +90,24 @@ namespace DAL
             string sql = "select * from RepertoryType ";
             return db.GetToList<RepertoryType>(sql);
         }
-        //新增入库
+        //新增入库(直接提交)
         public int RepertoryAdd(Repertory m)
         {
-            string sql = string.Format("insert into Repertory values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
-                m.RepertoryNumber, m.RepertoryTypeId, m.ManufacturersId, m.RoleId, m.AmountOfPurchase, m.RepertoryTime, m.MakeTime=DateTime.Now, m.AuditStatusId, m.DrugId,m.Remark);
+            string sql = string.Format("insert into Repertory values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                m.RepertoryNumber, m.RepertoryTypeId, m.ManufacturersId, m.RoleId, m.RepertoryTime, m.MakeTime=DateTime.Now, m.AuditStatusId=1, m.DrugRepertoryId,m.Remark);
+            return db.ExecuteNonQuery(sql);
+        }
+        //新增入库提交审核
+        public int RepertoryAddStatus(Repertory m)
+        {
+            string sql = string.Format("insert into Repertory values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
+                m.RepertoryNumber, m.RepertoryTypeId, m.ManufacturersId, m.RoleId, m.RepertoryTime, m.MakeTime = DateTime.Now, m.AuditStatusId = 3, m.DrugRepertoryId, m.Remark);
             return db.ExecuteNonQuery(sql);
         }
         //删除入库信息
         public int RepertoryDel(int id)
         {
-            string sql = "select * from Repertory where Id in ("+id+")";
+            string sql = "delete  from Repertory where Id in ("+id+")";
             return db.ExecuteNonQuery(sql);
         }
         //绑定角色表
@@ -107,6 +115,44 @@ namespace DAL
         {
             string sql = "select * from Role ";
             return db.GetToList<Role>(sql);
+        }
+        //添加药品入库信息
+        public int DrugRepertoryAdd(DrugRepertory m)
+        {
+            string sql = string.Format("insert into DrugRepertory select Id from  Drug  where Id in ('{0}')",m.Id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //显示药品入库信息
+        public List<DrugRepertory> DrugRepertoryShow()
+        {
+            string sql =
+                " select * from DrugRepertory r join  Drug d on r.DrugId=d.Id join Manufacturers m on m.Id = d.ManufacturersId join DrugType t  on t.Id=d.DrugTypeId";                                            
+            return db.GetToList<DrugRepertory>(sql);
+        }
+        //删除药品入库信息
+        public int DrugRepertoryDel(int id)
+        {
+            string sql = " delete from DrugRepertory where Id=" + id;               
+            return db.ExecuteNonQuery(sql);
+        }
+        //入库详情审核通过
+        public Repertory RepertoryFill(int id)
+        {
+            string sql = "select * from Repertory r join RepertoryType t on r.RepertoryTypeId = t.Id join Manufacturers m on r.ManufacturersId=m.Id join Role e on r.RoleId = e.Id join AuditStatus a on r.AuditStatusId = a.Id join DrugRepertory d on r.DrugRepertoryId=d.Id join Drug g on g.Id = d.DrugId join DrugType u on g.DrugTypeId = u.Id where r.Id= " + id;
+
+            return db.GetToList<Repertory>(sql)[0];
+        }
+        //修改审核通过
+        public int AuditStatusUptTG(Repertory m)
+        {
+            string sql = string.Format("update Repertory set AuditStatusId=2 where Id='{0}'", m.Id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //修改审核未通过
+        public int AuditStatusUptBTG(Repertory m)
+        {
+            string sql = string.Format("update Repertory set AuditStatusId=3 where Id='{0}'", m.Id);
+            return db.ExecuteNonQuery(sql);
         }
     }
 }

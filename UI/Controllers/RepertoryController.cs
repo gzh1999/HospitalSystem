@@ -67,9 +67,9 @@ namespace UI.Controllers
         }
 
         // GET: api/Repertory/5
-        public string Get(int id)
+        public Repertory Get(int id)
         {
-            return "value";
+            return dal.RepertoryFill(id);
         }
 
         // POST: api/Repertory
@@ -79,11 +79,14 @@ namespace UI.Controllers
         }
 
         // PUT: api/Repertory/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPost]
+        public int Put([FromBody]Repertory m)
         {
+            return dal.AuditStatusUptTG(m);
         }
 
         // DELETE: api/Repertory/5
+        [HttpPost]
         public int Delete(int id)
         {
             return dal.RepertoryDel(id);

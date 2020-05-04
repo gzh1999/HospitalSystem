@@ -44,6 +44,9 @@
     <Compile Include="DBHelper .cs" />
     <Compile Include="DrugDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SYDAL.cs" />
+    <Compile Include="UserInfoDAL.cs" />
+    <Compile Include="ZHCDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">

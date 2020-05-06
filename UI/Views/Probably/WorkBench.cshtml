@@ -6,41 +6,47 @@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <input id="Birthdate" type="date" />
 <input id="PatientName" type="text" />
-<input id="Button1" type="button" value="查询" onclick="Show()" />
-<div class="am-g" id="buju">
-    <!-- Row start -->
-    <div class="am-u-md-3">
-        @*<div class="card-box widget-user">
-                    <div>
-                        <img src="~/后台模板/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">
-                        <div class="wid-u-info">
-                            <h4 class="m-t-0 m-b-5 font-600"><span>姓名:</span> <span></span><span>男:</span> <span>:</span></h4>
-                            <span>创建时间</span><span> ： </span>
-                            <br />
-                            <span>科室</span><span>： </span>&nbsp;&nbsp;&nbsp;&nbsp;<span>医生</span><span>： </span>
-                            <br />
-                            <span>手机号码:</span><span> :</span>
-                            <hr />
-                            <small class="glyphicon-text-width" style="font-size:15px"><b><a href="">接诊</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="">查看患者信息</a> </b></small>
+<input id="Button1" type="button" value="查询" onclick="Show(1)" />
+<div>
+    <div class="am-g" id="buju">
+        <!-- Row start -->
+        <div class="am-u-md-3">
+            @*<div class="card-box widget-user">
+                        <div>
+                            <img src="~/后台模板/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">
+                            <div class="wid-u-info">
+                                <h4 class="m-t-0 m-b-5 font-600"><span>姓名:</span> <span></span><span>男:</span> <span>:</span></h4>
+                                <span>创建时间</span><span> ： </span>
+                                <br />
+                                <span>科室</span><span>： </span>&nbsp;&nbsp;&nbsp;&nbsp;<span>医生</span><span>： </span>
+                                <br />
+                                <span>手机号码:</span><span> :</span>
+                                <hr />
+                                <small class="glyphicon-text-width" style="font-size:15px"><b><a href="">接诊</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="">查看患者信息</a> </b></small>
+                            </div>
+
                         </div>
 
-                    </div>
-                </div>
-            </div>*@
-
+                </div>*@
+        </div>
     </div>
-</div>
-@*<table table>
-    <tr>
-        <td>总记录数<span id="TotalCount"></span>条</td>
-        <td>总共<span id="TotalPage"></span>页</td>
-        <td>当前第<span id="CurrentPage"></span>页</td>
-        <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Show(1)" /></td>
-        <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Show(CurrentPage-1)" /></td>
-        <td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Show(CurrentPage+1)" /></td>
-        <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Show(TotalPage)" /></td>
-    </tr>
-</table>*@
+
+    <table>
+        <tr>
+            <td>总记录数<span id="TotalCount"></span>条</td>
+            <td>总共<span id="TotalPage"></span>页</td>
+            <td>当前第<span id="CurrentPage"></span>页</td>
+            <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Show(1)" /></td>
+            <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Show(CurrentPage-1)" /></td>
+            <td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Show(CurrentPage+1)" /></td>
+            <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Show(TotalPage)" /></td>
+        </tr>
+    </table>  
+
+
+
+
+
 
 
     <script>
@@ -48,12 +54,17 @@
             Show();
         });
 
-        function Show() {
+        var PageSize = 6;
+        var CurrentPage = 1;
+        var TotalPage = 1;
+        function Show(page) {
             $("#div1").empty();
             var obj = {};
             obj.Birthdate = $("#Birthdate").val();
             obj.PatientName = $("#PatientName").val();
-    
+
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
 
             $.ajax({
                 url: 'http://localhost:65510/api/UserInfo/ShowWork',
@@ -61,18 +72,26 @@
                 data: obj,
                 dataType: 'json',
                 success: function (dd) {
+                    $(".am-g").empty();
+                    $("#TotalCount").text(dd.TotalCount)
+                    $("#TotalPage").text(dd.TotalPage)
+                    $("#CurrentPage").text(dd.CurrentPage)
+                    //最大页
+                    TotalPage = dd.TotalPage;
+                    //当前页
+                    CurrentPage = dd.CurrentPage;
 
-                    $(dd).each(function () {
+                    $(dd.patients).each(function () {
                         var s = '        <!-- Row start -->'
-                            + '   <div id="div1" class="am-u-md-3">'
-                            + '   <div class="card-box widget-user">'
+                            + '   <div id="div1" class="am-u-md-3" >'
+                            + '   <div class="card-box widget-user" >'
                             + '      <div>'
                             + '          <img src="/后台模板/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">'
                             + '          <div class="wid-u-info">'
-                            + '            <h4 class="m-t-0 m-b-5 font-600"><span>姓名:</span>' + this.PatientName + '<span></span><span>男:</span> <span>' + this.PatientAge + '</span></h4>'
+                            + '            <h4 class="m-t-0 m-b-5 font-600"><span>姓名:</span>' + this.PatientName + '<span>&nbsp&nbsp</span><span>年龄:</span> <span>' + this.PatientAge + '</span></h4>'
                             + '          <span>创建时间</span><span>' + this.Birthdate + '</span>'
                             + '        <br />'
-                            + '      <span>科室:</span><span>全科</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>医生:</span><span>王栋</span>'
+                            + '      <span>科室:</span><span>' + this.OfficeName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>医生:</span><span>' + this.StaffName + '</span>'
                             + '    <br />'
                             + '  <span>手机号码:</span><span>' + this.PatientPhone + '</span>'
                             + '<hr />'
@@ -83,13 +102,13 @@
                             + ' </div>'
                             + ' </div>'
                         $("#buju").append(s);
-
                     })
+
                 }
             })
         }
     </script>
-    @*<style>
+    <style>
         /*删除按钮css样式*/
 
         .info-close {
@@ -125,4 +144,4 @@
                 top: 14px;
                 left: 5px;
             }
-    </style>*@
+    </style>

@@ -84,5 +84,30 @@ namespace UI.Controllers
         {
             return View();
         }
+        //出库信息
+        public ActionResult OutRepertoryShow()
+        {
+            return View();
+        }
+        //药品添加到出库信息
+        public ActionResult OutDrugRepertoryAdd()
+        {
+            return View();
+        }
+        //新增出库(直接提交)
+        public ActionResult OutRepertoryAdd()
+        {
+            return View();
+        }
+        //显示药品出库信息
+        public ActionResult OutDrugRepertoryShow()
+        {
+            return View();
+        }
+        //删除药品信息表
+        public ActionResult OutDrugRepertoryDel()
+        {
+            return View();
+        }
     }
 }

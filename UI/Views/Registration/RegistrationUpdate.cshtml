@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "RegistrationUpdate";
+}
+
+<style>
+    h3 {
+        color: blue
+    }
+
+    span {
+        color: red
+    }
+
+    div {
+        margin-left: 30px
+    }
+</style>
+<h4>编辑挂号信息</h4>
+<div>
+    <h3>挂号信息</h3>
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <b>科室</b><span>*</span>：<br /><select id="Office"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>接诊类型</b><span>*</span>：<br />
+                    <select id="ReceptionType">
+                        <option>初诊</option>
+                        <option>复诊</option>
+                    </select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>接诊医生</b><span>*</span>：<br /><select id="Doctor"></select>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <b>挂号费（元）</b><span>*</span><br /><input id="RegistrationFee" type="text" readonly="readonly" style="background-color:gainsboro" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>诊疗费（元）</b><span>*</span><br /><input id="DiagnosisFee" type="text" readonly="readonly" style="background-color:gainsboro" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <h3>患者信息</h3>
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <b>患者姓名</b><span>*</span><br /><input id="Name" type="text" readonly="readonly" style="background-color:gainsboro" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>患者卡号</b><br /><input id="Card" type="text" readonly="readonly" style="background-color:gainsboro" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>患者年龄</b><span>*</span><br /><input id="Age" type="text" placeholder="请输入数字" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>出生日期</b><span>*</span><br /><input id="Birthday" type="text" onclick="WdatePicker()" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <b>性别</b><span>*</span><br />
+                    <select id="Sex"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>手机号码：</b><br /><input id="Phone" type="text" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>证件号码：</b><br /><input id="Number" type="text" />
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <b>地址</b><br /><input id="Address" type="text" style="width:100%" placeholder="请输入详细地址" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <b>备注</b><br /><input id="Remark" type="text" style="width:100%" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input id="Button1" type="button" value="编辑" class="btn btn-danger" onclick="Update()" />
+            </td>
+        </tr>
+    </table>
+</div>
+@section scripts{
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script>
+    $(function () {
+        OfficeBand();
+        Doctor();
+        SexBand();
+    })
+    //科室
+    function OfficeBand() {
+        $.ajax({
+            url: "http://localhost:65510/api/BandOffice/Get/",
+            type: "get",
+            success: function (d) {
+                Select();
+                $("#Office").empty();
+                $("#Office").append("<option value=''>==请选择==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.OfficeName + '</option>';
+                    $("#Office").append(opt);
+                })
+            }
+        })
+        }
+        //性别
+        function SexBand() {
+            $.ajax({
+                url: "http://localhost:65510/api/Sex/Get/",
+                type: "get",
+                success: function (d) {
+                    $("#Sex").empty();
+                    $("#Sex").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = '<option value="' + this.Id + '">' + this.SexName + '</option>';
+                        $("#Sex").append(opt);
+                    })
+                }
+            })
+        }
+    //医生
+    function Doctor() {
+        $.ajax({
+            url: "http://localhost:65510/api/Doctor/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Doctor").empty();
+                $("#Doctor").append("<option value = ''>==全部医生==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.StaffName + '</option>';
+                    $("#Doctor").append(opt);
+                })
+            }
+        })
+    }
+    //反填患者信息
+    function Select() {
+        $.ajax({
+            url: "http://localhost:65510/api/Registration/Get/"+ @ViewContext.RouteData.Values["id"],
+            type: "get",
+            success: function (d) {
+                $("#Office").val(d.OfficeId);
+                $("#ReceptionType").val(d.ReceptionType);
+                $("#Doctor").val(d.AddStaffId);
+                $("#RegistrationFee").val(d.RegistrationFee);
+                $("#DiagnosisFee").val(d.DiagnosisFee);
+                $("#Name").val(d.PatientName);
+                $("#Card").val(d.PatientCard);
+                $("#Age").val(d.PatientAge);
+                $("#Birthday").val(d.Birthdate);
+                $("#Sex").val(d.PatientSexId);
+                $("#Phone").val(d.PatientPhone);
+                $("#Number").val(d.CertificateNumber);
+                $("#Address").val(d.SiteTionContent);
+                $("#Remark").val(d.Remark);
+                }
+        })
+    }
+    //编辑患者信息
+        function Update() {
+            var id = @ViewContext.RouteData.Values["id"];
+            var obj = {};
+            obj.OfficeId = $("#Office").val();
+            obj.ReceptionType = $("#ReceptionType").val();
+            obj.AddStaffId = $("#Doctor").val();
+            obj.RegistrationFee = $("#RegistrationFee").val();
+            obj.DiagnosisFee = $("#DiagnosisFee").val();
+            obj.PatientName = $("#Name").val();
+            obj.PatientCard = $("#Card").val();
+            obj.PatientAge = $("#Age").val();
+            obj.Birthdate = $("#Birthday").val();
+            obj.PatientSexId = $("#Sex").val();
+            obj.PatientPhone = $("#Phone").val();
+            obj.CertificateNumber = $("#Number").val();
+            obj.SiteTionContent = $("#Address").val();
+            obj.Remark = $("#Remark").val();
+            obj.Id = id;
+            $.ajax({
+                url: "http://localhost:65510/api/Registration/Put/",
+                type: "post",
+                data: obj,
+                success: function (d) {
+                    if (d > 0) {
+                        alert("编辑成功！");
+                        location.href = "/Registration/RegistrationShow";
+                    }
+                    else {
+                        alert("编辑失败！");
+                    }
+                }
+            })
+        }
+    </script>
+}
+

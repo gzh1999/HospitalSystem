@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "PatientsShow";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+<br />
+<p style="text-align:right">
+    <input id="Button1" type="button" value="新增患者" class="btn-success" onclick="location.href='/Patients/PatientsAdd'" />
+</p>
+<table>
+    <tr>
+        <td class="col-md-1">
+            会员类型：<select id="Select1"></select>
+        </td>
+        <td class="col-md-1">
+            就诊时间：<input id="time" type="text" onclick="WdatePicker()" />
+        </td>
+        <td class="col-md-1">
+            <input id="name" type="text" placeholder="请输入患者姓名" />
+        </td>
+        <td class="col-md-1">
+            <input id="Button1" type="button" value="查询" class="btn-success" onclick="Select()" />
+        </td>
+    </tr>
+</table>
+<table class="table table-bordered text-center">
+    <thead class="text-center">
+        <tr style="background-color:blueviolet">
+            <td><b>序号</b></td>
+            <td><b>患者姓名</b></td>
+            <td><b>性别</b></td>
+            <td><b>年龄</b></td>
+            <td><b>手机号码</b></td>
+            <td><b>会员等级</b></td>
+            <td><b>挂号时间</b></td>
+            <td><b>操作</b></td>
+        </tr>
+    </thead>
+    <tbody id="tb"></tbody>
+</table>
+<table class="text-center">
+    <tr>
+        <td class="col-md-1">总记录数：<span id="TotalCount">0</span></td>
+        <td class="col-md-1">总共<span id="TotalPage">1</span>页</td>
+        <td class="col-md-1">当前<span id="CurrentPage">1</span>页</td>
+        <td class="col-md-1">每页5条记录</td>
+        <td class="col-md-1"><a href="javascript:;" onclick="Select(1)">首页</a></td>
+        <td class="col-md-1"><a href="javascript:;" onclick="Select(CurrentPage - 1)">上一页</a></td>
+        <td class="col-md-1"><a href="javascript:;" onclick="Select(CurrentPage + 1)">下一页</a></td>
+        <td class="col-md-1"><a href="javascript:;" onclick="Select(TotalPage)">尾页</a></td>
+    </tr>
+</table>
+<script>
+    var TotalPage = 1;
+    var CurrentPage = 1;
+    $(function () {
+        Select();
+        VIP();
+    })
+    //会员等级
+    function VIP() {
+        $.ajax({
+            url: "http://localhost:65510/api/BrandSetting/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Select1").empty();
+                $("#Select1").append("<option value=''>==请选择==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.SettingId + '">' + this.SettingGrade + '</option>';
+                    $("#Select1").append(opt);
+                })
+            }
+        })
+    }
+    //显示患者信息
+    function Select(page) {
+        //获取查询条件
+        var obj = { index: page, PageSize: 5 };
+        obj.name = $("#name").val();
+        obj.VIP = $("#Select1").val();
+        obj.time = $("#time").val();
+        $.ajax({
+            url: "http://localhost:65510/api/Patients/Get/",
+            type: "get",
+            data: obj,
+            success: function (d) {
+                CurrentPage = d.CurrentPage;
+                TotalPage = d.TotalPage;
+                $("#TotalCount").html(d.TotalCount);
+                $("#TotalPage").html(d.TotalPage);
+                $("#CurrentPage").html(d.CurrentPage);
+                $("#tb").empty();
+                $(d.patients).each(function () {
+                    var line = '<tr>' +
+                        '<td>' + this.Id + '</td>' +
+                        '<td>' + this.PatientName + '</td>' +
+                        '<td>' + this.SexName + '</td>' +
+                        '<td>' + this.PatientAge + '</td>' +
+                        '<td>' + this.PatientPhone + '</td>' +
+                        '<td>' + this.SettingGrade + '</td>' +
+                        '<td>' + this.RegistrationTime + '</td>' +
+                        '<td>' + '<a href=/Patients/PatientsUpdate/' + this.Id + '>编辑<a/>' + '&nbsp;&nbsp; ' + '<a href=/Patients/PatientsAdd/' + this.Id + '>接诊<a/>' + '&nbsp;&nbsp;' + '<a href="javascript:;" onclick="Delete(' + this.Id + ')">删除<a/>' + '</td > '
+                        + '</tr>';
+                    $("#tb").append(line);
+                })
+            }
+        })
+    }
+    function Delete(id) {
+        if (confirm("患者信息删除后无法恢复，确定删除吗？")) {
+            $.ajax({
+                url: "http://localhost:65510/api/Patients/Delete/" + id,
+                type: "post",
+                data: { id: id },
+                success: function (d) {
+                    if (d > 0) {
+                        alert("删除成功！");
+                        Select();
+                    }
+                    else {
+                        alert("删除失败！");
+                    }
+                }
+            })
+        }
+    }
+</script>

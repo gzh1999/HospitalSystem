@@ -1,4 +1,9 @@
 ﻿
+@{
+    ViewBag.Title = "OutRepertoryAdd";
+}
+
+
 <style>
     body {
         /*background-color: LightBlue;*/
@@ -186,34 +191,34 @@
 <body>
     <input id="Button1" type="button" class="button" value="审核提交" onclick="RepertoryAddStatus()" />
     <input id="Button1" type="button" class="button" value="直接入库" onclick="RepertoryAdd()" />
-    <input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/RepertoryShow'" />
+    <input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/OutRepertoryShow'" />
 
     <hr style="height:2px;border-top:2px dotted #555555" />
     <div style="width:99%; height:250px;border:1px solid #000;background-color:LightBlue">
         <div id="divHeader" class="divHeaderTable">
-            <h1 style="color:blue;margin-left: 40px">新增入库信息</h1>
+            <h1 style="color:blue;margin-left: 40px">新增出库信息</h1>
         </div>
         <div id="content" class="divTable">
             <div class="divRow">
                 <div class="divColumn">
                     <div>
-                        <label id="lblSolutation"> 入库单号</label>
+                        <label id="lblSolutation"> 出库单号</label>
                     </div>
                     <div>
-                        <input type="text" id="RepertoryNumber" class="form-control" />
-                    </div>
-                </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="lblFname"> 入库日期</label>
-                    </div>
-                    <div>
-                        <input id="RepertoryTime" class="form-control" style="height:50px" type="date" />
+                        <input type="text" id="OutRepertoryNumber" class="form-control" />
                     </div>
                 </div>
                 <div class="divColumn">
                     <div>
-                        <label id="lblMname">入库人员</label>
+                        <label id="lblFname"> 出库日期</label>
+                    </div>
+                    <div>
+                        <input id="OutRepertoryTime" class="form-control" style="height:50px" type="date" />
+                    </div>
+                </div>
+                <div class="divColumn">
+                    <div>
+                        <label id="lblMname">出库人员</label>
                     </div>
                     <div>
                         <select id="RoleName" style="width: 250px;height: 50px;">
@@ -223,26 +228,16 @@
                 </div>
                 <div class="divColumn">
                     <div>
-                        <label id="lblLname"> 入库类型</label>
+                        <label id="lblLname"> 出库类型</label>
                     </div>
                     <div>
-                        <select id="RepertoryTypeName" style="width: 250px;height: 50px;">
+                        <select id="OutRepertoryTypeId" style="width: 250px;height: 50px;">
                             <option></option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="divRow">
-                <div class="divColumn">
-                    <div>
-                        <label id="Label10"> 供应商</label>
-                    </div>
-                    <div>
-                        <select id="ManufacturersName" style="width: 250px;height: 50px;">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
                 <div class="divColumn">
                     <div>
                         <label id="Label9"> 制单日期</label>
@@ -341,8 +336,8 @@
         <a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a>
-        <input id="Button1" class="button" type="button" value="确定" onclick="DrugRepertoryAdd()" />
-        <input id="Button1" class="button" type="button" value="取消" onclick="location.href='/Repertory/RepertoryAdd'" />
+        <input id="Button1" class="button" type="button" value="确定" onclick="OutDrugRepertoryAdd()" />
+        <input id="Button1" class="button" type="button" value="取消" onclick="location.href='/Repertory/OutRepertoryAdd'" />
     </div>
     <div id="fade" class="black_overlay"></div>
 
@@ -354,12 +349,11 @@
     <script>
         $(function () {
             RoleBandsel();
-            RepertoryTypeBandsel();
-            ManufacturersBandsel();
+            OutRepertoryTypeBandsel();
             DrugTypeBandsel();
-            
+
         });
-        //绑定入库人员表
+        //绑定出库人员表
         function RoleBandsel() {
             $.ajax({
                 url: 'http://localhost:65510/api/Role/Get',
@@ -375,40 +369,26 @@
                 }
             })
         }
-        //绑定入库类型表
-        function RepertoryTypeBandsel() {
+        //绑定出库类型
+        function OutRepertoryTypeBandsel() {
             $.ajax({
-                url: 'http://localhost:65510/api/RepertoryType/Get',
+                url: 'http://localhost:65510/api/RepertoryAddStatus/Get',
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
-                    $("#RepertoryTypeName").empty();
-                    $("#RepertoryTypeName").append("<option value=''>==请选择==</option>");
+                    $("#OutRepertoryTypeId").empty();
+                    $("#OutRepertoryTypeId").append("<option value=''>==请选择==</option>");
                     $(d).each(function () {
-                        var opt = "<option value='" + this.Id + "'>" + this.RepertoryTypeName + "</option>";
-                        $("#RepertoryTypeName").append(opt);
-                    })
-                }
-            })
-        }
-        //绑定生产厂家
-        function ManufacturersBandsel() {
-            $.ajax({
-                url: 'http://localhost:65510/api/Manufacturers/Get',
-                type: 'get',
-                dataType: 'json',
-                success: function (d) {
-                    $("#ManufacturersName").empty();
-                    $("#ManufacturersName").append("<option value=''>==请选择==</option>");
-                    $(d).each(function () {
-                        var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
-                        $("#ManufacturersName").append(opt);
+                        var opt = "<option value='" + this.Id + "'>" + this.OutRepertoryTypeName + "</option>";
+                        $("#OutRepertoryTypeId").append(opt);
                     })
                     DrugShow(1);
-                    DrugRepertoryShow();
+                    OutDrugRepertoryShow();
                 }
             })
         }
+
+
         var PageSize = 6;
         var CurrentPage = 1;
         var TotalPage = 1;
@@ -422,7 +402,7 @@
             $.ajax({
                 url: 'http://localhost:65510/api/Drug/Get',
                 type: 'get',
-                data:obj,
+                data: obj,
                 dataType: 'json',
                 success: function (d) {
 
@@ -483,10 +463,9 @@
             })
         }
 
-        
-        //选中药品添加到库存
-        function DrugRepertoryAdd()
-        {
+
+        //选中药品添加到出库存
+        function OutDrugRepertoryAdd() {
             var ids = [];
             $(".cktop:checked").each(function () {
                 ids.push(this.value);
@@ -496,30 +475,28 @@
                 return;
             }
             $.ajax({
-                url: 'http://localhost:65510/api/DrugRepertory/Post',
+                url: 'http://localhost:65510/api/OutDrugRepertory/Post',
                 type: 'post',
-                data: { Id:ids.toString()},
+                data: { Id: ids.toString() },
                 //data: JSON.stringify(ids),
                 dataType: 'json',
                 success: function (d) {
-                    if(d > 0)
-                    {
+                    if (d > 0) {
                         alert("添加药品成功");
-                        location.href = '/Repertory/RepertoryAdd';
-                        
+                        location.href = '/Repertory/OutRepertoryAdd';
+
                     }
-                    else
-                    {
+                    else {
                         alert("添加药品失败");
                     }
-                }                
+                }
             })
-            
+
         }
         //显示药品入库信息
-        function DrugRepertoryShow() {
+        function OutDrugRepertoryShow() {
             $.ajax({
-                url: 'http://localhost:65510/api/DrugRepertory/Get',
+                url: 'http://localhost:65510/api/OutDrugRepertory/Get',
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
@@ -533,21 +510,21 @@
                             + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.DrugSelling + '</td>'
                             + '<td>' + this.ManufacturersName + '</td>'
-                            + '<td>' + this.DrugCount+ '</td>'
+                            + '<td>' + this.DrugCount + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
                             + '<td>' + this.DrugTypeName + '</td>'
-                            +'<td><input id="Button1" class="info-close" type="button" style="color:blue" value="×" onclick=DrugRepertoryDel('+this.Id+') /></td>'
+                            + '<td><input id="Button1" class="info-close" type="button" style="color:blue" value="×" onclick=OutDrugRepertoryDel(' + this.Id + ') /></td>'
                             + '</tr>'
                         $("#DrugShow").append(line);
                         //采购金额合计
-                        var sum1 = 0; 
-                        var tableId = document.getElementById("tab"); 
+                        var sum1 = 0;
+                        var tableId = document.getElementById("tab");
                         for (var i = 0; i < tableId.rows.length; i++) {
-                            var a = Number( tableId.rows[i].cells[3].innerHTML) || 0;
-                            sum1 +=a;
+                            var a = Number(tableId.rows[i].cells[3].innerHTML) || 0;
+                            sum1 += a;
                         }
                         var demoP = document.getElementById("DrugPriceSum");
-                        demoP.innerHTML = + sum1; 
+                        demoP.innerHTML = + sum1;
                         //零售金额合计
                         var sum2 = 0;
                         var tableId = document.getElementById("tab");
@@ -556,26 +533,24 @@
                             sum2 += a;
                         }
                         var demoP = document.getElementById("DrugSellingSum");
-                        demoP.innerHTML = + sum2; 
+                        demoP.innerHTML = + sum2;
                     })
                 }
             })
         }
-        
+
         //删除药品入库信息
-        function DrugRepertoryDel(Id)
-        {
-            if (confirm("确认要删除吗？"))
-            {
+        function OutDrugRepertoryDel(Id) {
+            if (confirm("确认要删除吗？")) {
                 $.ajax({
-                    url: 'http://localhost:65510/api/DrugRepertory/Delete/' + Id,
+                    url: 'http://localhost:65510/api/OutDrugRepertory/Delete/' + Id,
                     type: 'Post',
                     data: { Id: Id },
                     dataType: 'json',
                     success: function (d) {
                         if (d > 0) {
                             alert('删除成功');
-                            DrugRepertoryShow();
+                            OutDrugRepertoryShow();
                         }
                         else {
                             alert('删除失败');
@@ -596,8 +571,7 @@
             }
         }
         //直接入库
-        function RepertoryAdd()
-        {
+        function RepertoryAdd() {
             var ids = [];
             $(".cktop2:checked").each(function () {
                 ids.push(this.value);
@@ -611,7 +585,7 @@
             obj.RepertoryTime = $("#RepertoryTime").val();
             obj.RoleId = $("#RoleName").val();
             obj.RepertoryTypeId = $("#RepertoryTypeName").val();
-            obj.ManufacturersId = $("#ManufacturersName").val();            
+            obj.ManufacturersId = $("#ManufacturersName").val();
             obj.RepertoryNumber = $("#RepertoryNumber").val();
             obj.Remark = $("#Remark").val();
             obj.DrugRepertoryId = ids;
@@ -671,3 +645,4 @@
         }
     </script>
 }
+

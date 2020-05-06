@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "RegistrationShow";
+}
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<style>
+    /*表格样式*/
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #a9c6c9;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
+</style>
+<br />
+<table>
+    <tr>
+        <td class="col-md-1">
+            挂号科室：<select id="Select1"></select>
+        </td>
+        <td class="col-md-1">
+            就诊时间：<input id="time" type="Date" onclick="WdatePicker()" />
+        </td>
+        <td class="col-md-1">
+            <input id="name" type="text" placeholder="请输入患者姓名" />
+        </td>
+        <td class="col-md-1">
+            <input id="Button1" type="button" value="查询" class="btn-success" onclick="Select()" />
+        </td>
+        <td class="col-md-1">
+            <input id="Button1" type="button" value="新增挂号" class="btn-success" onclick="location.href='/Registration/RegistrationAdd'" />
+        </td>
+    </tr>
+</table>
+<table class="table" style="width:1400px;height:100px">
+    <thead >
+        <tr style="background:#a9c6c9">
+            <td><b>序号</b></td>
+            <td><b>挂号单号</b></td>
+            <td><b>患者姓名</b></td>
+            <td><b>性别</b></td>
+            <td><b>年龄</b></td>
+            <td><b>手机号码</b></td>
+            <td><b>科室</b></td>
+            <td><b>接诊医生</b></td>
+            <td><b>就诊时间</b></td>
+            <td><b>应收金额</b></td>
+            <td><b>实收金额</b></td>
+            <td><b>就诊状态</b></td>
+            <td><b>操作</b></td>
+        </tr>
+    </thead>
+    <tbody id="tb"></tbody>
+</table>
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Select(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Select(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Select(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Select(TotalPage)" /></td>
+
+<script>
+    var TotalPage = 1;
+    var CurrentPage = 1;
+    $(function () {
+        Select();
+    })
+    //科室
+    function Office() {
+        $.ajax({
+            url: "http://localhost:65510/api/BandOffice/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Select1").empty();
+                $("#Select1").append("<option value=''>==请选择==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.OfficeName + '</option>';
+                    $("#Select1").append(opt);
+                })
+            }
+        })
+    }
+    //显示患者信息
+    function Select(page) {
+        //获取查询条件
+        var obj = { index: page, PageSize: 5 };
+        obj.name = $("#name").val();
+        obj.office = $("#Select1").val();
+        obj.time = $("#time").val();
+        $.ajax({
+            url: "http://localhost:65510/api/Registration/Get/",
+            type: "get",
+            data: obj,
+            success: function (d) {
+                Office();
+                CurrentPage = d.CurrentPage;
+                TotalPage = d.TotalPage;
+                $("#TotalCount").html(d.TotalCount);
+                $("#TotalPage").html(d.TotalPage);
+                $("#CurrentPage").html(d.CurrentPage);
+                $("#tb").empty();
+                $(d.patients).each(function () {
+                    var line = '<tr>' +
+                        '<td>' + this.Id + '</td>' +
+                        '<td>' + this.RegistrationNumber + '</td>' +
+                        '<td>' + this.PatientName + '</td>' +
+                        '<td>' + this.SexName + '</td>' +
+                        '<td>' + this.PatientAge + '</td>' +
+                        '<td>' + this.PatientPhone + '</td>' +
+                        '<td>' + this.OfficeName + '</td>' +
+                        '<td>' + this.StaffName + '</td>' +
+                        '<td>' + this.RegistrationTime + '</td>' +
+                        '<td>' + (this.RegistrationFee + this.DiagnosisFee) + '</td>' +
+                        '<td>' + (this.RegistrationFee + this.DiagnosisFee) + '</td>' +
+                        '<td>' + (this.PatientState ? "已就诊" : "未就诊") + '</td>' +
+                        '<td>' + '<a href=/Registration/RegistrationUpdate/' + this.Id + '>编辑<a/>' + '&nbsp;&nbsp; ' + '<a href=/Registration/RegistrationAdd/' + this.Id + '>就诊<a/>' + '&nbsp;&nbsp;' + '<a href="javascript:;" onclick="Delete(' + this.Id + ')">退号<a/>' + '</td > '
+                        + '</tr>';
+                    $("#tb").append(line);
+                })
+            }
+        })
+    }
+    function Delete(id) {
+        if (confirm("退号操作不可撤销，确定要退号吗？")) {
+
+            $.ajax({
+                url: "http://localhost:65510/api/Registration/Delete/" + id,
+                type: "post",
+                data: { id: id },
+                success: function (d) {
+                    if (d > 0) {
+                        alert("退号成功！");
+                        Select();
+                    }
+                    else {
+                        alert("退号失败！");
+                    }
+                }
+            })
+        }
+    }
+</script>

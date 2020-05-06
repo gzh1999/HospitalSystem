@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "PatientsUpdate";
+}
+
+<style>
+    div {
+        margin-left: 30px;
+        text-align: left
+    }
+
+    #size {
+        font-size: 10px;
+    }
+
+    #BackColor {
+        background-color: gainsboro;
+    }
+
+    table {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    #color {
+        color: red;
+    }
+</style>
+<p style="text-align:right">
+    <div style="width:100px"></div>
+</p>
+<div style="background-color:white;text-align:center">
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">患者姓名</span><span id="color">*</span><br /><input id="Name" type="text" placeholder="请填写患者姓名" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者卡号</span><br /><input id="Card" type="text" placeholder="请输入病人卡号" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者年龄</span><span id="color">*</span><br /><input id="Age" type="text" placeholder="请输入数字" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">出生日期</span><span id="color">*</span><br /><input id="Birthday" type="text" onclick="WdatePicker()" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">性别</span><span id="color">*</span><br />
+                    <select id="Sex"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">手机号码：</span><br /><input id="Phone" type="text" placeholder="请输入手机号码" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">证件号码：</span><br /><input id="Number" type="text" placeholder="请输入证件号码" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者来源：</span><br />
+                    <select id="PatientSource">
+                        <option>亲朋介绍</option>
+                        <option>自己找的</option>
+                        <option>报纸</option>
+                        <option>网络</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">会员类型：</span><span id="color">*</span><br /><select id="VIPTypeId"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">挂号时间</span><br /><input id="RegistrationTime" type="text" onclick="WdatePicker()" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">民族：</span><br /><input id="Ethnic" type="text" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">婚姻状况：</span><br />
+                    <select id="MaritalStatus">
+                        <option>已婚</option>
+                        <option>未婚</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">学历：</span><br />
+                    <select id="Education">
+                        <option>小学</option>
+                        <option>初中</option>
+                        <option>高中</option>
+                        <option>大专</option>
+                        <option>本科</option>
+                        <option>研究生</option>
+                        <option>博士生</option>
+                    </select>
+                </div>
+            </td>
+            <td colspan="2">
+                <div>
+                    <span id="size">地址</span><br /><input id="Address" type="text" style="width:100%" placeholder="请输入详细地址" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">备注</span><br /><input id="Remark" type="text" style="width:100%" />
+                </div>
+            </td>
+        </tr>
+        <tr style="text-align:left">
+            <td>
+                <div style="margin-top:30px">
+                    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="Update()" />
+                </div>
+            </td>
+            <td>
+                <div style="margin-top:30px">
+                    <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Patients/PatientsShow'" />
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+@section scripts{
+
+    <script src="~/Scripts/My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script>
+        $(function () {
+            SexBand();
+            VIP();
+        })
+        //性别
+        function SexBand() {
+            $.ajax({
+                url: "http://localhost:65510/api/Sex/Get/",
+                type: "get",
+                success: function (d) {
+                    $("#Sex").empty();
+                    $("#Sex").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = '<option value="' + this.Id + '">' + this.SexName + '</option>';
+                        $("#Sex").append(opt);
+                    })
+                }
+            })
+        }
+        //会员等级
+        function VIP() {
+            $.ajax({
+                url: "http://localhost:65510/api/BrandSetting/Get/",
+                type: "get",
+                success: function (d) {
+                    Select();
+                    $("#VIPTypeId").empty();
+                    $("#VIPTypeId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = '<option value="' + this.SettingId + '">' + this.SettingGrade + '</option>';
+                        $("#VIPTypeId").append(opt);
+                    })
+                }
+            })
+        }
+        //反填患者信息
+    function Select() {
+        $.ajax({
+            url: "http://localhost:65510/api/Patients/Get/"+ @ViewContext.RouteData.Values["id"],
+            type: "get",
+            success: function (d) {
+                $("#Name").val(d.PatientName);
+                $("#Card").val(d.PatientCard);
+                $("#Age").val(d.PatientAge);
+                $("#Birthday").val(d.Birthdate);
+                $("#Sex").val(d.PatientSexId);
+                $("#Phone").val(d.PatientPhone);
+                $("#Number").val(d.CertificateNumber);
+                $("#PatientSource").val(d.PatientSource);
+                $("#VIPTypeId").val(d.VIPTypeId);
+                $("#RegistrationTime").val(d.RegistrationTime);
+                $("#Ethnic").val(d.Ethnic);
+                $("#MaritalStatus").val(d.MaritalStatus);
+                $("#Education").val(d.Education);
+                $("#Address").val(d.SiteTionContent);
+                $("#Remark").val(d.Remark);
+                }
+        })
+    }
+    //编辑患者信息
+        function Update() {
+            var id = @ViewContext.RouteData.Values["id"];
+            var obj = {};
+            obj.PatientName = $("#Name").val();
+            obj.PatientCard = $("#Card").val();
+            obj.PatientAge = $("#Age").val();
+            obj.Birthdate = $("#Birthday").val();
+            obj.PatientSexId = $("#Sex").val();
+            obj.PatientPhone = $("#Phone").val();
+            obj.CertificateNumber = $("#Number").val();
+            obj.PatientSource = $("#PatientSource").val();
+            obj.VIPTypeId = $("#VIPTypeId").val();
+            obj.RegistrationTime = $("#RegistrationTime").val();
+            obj.Ethnic = $("#Ethnic").val();
+            obj.MaritalStatus = $("#MaritalStatus").val();
+            obj.Education = $("#Education").val();
+            obj.SiteTionContent = $("#Address").val();
+            obj.Remark = $("#Remark").val();
+            obj.Id = id;
+            $.ajax({
+                url: "http://localhost:65510/api/Patients/Put/",
+                type: "post",
+                data: obj,
+                success: function (d) {
+                    if (d > 0) {
+                        alert("编辑成功！");
+                        location.href = "/Patients/PatientsShow";
+                    }
+                    else {
+                        alert("编辑失败！");
+                    }
+                }
+            })
+        }
+    </script>
+}
+
+

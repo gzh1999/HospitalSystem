@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "RegistrationAdd";
+}
+
+
+<style>
+    div {
+        /*margin-left: 30px;*/
+    }
+
+    #size {
+        font-size: 10px;
+    }
+
+    #BackColor {
+        background-color: gainsboro;
+    }
+
+    table {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    /*文本框样式*/
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+<div id="BackColor">
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">挂号单号</span><br /><input id="RegistrationNumber" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">科室</span><span>*</span>：<br /><select id="Office" class="form-control"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">接诊类型</span><span>*</span>：<br />
+                    <select id="ReceptionType" class="form-control">
+                        <option>初诊</option>
+                        <option>复诊</option>
+                    </select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">接诊医生</span><span>*</span>：<br /><select id="Doctor" class="form-control"></select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">挂号费（元）</span><span>*</span><br /><input id="RegistrationFee" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">诊疗费（元）</span><span>*</span><br /><input id="DiagnosisFee" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">挂号日期</span><br /><input id="RegistrationTime" type="date" class="form-control" onclick="WdatePicker()" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">挂号员</span><br /><input id="RegistrationName" type="text" class="form-control" />
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<h3>患者信息</h3>
+<div>
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">患者姓名</span><span>*</span><br /><input id="Name" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者卡号</span><br /><input id="Card" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者年龄</span><span>*</span><br /><input id="Age" type="text" class="form-control" placeholder="请输入数字" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">出生日期</span><span>*</span><br /><input id="Birthday" type="date" class="form-control" onclick="WdatePicker()" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">性别</span><span>*</span><br />
+                    <select id="Sex" class="form-control"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">手机号码：</span><br /><input id="Phone" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">证件号码：</span><br /><input id="Number" type="text" class="form-control" />
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <span id="size">地址</span><br /><input id="Address" type="text" class="form-control" style="width:100%" placeholder="请输入详细地址" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <span id="size">备注</span><br /><input id="Remark" class="form-control" type="text" style="width:100%" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> </td>
+        </tr>
+    </table>
+</div>
+<input id="Button1" type="button" value="添加" class="btn btn-danger" onclick="Add()" />
+
+@section scripts{
+    <script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script>
+    $(function () {
+        OfficeBand();
+        Doctor();
+        SexBand();
+    })
+    //科室
+    function OfficeBand() {
+        $.ajax({
+            url: "http://localhost:65510/api/BandOffice/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Office").empty();
+                $("#Office").append("<option value=''>==请选择==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.OfficeName + '</option>';
+                    $("#Office").append(opt);
+                })
+            }
+        })
+    }
+    //性别
+    function SexBand() {
+        $.ajax({
+            url: "http://localhost:65510/api/Sex/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Sex").empty();
+                $("#Sex").append("<option value=''>==请选择==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.SexName + '</option>';
+                    $("#Sex").append(opt);
+                })
+            }
+        })
+    }
+    //医生
+    function Doctor() {
+        $.ajax({
+            url: "http://localhost:65510/api/Doctor/Get/",
+            type: "get",
+            success: function (d) {
+                $("#Doctor").empty();
+                $("#Doctor").append("<option value = ''>==全部医生==</option>");
+                $(d).each(function () {
+                    var opt = '<option value="' + this.Id + '">' + this.StaffName + '</option>';
+                    $("#Doctor").append(opt);
+                })
+            }
+        })
+    }
+    function Add() {
+        var obj = {};
+        obj.RegistrationNumber = $("#RegistrationNumber").val();
+        obj.OfficeId = $("#Office").val();
+        obj.ReceptionType = $("#ReceptionType").val();
+        obj.AddStaffId = $("#Doctor").val();
+        obj.RegistrationFee = $("#RegistrationFee").val();
+        obj.DiagnosisFee = $("#DiagnosisFee").val();
+        obj.RegistrationTime = $("#RegistrationTime").val();
+        obj.RegistrationName = $("#RegistrationName").val();
+        obj.PatientName = $("#Name").val();
+        obj.PatientCard = $("#Card").val();
+        obj.PatientAge = $("#Age").val();
+        obj.Birthdate = $("#Birthday").val();
+        obj.PatientSexId = $("#Sex").val();
+        obj.PatientPhone = $("#Phone").val();
+        obj.CertificateNumber = $("#Number").val();
+        obj.SiteTionContent = $("#Address").val();
+        obj.Remark = $("#Remark").val();
+        $.ajax({
+            url: "http://localhost:65510/api/Registration/Post/",
+            type: "post",
+            data: obj,
+            success: function (d) {
+                if (d > 0) {
+                    alert("添加成功！");
+                    location.href = "/Registration/RegistrationShow";
+                }
+                else {
+                    alert("添加失败！");
+                }
+            }
+        })
+    }
+    </script>
+}

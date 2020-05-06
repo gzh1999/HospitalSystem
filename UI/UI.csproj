@@ -133,7 +133,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalController.cs" />
     <Compile Include="Controllers\MenberController.cs" />
+    <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Controllers\ProbablyController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\RepertoryController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -413,6 +415,29 @@
     <Content Include="layui-v2.5.6\layui-v2.5.6\文档与示例\在线示例.url" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\文档与示例\快速上手.url" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\更新日志.url" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\calendar.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\lang\en.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\WdatePicker.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\lang\en.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\readme.txt" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker\开发包\skin\whyGreen\img.gif" />
     <Content Include="yiyuan.png" />
     <Content Include="后台模板\assets\css\admin.css" />
     <Content Include="后台模板\assets\css\amazeui.css" />
@@ -509,6 +534,14 @@
     <Content Include="Views\Hospital\Show.cshtml" />
     <Content Include="Views\Hospital\Add.cshtml" />
     <Content Include="Views\Hospital\Upt.cshtml" />
+    <Content Include="Views\Repertory\OutRepertoryShow.cshtml" />
+    <Content Include="Views\Repertory\OutRepertoryAdd.cshtml" />
+    <Content Include="Views\Patients\PatientsShow.cshtml" />
+    <Content Include="Views\Patients\PatientsAdd.cshtml" />
+    <Content Include="Views\Patients\PatientsUpdate.cshtml" />
+    <Content Include="Views\Registration\RegistrationShow.cshtml" />
+    <Content Include="Views\Registration\RegistrationAdd.cshtml" />
+    <Content Include="Views\Registration\RegistrationUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

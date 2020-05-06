@@ -50,7 +50,7 @@
                     <form action="#" name="f" method="post">
                         <div class="input_outer">
                             <span class="u_user"></span>
-                            <input id="ID" name="logname" class="text" style="color:#ff0000 !important" type="text" placeholder="请输入账户">
+                            <input id="Uname" name="logname" class="text" style="color:#ff0000 !important" type="text" placeholder="请输入账户">
                         </div>
                         <div class="input_outer">
                             <span class="us_uer"></span>
@@ -88,8 +88,19 @@
 </body>
 </html>
 <script>
+    
+    function Setcookie(Uname, value) {
+
+        //设置名称为name,值为value的Cookie
+        var expdate = new Date();   //初始化时间
+        expdate.setTime(expdate.getTime() + 30 * 60 * 1000);   //时间
+        document.cookie = Uname + "=" + value + ";expires=" + expdate.toGMTString() + ";path=/";
+
+        //即document.cookie= name+"="+value+";path=/";   时间可以不要，但路径(path)必须要填写，因为JS的默认路径是当前页，如果不填，此cookie只在当前页面生效！~
+    }
+
     $("#abiqoqian").click(function () {
-        var zhh = $("#ID").val();
+        var zhh = $("#Uname").val();
         location.href = '/UserInfo/ForgetPwd/?zhang=' + zhh;
 
     })
@@ -98,7 +109,7 @@
     })
 
      $("#LOGIN").click(function () {
-            var account = $("#ID").val();
+         var account = $("#Uname").val();
             var password = $("#PASSWORD").val();
             var yzm = $("#qwe").val();
 
@@ -116,12 +127,13 @@
                             data: { zh: account, pwd: password },
                             success: function (res) {
                                 if (res > 0) {
-                                    alert('登录成功');
+                                    alert('登录成功');  
+                                    Setcookie("Uname", $("#Uname").val());
                                     location.href = "/Probably/ProbablyShow";
                                 }
                                 else {
                                     alert('登录失败,用户名或密码输入有误,请重新输入');
-                                    //location.href = "/GaiKuang/Index";
+                                    
                                 }
                             }
                         });
@@ -133,5 +145,5 @@
                     }
                 }
             })
-        })
+     })
 </script>

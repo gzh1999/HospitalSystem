@@ -19,12 +19,13 @@
     <link rel="stylesheet" href="~/后台模板/assets/css/page/form.css" />
     <link rel="stylesheet" href="~/后台模板/assets/css/component.css" />
 </head>
-<body>
+<body style="background-color:#f6f2f2">
     @Styles.Render("~/Content/css")
     <!-- Begin page -->
     <header class="am-topbar am-topbar-fixed-top">
         <div class="am-topbar-left am-hide-sm-only">
-            <a href="~/index.html" class="logo"><span>管理员<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
+            <a class="logo"><span>管理员:<span id="Login"></span></span><i class="zmdi zmdi-layers"></i></a>
+
         </div>
 
         <div class="contain">
@@ -47,7 +48,7 @@
     <!-- end page -->
 
 
-    <div class="admin">
+    <div class="admin" >
         <!--<div class="am-g">-->
         <!-- ========== Left Sidebar Start ========== -->
         <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
@@ -88,32 +89,17 @@
                         </ul>
                     </li>
                     <li class="admin-parent">
-                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"><i class="am-icon-line-chart" aria-hidden="true"></i> 统计图表 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
-                            <li><a href="~/html/chart_line.html" class="am-cf"> 折线图</a></li>
-                            <li><a href="~/html/chart_columnar.html" class="am-cf"> 柱状图</a></li>
-                            <li><a href="~/html/chart_pie.html" class="am-cf"> 饼状图</a></li>
-                        </ul>
-                    </li>
-                    <li class="admin-parent">
-                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav3'}"><span class="am-icon-file"></span> 表单 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav3'}"><span class="am-icon-file"></span> 挂号 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav3">
-                            <li><a href="~/html/form_basic.html" class="am-cf"> 基本表单</a></li>
+                            <li><a href="/Registration/RegistrationShow" class="am-cf"> 挂号记录</a></li>
                             <li><a href="~/html/form_validate.html">表单验证</a></li>
                         </ul>
                     </li>
                     <li class="admin-parent">
-                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav4'}"><span class="am-icon-file"></span> 表单 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav4'}"><span class="am-icon-file"></span> 患者管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav4">
-                            <li><a href="~/html/form_basic.html" class="am-cf"> 基本表单</a></li>
-                            <li><a href="~/html/form_validate.html">表单验证</a></li>
-                        </ul>
-                    </li>
-                    <li class="admin-parent">
-                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav5'}"><span class="am-icon-file"></span> 表单 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav5">
-                            <li><a href="~/html/form_basic.html" class="am-cf"> 基本表单</a></li>
-                            <li><a href="~/html/form_validate.html">表单验证</a></li>
+                            <li><a href="/Patients/PatientsShow" class="am-cf"> 显示患者信息</a></li>
+                            <li><a href="/Patients/PatientsAdd">新增患者</a></li>
                         </ul>
                     </li>
                     <li class="admin-parent">
@@ -121,6 +107,15 @@
                         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav8">
                             <li><a href="/Drug/DrugShow" class="am-cf"> 药品信息维护</a></li>
                             <li><a href="/Repertory/RepertoryShow">入库管理</a></li>
+                            <li><a href="/Repertory/OutRepertoryShow">出库管理</a></li>
+                        </ul>
+                    </li>
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav5'}"><span class="am-icon-file"></span> 员工管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav5">
+                            <li><a href="/Hospital/Show" class="am-cf"> 员工管理</a></li>
+                            <li><a href="~/html/form_validate.html">科室管理</a></li>
+                            <li><a href="~/html/form_validate.html">角色管理</a></li>
                         </ul>
                     </li>
                     <li class="admin-parent">
@@ -139,6 +134,7 @@
         <div class="content-page">
             <!-- Start content -->
             @RenderBody()
+
         </div>
 
 
@@ -159,3 +155,26 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
+
+<script>
+    function getCookie(Uname) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(Uname + "=")
+            if (c_start != -1) {
+                c_start = c_start + Uname.length + 1
+                c_end = document.cookie.indexOf(";", c_start)
+                if (c_end == -1) c_end = document.cookie.length
+                return unescape(document.cookie.substring(c_start, c_end))
+            }
+        }
+        return ""
+    }
+    $(function () {
+        if (getCookie("Uname") == undefined) {
+            $("#Login").html("<a href='/UserInfo/Loginif'>请登录</a>");
+        }
+        else {
+            $("#Login").html(getCookie("Uname"));
+        }
+    });
+</script>

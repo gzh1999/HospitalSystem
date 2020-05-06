@@ -159,6 +159,7 @@
     <Compile Include="Controllers\AuditStatusController.cs" />
     <Compile Include="Controllers\BandOfficeController.cs" />
     <Compile Include="Controllers\BrandSettingController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\DrugController.cs" />
     <Compile Include="Controllers\DrugRepertoryController.cs" />
     <Compile Include="Controllers\DrugStatusUptController.cs" />
@@ -167,12 +168,17 @@
     <Compile Include="Controllers\IntegralController.cs" />
     <Compile Include="Controllers\ManufacturersController.cs" />
     <Compile Include="Controllers\MenberController.cs" />
+    <Compile Include="Controllers\OutDrugRepertoryController.cs" />
+    <Compile Include="Controllers\OutRepertoryController.cs" />
+    <Compile Include="Controllers\PatientsController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\RepertoryAddStatusController.cs" />
     <Compile Include="Controllers\RepertoryController.cs" />
     <Compile Include="Controllers\RepertoryTypeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SelectCityController.cs" />
     <Compile Include="Controllers\SelectProController.cs" />
+    <Compile Include="Controllers\SexController.cs" />
     <Compile Include="Controllers\StoredController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -236,6 +242,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Patients\" />
     <Folder Include="Views\UserInfo\" />
   </ItemGroup>
   <ItemGroup>

@@ -51,14 +51,18 @@
     <Compile Include="Manufacturers.cs" />
     <Compile Include="Menber.cs" />
     <Compile Include="Office.cs" />
+    <Compile Include="OutDrugRepertory.cs" />
+    <Compile Include="OutRepertory.cs" />
+    <Compile Include="OutRepertoryType.cs" />
     <Compile Include="PageInfo.cs" />
+    <Compile Include="Patient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repertory.cs" />
     <Compile Include="RepertoryType.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Setting.cs" />
+    <Compile Include="Sex.cs" />
     <Compile Include="UsearInfoModel.cs" />
-    <Compile Include="Workbench.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

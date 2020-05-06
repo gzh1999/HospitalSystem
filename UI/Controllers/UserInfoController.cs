@@ -45,11 +45,41 @@ namespace UI.Controllers
         }
         [HttpGet]
         // 工作台
-        public List<Workbench> ShowWork(string Birthdate, string PatientName=null)
+        public PageInfo ShowWork(string Birthdate=null, string PatientName = null, int CurrentPage = 1, int PageSize = 6)
         {
-            return dal.ShowWork(Birthdate, PatientName);
+            var name = dal.ShowWork(Birthdate, PatientName);
 
+            //实例化分页类
+            var p = new PageInfo();
+            //总记录数
+            p.TotalCount = name.Count();
+            //计算总页数
+            if (p.TotalCount == 0)
+            {
+                p.TotalPage = 1;
+            }
+            else if (p.TotalCount % PageSize == 0)
+            {
+                p.TotalPage = p.TotalCount / PageSize;
+            }
+            else
+            {
+                p.TotalPage = (p.TotalCount / PageSize) + 1;
+            }
+            //纠正当前页不正确的值
+            if (CurrentPage < 1)
+            {
+                CurrentPage = 1;
+            }
+            if (CurrentPage > p.TotalPage)
+            {
+                CurrentPage = p.TotalPage;
+            }
+            p.patients = name.Skip(PageSize * (CurrentPage - 1)).Take(PageSize).ToList();
+            p.CurrentPage = CurrentPage;
+            return p;
         }
+
         ///////////////-----------------------  验证嘛
         public string Mail1(string Txt)
         {

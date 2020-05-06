@@ -52,21 +52,21 @@ namespace DAL
             return db.ExecuteNonQuery(sql);
         }
         //工作台
-        public List<Workbench> ShowWork(string Birthdate, string PatientName)
+        public List<Patient> ShowWork(string Birthdate, string PatientName)
         {
-            List<Workbench> workbenchs = new List<Workbench>();
-            string sql = string.Format("select Patient.PatientName,Patient.PatientAge,Patient.Birthdate,Patient.PatientPhone from Patient ");
-
+            List<Patient> workbenchs = new List<Patient>();
+            string sql = string.Format("select * from Patient p join Sex s on s.Id = p.PatientSexId join Office o on o.Id = p.OfficeId join AddStaff a on a.Id=p.AddStaffId ");
+            workbenchs = db.GetToList<Patient>(sql);
             if (Birthdate != null)
             {
-                workbenchs= workbenchs.Where(s => s.Birthdate == Birthdate).ToList();
+                workbenchs = workbenchs.Where(s => s.Birthdate ==DateTime.Parse(Birthdate)).ToList();
             }
             if (PatientName != null)
             {
                 workbenchs = workbenchs.Where(s => s.PatientName.Contains(PatientName)).ToList();
             }
 
-            workbenchs = db.GetToList<Workbench>(sql);
+
             return workbenchs;
         }
     }

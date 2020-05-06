@@ -13,9 +13,9 @@ namespace UI.Controllers
     {
         DrugDAL dal = new DrugDAL();
         // GET: api/RepertoryAddStatus
-        public IEnumerable<string> Get()
+        public IEnumerable<OutRepertoryType> Get()   //借用绑定出库类型表
         {
-            return new string[] { "value1", "value2" };
+            return dal.OutRepertoryTypeBandsel();
         }
 
         // GET: api/RepertoryAddStatus/5

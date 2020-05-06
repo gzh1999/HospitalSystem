@@ -154,5 +154,49 @@ namespace DAL
             string sql = string.Format("update Repertory set AuditStatusId=3 where Id='{0}'", m.Id);
             return db.ExecuteNonQuery(sql);
         }
+        //药品出库显示列表
+        public List<OutRepertory> OutRepertoryShow()
+        {
+            string sql = "select * from OutRepertory o join OutRepertoryType t on o.OutRepertoryTypeId = t.Id join Role r on o.RoleId = r.Id join OutDrugRepertory d on o.OutDrugRepertoryId = d.Id join Drug g on d.DrugId = g.Id join AuditStatus s on o.AuditStatusId = s.Id";
+            return db.GetToList<OutRepertory>(sql);
+        }
+        //绑定出库类型表
+        public List<OutRepertoryType> OutRepertoryTypeBandsel()
+        {
+            string sql = "select * from OutRepertoryType ";
+            return db.GetToList<OutRepertoryType>(sql);
+        }
+        //删除药品出库信息
+        public int OutRepertoryDel(int id)
+        {
+            string sql = " delete from OutRepertory where Id=" + id;
+            return db.ExecuteNonQuery(sql);
+        }
+        //添加到出库信息
+        public int OutDrugRepertoryAdd(OutDrugRepertory m)
+        {
+            string sql = string.Format("insert into OutDrugRepertory select Id from  Drug  where Id in ('{0}')", m.Id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //新增出库(直接提交)
+        public int OutRepertoryAdd(OutRepertory m)
+        {
+            string sql = string.Format("insert into OutRepertory values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",
+                m.OutRepertoryNumber, m.OutRepertoryTypeId, m.RoleId, m.OutRepertoryTime, m.MakeTime = DateTime.Now, m.AuditStatusId = 1, m.OutDrugRepertoryId, m.Remark);
+            return db.ExecuteNonQuery(sql);
+        }
+        //显示药品出库信息
+        public List<OutDrugRepertory> OutDrugRepertoryShow()
+        {
+            string sql =
+                " select * from OutDrugRepertory r join  Drug d on r.DrugId=d.Id join Manufacturers m on m.Id = d.ManufacturersId join DrugType t  on t.Id=d.DrugTypeId";
+            return db.GetToList<OutDrugRepertory>(sql);
+        }
+        //删除药品出库信息
+        public int OutDrugRepertoryDel(int id)
+        {
+            string sql = " delete from OutDrugRepertory where Id=" + id;
+            return db.ExecuteNonQuery(sql);
+        }
     }
 }

@@ -16,6 +16,11 @@ namespace UI.Controllers
         /// </summary>
         DrugDAL dal = new DrugDAL();
 
+        // GET: api/DrugRepertory/5
+        public Drug Get(int id)   //借用一下(药品调价的反填)
+        {
+            return dal.DrugadJustPriceFill(id);
+        }
 
         // POST: api/DrugStatusUpt
         public void Post([FromBody]string value)

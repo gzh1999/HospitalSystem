@@ -29,6 +29,7 @@ namespace DataModel
         public string RepertoryTypeName { get; set; }
         public string ManufacturersName { get; set; }
         public string RoleName { get; set; }
+        public string CreatePerson { get; set; }
         public string AuditStatusName { get; set; }
 
 

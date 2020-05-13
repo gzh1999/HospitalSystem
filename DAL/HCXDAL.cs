@@ -37,7 +37,7 @@ namespace DAL
         //患者详情
         public Patient Find(int id)
         {
-            string str = "select * from Patient p join Setting s on p.VIPTypeId = s.SettingId join Sex x on p.PatientSexId = x.Id where p.Id = " + id;
+            string str = "select * from Patient p  left join Setting s on p.VIPTypeId = s.SettingId left join Sex x on p.PatientSexId = x.Id where p.Id = " + id;
             return db.GetToList<Patient>(str)[0];
         }
         //编辑患者
@@ -69,7 +69,7 @@ namespace DAL
             }
             if (!string.IsNullOrEmpty(office))
             {
-                str += " and OfficeId = " + office;
+                str += " and p.OfficeId = " + office;
             }
             if (!string.IsNullOrEmpty(time))
             {

@@ -31,5 +31,9 @@ namespace DataModel
         public string DrugTypeName { get; set; }
         public string ManufacturersName { get; set; }
 
+
+        //反填库存编号
+        public string RepertoryNumber { get; set; }
+
     }
 }

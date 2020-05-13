@@ -18,7 +18,7 @@ namespace UI.Controllers
         /// 出库信息
         /// </summary>
         /// <returns></returns>
-        public PageInfo Get(string AuditStatusId = null, string OutDrugRepertoryId = null, string OutRepertoryNumber = null, int CurrentPage = 1, int PageSize = 6)
+        public PageInfo Get(string AuditStatusId = null, string OutRepertoryTypeId = null, string OutRepertoryNumber = null, int CurrentPage = 1, int PageSize = 6)
         {
             var name= dal.OutRepertoryShow();
 
@@ -28,9 +28,9 @@ namespace UI.Controllers
                 name = name.Where(s => s.AuditStatusId == Convert.ToInt32(AuditStatusId)).ToList();
             }
             //查询入库
-            if (OutDrugRepertoryId != null)
+            if (OutRepertoryTypeId != null)
             {
-                name = name.Where(s => s.OutDrugRepertoryId == Convert.ToInt32(OutDrugRepertoryId)).ToList();
+                name = name.Where(s => s.OutRepertoryTypeId == Convert.ToInt32(OutRepertoryTypeId)).ToList();
             }
             //查询编号和供应商
             if (OutRepertoryNumber != null)
@@ -75,15 +75,17 @@ namespace UI.Controllers
             return "value";
         }
 
-        // POST: api/OutRepertory
+        // POST: api/OutRepertory   ////新增出库(直接提交)
         public int Post([FromBody]OutRepertory m)
         {
             return dal.OutRepertoryAdd(m);
         }
 
         // PUT: api/OutRepertory/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPost]
+        public int Put([FromBody]OutRepertory m)   //借用一下(修改出库审核通过)
         {
+            return dal.OutAuditStatusUptTG(m);
         }
 
         // DELETE: api/OutRepertory/5

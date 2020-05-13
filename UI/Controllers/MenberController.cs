@@ -16,24 +16,16 @@ namespace UI.Controllers
     {
         ZHCDAL dal = new ZHCDAL();
         // GET: api/Stu
-        public PageInfo Get(string name = "", string pricemin = "", string pricemax = "", int type = 0, string band = "", int CurrentPage = 1, int PageSize = 5)
+        public PageInfo Get(string name = "",string MenberTypeId="" ,int CurrentPage = 1, int PageSize = 5)
         {
             var list = dal.MenberShow();
             if (!string.IsNullOrEmpty(name))
             {
                 list = list.Where(s => s.MenberName.Contains(name)).ToList();
             }
-            if (pricemin != "" && pricemax != "")
+            if (MenberTypeId != "")
             {
-                list = list.Where(s => s.MenberCard >= Convert.ToInt32(pricemin) && s.MenberCard <= Convert.ToInt32(pricemax)).ToList();
-            }
-            if (!string.IsNullOrEmpty(band))
-            {
-                list = list.Where(s => s.MenberPhone.Contains(band)).ToList();
-            }
-            if (type != 0)
-            {
-                list = list.Where(s => s.Integral == type).ToList();
+                list = list.Where(s => s.MenberTypeId == MenberTypeId).ToList();
             }
             //实例化分页类
             var p = new PageInfo();

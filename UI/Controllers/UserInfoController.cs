@@ -19,7 +19,7 @@ namespace UI.Controllers
             return dal.LoginIf(zh, pwd);
         }
         [HttpGet]
-        public UsearInfoModel Fantian(string idd)
+        public UsearInfoModel Fantian(int idd)
         {
             return dal.Fantian(idd);
         }
@@ -44,8 +44,18 @@ namespace UI.Controllers
             return dal.UpdateLog(model);
         }
         [HttpGet]
+        /// <summary>
+        /// 查找id
+        /// </summary>
+        /// <param name="idd"></param>
+        /// <returns></returns>
+        public UsearInfoModel FantianName(string Name)
+        {
+            return dal.FantianName(Name);
+        }
+        [HttpGet]
         // 工作台
-        public PageInfo ShowWork(string Birthdate=null, string PatientName = null, int CurrentPage = 1, int PageSize = 6)
+        public PageInfo ShowWork(string Birthdate=null, string PatientName = null, int CurrentPage = 1, int PageSize = 8)
         {
             var name = dal.ShowWork(Birthdate, PatientName);
 

@@ -21,14 +21,25 @@ namespace DAL
             string sql = string.Format("select count(1) from UserInfo where Uname='{0}' and PassWord='{1}'", zh, pwd);
             return (int)db.ExecuteScalar(sql);
         }
+
+        /// <summary>
+        /// 查找id
+        /// </summary>
+        /// <param name="idd"></param>
+        /// <returns></returns>
+        public UsearInfoModel FantianName(string Name)
+        {
+            string sql = string.Format("select UserInfo.Id from UserInfo where Uname='{0}'" , Name);
+            return db.GetToList<UsearInfoModel>(sql).FirstOrDefault();
+        }
         /// <summary>
         /// 编辑获取信息
         /// </summary>
         /// <param name="idd"></param>
         /// <returns></returns>
-        public UsearInfoModel Fantian(string idd)
+        public UsearInfoModel Fantian(int idd)
         {
-            string sql = string.Format("select * from UserInfo where Uname='{0}'", idd);
+            string sql = string.Format("select * from UserInfo where Id='{0}'" , idd);
             return db.GetToList<UsearInfoModel>(sql).FirstOrDefault();
         }
         /// <summary>
@@ -38,7 +49,7 @@ namespace DAL
         /// <returns></returns>
         public int UpdateLog(UsearInfoModel model)
         {
-            string sql = string.Format("update UserInfo set PassWord ='{0}',qqyouxiang='{1}' where Uname='{2}'", model.PassWord, model.qqyouxiang, model.Uname);
+            string sql = string.Format("update UserInfo set PassWord ='{0}',qqyouxiang='{1}' where Id='{2}'", model.PassWord, model.qqyouxiang, model.Id);
             return db.ExecuteNonQuery(sql);
         }
         /// <summary>
@@ -55,17 +66,16 @@ namespace DAL
         public List<Patient> ShowWork(string Birthdate, string PatientName)
         {
             List<Patient> workbenchs = new List<Patient>();
-            string sql = string.Format("select * from Patient p join Sex s on s.Id = p.PatientSexId join Office o on o.Id = p.OfficeId join AddStaff a on a.Id=p.AddStaffId ");
+            string sql = string.Format("select pp.Id,pp.PatientPhone,pp.PatientName,pp.PatientAge,pp.Birthdate,o.OfficeName,a.StaffName from Patient pp join Sex s on s.Id = pp.PatientSexId join Office o on o.Id = pp.OfficeId join AddStaff a on a.Id=pp.AddStaffId ");
             workbenchs = db.GetToList<Patient>(sql);
             if (Birthdate != null)
             {
-                workbenchs = workbenchs.Where(s => s.Birthdate ==DateTime.Parse(Birthdate)).ToList();
+                workbenchs = workbenchs.Where(s => s.Birthdate == DateTime.Parse(Birthdate)).ToList();
             }
             if (PatientName != null)
             {
                 workbenchs = workbenchs.Where(s => s.PatientName.Contains(PatientName)).ToList();
             }
-
 
             return workbenchs;
         }

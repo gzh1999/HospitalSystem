@@ -9,24 +9,16 @@ using DAL;
 
 namespace UI.Controllers
 {
-    public class AddStaffController : ApiController
+    public class RoleShowController : ApiController
     {
-        /// <summary>
-        /// 员工表显示
-        /// </summary>
-        /// <returns></returns>
         SYDAL dal = new SYDAL();
-        // GET: api/AddStaff
-        public PageInfo Get(string StaffName = "", string OfficeId = "", int CurrentPage = 1, int PageSize = 2)
+        // GET: api/Hospital
+        public PageInfo Get(string RoleName = "", int CurrentPage = 1, int PageSize = 2)
         {
-            var list = dal.Show();
-            if (!string.IsNullOrEmpty(StaffName))
+            var list = dal.Showrole();
+            if (!string.IsNullOrEmpty(RoleName))
             {
-                list = list.Where(s => s.StaffName.Contains(StaffName)).ToList();
-            }
-            if (!string.IsNullOrEmpty(OfficeId))
-            {
-                list = list.Where(s => s.OfficeId == Convert.ToInt32(OfficeId)).ToList();
+                list = list.Where(s => s.RoleName.Contains(RoleName)).ToList();
             }
             //实例化分页类
             var p = new PageInfo();
@@ -54,36 +46,37 @@ namespace UI.Controllers
             {
                 CurrentPage = p.TotalPage;
             }
-            p.addStaffs = list.Skip(PageSize * (CurrentPage - 1)).Take(PageSize).ToList();
+            p.roles = list.Skip(PageSize * (CurrentPage - 1)).Take(PageSize).ToList();
             p.CurrentPage = CurrentPage;
             return p;
         }
 
 
-        // GET: api/AddStaff/5
-        public AddStaff Get(int id)
+
+        // GET: api/Role/5
+        public Role Get(int id)
         {
-            return dal.Fill(id);
+            return dal.Fillrole(id);
         }
 
-        // POST: api/AddStaff
-        public int Post([FromBody]AddStaff s)
+        // POST: api/Role
+        public int Post([FromBody]Role r)
         {
-            return dal.Add(s);
+            return dal.Addrole(r);
         }
 
-        // PUT: api/AddStaff/5
+        // PUT: api/Role/5
         [HttpPost]
-        public int Put([FromBody]AddStaff s)
+        public int Put([FromBody]Role r)
         {
-            return dal.Upt(s);
+            return dal.Uptrole(r);
         }
 
-        // DELETE: api/AddStaff/5
+        // DELETE: api/Role/5
         [HttpPost]
         public int Delete(string id)
         {
-            return dal.Del(id);
+            return dal.Delrole(id);
         }
     }
 }

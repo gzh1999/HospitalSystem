@@ -32,7 +32,7 @@ namespace DataModel
         [Required]
         public string StaffCertificateNumber { get; set; }
         [Required]
-        public int StaffSiteTionId { get; set; }   //二级联动id
+        public string StaffSiteTionId { get; set; }   //二级联动id
         [Required]
         public string StaffSiteTionContent { get; set; }
         [Required]

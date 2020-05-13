@@ -26,7 +26,7 @@ namespace DataModel
         public bool Condition { get; set; }
         public string SettingGrade { get; set; }
         public string MenberType { get; set; }
-        public string Pay { get; set; }
-        public string Drawback { get; set; }
+        public decimal Pay { get; set; }
+        public decimal Drawback { get; set; }
     }
 }

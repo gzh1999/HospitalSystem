@@ -194,5 +194,72 @@ namespace DAL
             string sql = "select * from Menber where Menber.MenberId=" + id;
             return db.GetToList<Menber>(sql)[0];
         }
+
+
+        //充值
+        public int chenge(decimal pays, int id)
+        {
+            string sql = string.Format("update Menber set Pay='{0}' where MenberId='{1}'", pays, id);
+            return db.ExecuteNonQuery(sql);
+        }
+
+        public int change(int id)
+        {
+            string sql = string.Format("update Menber set Storage=Storage + Pay where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //退款
+        public int chengtui1(decimal tui, int id)
+        {
+            string sql = string.Format("update Menber set Pay='{0}' where MenberId='{1}'", tui, id);
+            return db.ExecuteNonQuery(sql);
+        }
+        public int changetui(int id)
+        {
+            string sql = string.Format("update Menber set Storage=Storage - Pay where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //赠送
+        public int Drawback(decimal Drawbacks, int id)
+        {
+            string sql = string.Format("update Menber set Drawback='{0}' where MenberId='{1}'", Drawbacks, id);
+            return db.ExecuteNonQuery(sql);
+        }
+
+        public int Drawback1(int id)
+        {
+            string sql = string.Format("update Menber set Accumulative=Accumulative + Drawback where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //增加积分
+        public int Integral(decimal pays, int id)
+        {
+            string sql = string.Format("update Menber set Pay='{0}' where MenberId='{1}'", pays, id);
+            return db.ExecuteNonQuery(sql);
+        }
+
+        public int Integral1(int id)
+        {
+            string sql = string.Format("update Menber set Integral=Integral + Pay where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //扣减积分
+        public int Integraljian(decimal pays, int id)
+        {
+            string sql = string.Format("update Menber set Pay='{0}' where MenberId='{1}'", pays, id);
+            return db.ExecuteNonQuery(sql);
+        }
+
+        public int Integraljian1(int id)
+        {
+            string sql = string.Format("update Menber set Integral=Integral - Pay where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
+        //积分清零
+        public int Integralling(int id)
+        {
+            string sql = string.Format("update Menber set Integral=Integral - Integral where MenberId='{0}'", +id);
+            return db.ExecuteNonQuery(sql);
+        }
     }
 }

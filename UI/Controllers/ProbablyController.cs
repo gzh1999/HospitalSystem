@@ -22,5 +22,10 @@ namespace UI.Controllers
         {
             return View();
         }
+        //接诊
+        public ActionResult JieZhen()
+        {
+            return View();
+        }
     }
 }

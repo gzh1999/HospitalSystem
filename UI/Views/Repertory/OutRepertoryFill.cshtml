@@ -1,12 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "RepertoryFill2";
+    ViewBag.Title = "OutRepertoryFill";
 }
 
-    <h2>
-        入库详情-审核未通过
-    </h2>
-<input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/RepertoryShow'" />
+<h2>入库详情-审核通过</h2>
+<input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/OutRepertoryShow'" />
 <html>
 <head>
     <style>
@@ -103,32 +101,26 @@
     <div class="table" style="float:left">
         <div>
             <div>入库订单:</div>
-            <div><input id="RepertoryNumber" type="text" class="text" readonly="readonly" /></div>
-        </div>
-
-        <div>
-            <div>供应商:</div>
-            <div><input id="ManufacturersId" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryNumber" type="text" class="text" readonly="readonly" /></div>
         </div>
         <div>
             <div>入库日期:</div>
-            <div><input id="RepertoryTime" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryTime" type="text" class="text" readonly="readonly" /></div>
         </div>
-
-    </div>
-    <div class="table" style="float: left">
         <div>
             <div>制单日期:</div>
             <div><input id="MakeTime" type="text" class="text" readonly="readonly" /></div>
         </div>
-
+    </div>
+    <div class="table" style="float: left">
+       
         <div>
             <div>入库人员:</div>
             <div><input id="RoleId" type="text" class="text" readonly="readonly" /></div>
         </div>
         <div>
             <div>入库类型:</div>
-            <div><input id="RepertoryTypeId" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryTypeId" type="text" class="text" readonly="readonly" /></div>
         </div>
     </div>
     <div class="table" style="float:left">
@@ -136,12 +128,8 @@
             <div>备注:</div>
             <div><input id="Remark" type="text" class="text" readonly="readonly" /></div>
         </div>
-        <div>
-            <div>提示:</div>
-            <div><span id="Pan" style="color:red"></span></div>
-        </div>
     </div>
-    <table class="table" style="width:1400px" id="tab">
+    <table class="table" style="width:1400px">
         <thead style="background:#a9c6c9">
             <tr>
                 <th style="text-align:center;">药品编码</th>
@@ -150,7 +138,6 @@
                 <th style="text-align:center;">售药价</th>
                 <th style="text-align:center;">生产厂家</th>
                 <th style="text-align:center;">药品数量</th>
-                <th style="text-align:center;">库存上限</th>
                 <th style="text-align:center;">创建时间</th>
                 <th style="text-align:center;">药品类型</th>
             </tr>
@@ -171,16 +158,15 @@
         //反填入库详情审核通过
         function RepertoryFill1() {
             $.ajax({
-                url: 'http://localhost:65510/api/Repertory/Get/' + RepertoryId,
+                url: 'http://localhost:65510/api/OutRepertoryAddStatus/Get/' + RepertoryId,
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
-                    $("#RepertoryNumber").val(d.RepertoryNumber);
-                    $("#ManufacturersId").val(d.ManufacturersName);
-                    $("#RepertoryTime").val(d.RepertoryTime);
+                    $("#OutRepertoryNumber").val(d.OutRepertoryNumber);
+                    $("#OutRepertoryTime").val(d.OutRepertoryTime);
                     $("#MakeTime").val(d.MakeTime);
                     $("#RoleId").val(d.CreatePerson);
-                    $("#RepertoryTypeId").val(d.RepertoryTypeName);
+                    $("#OutRepertoryTypeId").val(d.OutRepertoryTypeName);
                     $("#Remark").val(d.Remark);
 
                     $("#DrugId").val(d.DrugId);
@@ -189,10 +175,10 @@
             })
             DrugRepertoryShow();
         }
-        //显示药品入库信息
+        显示药品出库信息
         function DrugRepertoryShow() {
             $.ajax({
-                url: 'http://localhost:65510/api/DrugRepertory/Get/' + RepertoryId,
+                url: 'http://localhost:65510/api/OutRepertoryAddStatus/Get/' + RepertoryId,
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
@@ -206,28 +192,13 @@
                             + '<td>' + this.DrugSelling + '</td>'
                             + '<td>' + this.ManufacturersName + '</td>'
                             + '<td>' + this.DrugCount + '</td>'
-                            + '<td>' + this.InventoryUpperLimit + '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
                             + '<td>' + this.DrugTypeName + '</td>'
                             + '</tr>'
                         $("#DrugShow").append(line);
-                        //判断库存
-                        var tableId = document.getElementById("tab");
-                        for (var i = 1; i < tableId.rows.length; i++) {
-                            var a = Number(tableId.rows[i].cells[5].innerHTML) || 0;
-                            var b = Number(tableId.rows[i].cells[6].innerHTML) || 0;
-                            if (a > b) {
-                                var demoP = document.getElementById("Pan");
-                                demoP.innerHTML = "库存数量不符合";
-                            }
-                            else {
-                                return "";
-                            }
-                        }
                     })
                 }
             })
         }
-        
     </script>
 }

@@ -1,12 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "RepertoryFill2";
+    ViewBag.Title = "OutRepertoryFill2";
 }
 
-    <h2>
-        入库详情-审核未通过
-    </h2>
-<input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/RepertoryShow'" />
+<h2>入库详情-审核通过</h2>
+<input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/OutRepertoryShow'" />
 <html>
 <head>
     <style>
@@ -103,24 +101,18 @@
     <div class="table" style="float:left">
         <div>
             <div>入库订单:</div>
-            <div><input id="RepertoryNumber" type="text" class="text" readonly="readonly" /></div>
-        </div>
-
-        <div>
-            <div>供应商:</div>
-            <div><input id="ManufacturersId" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryNumber" type="text" class="text" readonly="readonly" /></div>
         </div>
         <div>
             <div>入库日期:</div>
-            <div><input id="RepertoryTime" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryTime" type="text" class="text" readonly="readonly" /></div>
         </div>
-
-    </div>
-    <div class="table" style="float: left">
         <div>
             <div>制单日期:</div>
             <div><input id="MakeTime" type="text" class="text" readonly="readonly" /></div>
         </div>
+    </div>
+    <div class="table" style="float: left">
 
         <div>
             <div>入库人员:</div>
@@ -128,7 +120,7 @@
         </div>
         <div>
             <div>入库类型:</div>
-            <div><input id="RepertoryTypeId" type="text" class="text" readonly="readonly" /></div>
+            <div><input id="OutRepertoryTypeId" type="text" class="text" readonly="readonly" /></div>
         </div>
     </div>
     <div class="table" style="float:left">
@@ -137,7 +129,7 @@
             <div><input id="Remark" type="text" class="text" readonly="readonly" /></div>
         </div>
         <div>
-            <div>提示:</div>
+            <div>提示：</div>
             <div><span id="Pan" style="color:red"></span></div>
         </div>
     </div>
@@ -164,23 +156,22 @@
 @section scripts{
     <script>
         $(function () {
-            RepertoryFill1();
+            OutRepertoryFill2();
         });
 
         var RepertoryId = this.location.search.substr(this.location.search.indexOf('=') + 1);
         //反填入库详情审核通过
-        function RepertoryFill1() {
+        function OutRepertoryFill2() {
             $.ajax({
-                url: 'http://localhost:65510/api/Repertory/Get/' + RepertoryId,
+                url: 'http://localhost:65510/api/OutRepertoryAddStatus/Get/' + RepertoryId,
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
-                    $("#RepertoryNumber").val(d.RepertoryNumber);
-                    $("#ManufacturersId").val(d.ManufacturersName);
-                    $("#RepertoryTime").val(d.RepertoryTime);
+                    $("#OutRepertoryNumber").val(d.OutRepertoryNumber);
+                    $("#OutRepertoryTime").val(d.OutRepertoryTime);
                     $("#MakeTime").val(d.MakeTime);
                     $("#RoleId").val(d.CreatePerson);
-                    $("#RepertoryTypeId").val(d.RepertoryTypeName);
+                    $("#OutRepertoryTypeId").val(d.OutRepertoryTypeName);
                     $("#Remark").val(d.Remark);
 
                     $("#DrugId").val(d.DrugId);
@@ -192,7 +183,7 @@
         //显示药品入库信息
         function DrugRepertoryShow() {
             $.ajax({
-                url: 'http://localhost:65510/api/DrugRepertory/Get/' + RepertoryId,
+                url: 'http://localhost:65510/api/OutRepertoryAddStatus/Get/' + RepertoryId,
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
@@ -211,6 +202,7 @@
                             + '<td>' + this.DrugTypeName + '</td>'
                             + '</tr>'
                         $("#DrugShow").append(line);
+
                         //判断库存
                         var tableId = document.getElementById("tab");
                         for (var i = 1; i < tableId.rows.length; i++) {
@@ -224,10 +216,10 @@
                                 return "";
                             }
                         }
+                        
                     })
                 }
             })
         }
-        
     </script>
 }

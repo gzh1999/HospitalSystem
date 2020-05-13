@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "DrugadJustPriceFill";
+}
+    <style>
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+
+        }
+
+
+        .btn {
+            BORDER-RIGHT: #2C59AA 1px solid;
+            PADDING-RIGHT: 2px;
+            BORDER-TOP: #2C59AA 1px solid;
+            PADDING-LEFT: 2px;
+            FONT-SIZE: 12px;
+            FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+            BORDER-LEFT: #2C59AA 1px solid;
+            CURSOR: hand;
+            COLOR: black;
+            PADDING-TOP: 2px;
+            BORDER-BOTTOM: #2C59AA 1px solid
+        }
+    </style>
+
+<html>
+<head></head>
+<body>
+    <h2 style="color:blue">▎新增调价</h2>
+    <input id="Button" class="button" type="button" value="✔完成调价" onclick="NowSelling()" />
+    <hr style="height:2px;border-top:2px dotted #555555" />
+    <table class="table" style="width:1400px;height:100px" id="tab">
+        <thead style="background:#a9c6c9">
+            <tr>
+                <th style="text-align:center;">序号</th>
+                <th style="text-align:center;">药品编码</th>
+                <th style="text-align:center;">药品名称</th>
+                <th style="text-align:center;">采购编号</th>
+                <th style="text-align:center;">规格</th>
+                <th style="text-align:center;">采购价格</th>
+                <th style="text-align:center;">原售价格</th>
+                <th style="text-align:center;">现售价格</th>
+                <th style="text-align:center;">差价</th>
+            </tr>
+        </thead>
+        <tbody id="td" style="color:brown" >
+        </tbody>
+    </table>
+</body>
+</html>
+    
+
+@section scripts{
+    <script>
+        $(function () {
+            DrugadJustPriceFill();
+        });
+
+        function DrugadJustPriceFill() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugStatusUpt/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    var line = '<tr>'
+                        + '<td>' + d.Id + '</td>'
+                        + '<td>' + d.DrugNumber + '</td>'
+                        + '<td>' + d.DrugName + '</td>'
+                        + '<td>' + d.RepertoryNumber + '</td>'
+                        + '<td>' + d.Specification + '</td>'
+                        + '<td>' + d.DrugPrice + '</td>'
+                        + '<td>' + d.DrugSelling + '</td>'
+                        + '<td><input id="NowSelling" type="text" class="form-control" style="width:50px;"/><input id="Button1" type="button" value="差价"style="width:50px;margin-left:50px;" class="btn" onclick="Cha()" /></td>'
+                        + '<td><span id="value" style="color:red"></span></td>'
+                        + '</tr>'
+                    $("#td").append(line);
+                    
+                }
+            })
+        }
+
+        function Cha()
+        {
+            //计算差值
+            var value = 0;
+            var tableId = document.getElementById("tab");
+            for (var i = 1; i < tableId.rows.length; i++) {
+                var a = Number(tableId.rows[i].cells[6].innerHTML) || 0;
+                var Now = document.getElementById("NowSelling");
+                var b = Now.value;
+                if (b == 0) {
+                    return "";
+                }
+                else {
+                    value = b - a;
+                }
+            }
+            var demoP = document.getElementById("value");
+            demoP.innerHTML = + value;
+        }
+
+        function NowSelling()
+        {
+            var obj = {};
+            obj.Id =@ViewContext.RouteData.Values["id"];
+            obj.DrugSelling = $("#NowSelling").val();
+
+            if ($("#NowSelling").val() == "") {
+                alert("请输入要调整的价格");
+                return "";
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/NowSelling/Put',
+                type: 'post',
+                data: obj,
+                success: function (d) {
+                    window.location.reload();
+                }
+            })
+        }
+        
+
+        
+    </script>
+    }

@@ -76,5 +76,11 @@ namespace UI.Controllers
         {
             return View();
         }
+
+        
+        public ActionResult Show2()
+        {
+            return View();
+        }
     }
 }

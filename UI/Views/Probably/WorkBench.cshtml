@@ -54,7 +54,7 @@
             Show();
         });
 
-        var PageSize = 6;
+        var PageSize = 8;
         var CurrentPage = 1;
         var TotalPage = 1;
         function Show(page) {
@@ -86,7 +86,7 @@
                             + '   <div id="div1" class="am-u-md-3" >'
                             + '   <div class="card-box widget-user" >'
                             + '      <div>'
-                            + '          <img src="/后台模板/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">'
+                            + '          <img src="/后台模板/assets/img/avatar-6.jpg" class="img-responsive img-circle" alt="user">'
                             + '          <div class="wid-u-info">'
                             + '            <h4 class="m-t-0 m-b-5 font-600"><span>姓名:</span>' + this.PatientName + '<span>&nbsp&nbsp</span><span>年龄:</span> <span>' + this.PatientAge + '</span></h4>'
                             + '          <span>创建时间</span><span>' + this.Birthdate + '</span>'
@@ -95,7 +95,7 @@
                             + '    <br />'
                             + '  <span>手机号码:</span><span>' + this.PatientPhone + '</span>'
                             + '<hr />'
-                            + '      <small class="glyphicon-text-width" style="font-size:15px"><b><a href="">接诊</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="">查看患者信息</a> </b></small>'
+                            + '      <small  style="font-size:15px"><b> <a href="/Probably/JieZhen/' + this.Id + '">接诊</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=/Patients/PatientsUpdate/' + this.Id + '>查看患者信息</a> </b></small>'
                             + '  </div>'
 
                             + ' </div>'

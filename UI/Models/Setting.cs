@@ -5,7 +5,7 @@ using System.Web;
 
 namespace UI.Models
 {
-    public class SetAdd
+    public class Setting
     {
         public int SettingId { get; set; }
         public string SettingGrade { get; set; }

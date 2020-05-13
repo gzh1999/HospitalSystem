@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "ManageInventoryFill";
+}
+
+    <h2 style="color:blue">▎查看库存明细</h2>
+
+<style>
+    div.table {
+        font-size: 0;
+        width: 400px;
+        border-top-style: solid;
+        border-top-width: 2px;
+        border-left-style: solid;
+        border-left-width: 1px;
+        margin: 0 auto;
+        border-color: #5371b5;
+    }
+
+
+        div.table > div > div {
+            font-size: 18px;
+            border-right-width: 1px;
+            border-right-style: solid;
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+            width: 199px;
+            display: inline-block;
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            border-color:#5371b5;
+        }
+    /*文本框样式*/
+    .text {
+        background: none transparent scroll repeat 0% 0%;
+        border: 0px;
+    }
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+</style>
+<html>
+<head></head>
+<body>
+    <div>
+        <div class="table" style="float:left">
+            <div>
+                <div>药品编码:</div>
+                <div><input id="DrugNumber" type="text" class="text" readonly="readonly" /></div>
+            </div>
+
+            <div>
+                <div>药品名称:</div>
+                <div><input id="DrugName" type="text" class="text" readonly="readonly" /></div>
+            </div>
+
+        </div>
+        <div class="table" style="float: left">
+            <div>
+                <div>生产厂家:</div>
+                <div><input id="ManufacturersId" type="text" class="text" readonly="readonly" /></div>
+            </div>
+
+            <div>
+                <div>药品类型:</div>
+                <div><input id="DrugTypeId" type="text" class="text" readonly="readonly" /></div>
+            </div>
+        </div>
+        <div class="table" style="float:left">
+            <div>
+                <div>库存数量:</div>
+                <div><input id="DrugCount" type="text" class="text" readonly="readonly" /></div>
+            </div>
+            <div>
+                <div>药品规格:</div>
+                <div><input id="Specification" type="text" class="text" readonly="readonly" /></div>
+            </div>
+        </div>
+    </div>
+    <div style="width:1000px;height:20px;margin-top:200px;">
+        <h1 style="color:blue">▎入库明细</h1>
+    </div>
+    <div style="margin-top:50px">
+        <table class="table" style="width:1400px;height:100px" id="tab">
+            <thead style="background:#a9c6c9">
+                <tr>
+                    <th style="text-align:center;">序号</th>
+                    <th style="text-align:center;">单号</th>
+                    <th style="text-align:center;">操作时间</th>
+                    <th style="text-align:center;">类型</th>
+                    <th style="text-align:center;">采购金额(元)</th>
+                    <th style="text-align:center;">零售金额（元）</th>
+                </tr>
+            </thead>
+            <tbody id="td" style="color:brown">
+            </tbody>
+        </table>
+    </div>
+    <div style="width:1000px;height:20px;margin-top:100px;">
+        <h1 style="color:blue">▎出库明细</h1>
+    </div>
+    <div style="margin-top:50px ">
+        <table class="table" style="width:1400px;height:100px" id="tab">
+            <thead style="background:#a9c6c9">
+                <tr>
+                    <th style="text-align:center;">序号</th>
+                    <th style="text-align:center;">单号</th>
+                    <th style="text-align:center;">操作时间</th>
+                    <th style="text-align:center;">类型</th>
+                    <th style="text-align:center;">采购金额(元)</th>
+                    <th style="text-align:center;">零售金额（元）</th>
+                </tr>
+            </thead>
+            <tbody id="td2" style="color: brown ">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+@section scripts{
+    <script>
+        $(function () {
+
+            ManageInventoryFill();
+
+        });
+
+        //反填药品
+
+        function ManageInventoryFill() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#DrugNumber").val(d.DrugNumber);
+                    $("#DrugName").val(d.DrugName);
+                    $("#ManufacturersId").val(d.ManufacturersName);
+                    $("#DrugTypeId").val(d.DrugTypeName);
+                    $("#DrugCount").val(d.DrugCount);
+                    $("#Specification").val(d.Specification);
+                    if (@ViewContext.RouteData.Values["id"]== 0) {
+                        return alert('没有药品出库或入库');
+                    }
+                }
+            })
+            RepertoryXiang();
+            OutRepertoryXiang();
+        }
+        function RepertoryXiang() {
+            $.ajax({
+                url: 'http://localhost:65510/api/RepertoryXiang/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#td").empty();
+                    $(d).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.Id + '</td>'
+                            + '<td>' + this.RepertoryNumber + '</td>'
+                            + '<td>' + this.MakeTime + '</td>'
+                            + '<td>' + this.RepertoryTypeName + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '</tr>'
+                        $("#td").append(line);
+                    })                      
+                }
+            })
+        }
+
+        function OutRepertoryXiang() {
+            $.ajax({
+                url: 'http://localhost:65510/api/OutRepertoryXiang/Get/' +@ViewContext.RouteData.Values["id"],
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#td2").empty();
+                    $(d).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.Id + '</td>'
+                            + '<td>' + this.OutRepertoryNumber + '</td>'
+                            + '<td>' + this.MakeTime + '</td>'
+                            + '<td>' + this.OutRepertoryTypeName + '</td>'
+                            + '<td>' + this.DrugPrice + '</td>'
+                            + '<td>' + this.DrugSelling + '</td>'
+                            + '</tr>'
+                        $("#td2").append(line);
+                    })
+                }
+            })
+        }
+
+    </script>
+    }
+
+    
+

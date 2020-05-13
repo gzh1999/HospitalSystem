@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Addoff";
+}
+
+
+<style>
+    /*div布局*/
+    body {
+        /*background-color: LightBlue;*/
+        font-family: Verdana;
+        font-size: 13px;
+    }
+
+    .divHeaderTable {
+        width: 100%;
+        padding-bottom: 5px;
+        display: block;
+    }
+
+    .divHeaderRow {
+        width: 100%; /* add extra that you want to for header column */
+        display: block;
+        height: 105px;
+    }
+
+    .divHeaderColumn {
+        float: left;
+        width: 33%;
+        display: block;
+    }
+
+    .divTable {
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .divRow {
+        width: 99%;
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .divColumn {
+        float: left;
+        width: 24%;
+        display: block;
+    }
+
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #3c00ff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    .black_overlay {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 1001;
+        /*-moz-opacity: 0.8;*/
+        opacity: .80;
+        filter: alpha(opacity=88);
+    }
+
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 55%;
+        height: 55%;
+        padding: 20px;
+        border: 10px solid orange;
+        background-color: white;
+        z-index: 1002;
+        overflow: auto;
+    }
+</style>
+
+<div style="margin-left:1000px">
+    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="Addoff()" />
+    <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Hospital/Showoff'" />
+</div>
+
+<div>
+    <div id="divHeader" class="divHeaderTable">
+        <h1 style="color:blue;margin-left: 40px">新增科室信息</h1>
+    </div>
+    <div id="content" class="divTable">
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="lblSolutation">科室编号</label>
+                </div>
+                <div>
+                    <input id="OfficeNumber" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname"> 科室名称</label>
+                </div>
+                <div>
+                    <input id="OfficeName" class="form-control" type="text" />
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 科室简介</label>
+                </div>
+                <div>
+                    <input id="OfficeIntroduction" class="form-control" type="text" />
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 创建人</label>
+                </div>
+                <div>
+                    <input id="OfficePerson" type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 科室状态</label>
+                </div>
+                <div>
+                    <input id="OfficeStatus" type="radio" />启用
+                    <input id="OfficeStatus" type="radio" />禁用
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        //新增科室信息
+        function Addoff() {
+            //获取表单的值
+            var obj = {};
+            obj.OfficeNumber = $("#OfficeNumber").val();
+            obj.OfficeName = $("#OfficeName").val();
+            obj.OfficeIntroduction = $("#OfficeIntroduction").val();
+            obj.OfficePerson = $("#OfficePerson").val();
+            $("#OfficeStatus").prop("checked");
+
+            //添加（ajax）
+            $.ajax({
+                url: "http://localhost:65510/api/Office/Post",
+                type: "post",
+                data: obj,
+                success: function (d) {
+                    if (d > 0) {
+                        alert("添加成功");
+                        location.href = "/Hospital/Showoff";
+                    }
+                    else {
+                        alert("添加失败");
+                        location.href = "/Hospital/Showoff";
+                    }
+                }
+            })
+        }
+    </script>
+}

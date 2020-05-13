@@ -14,7 +14,7 @@ namespace UI.Controllers
         {
             return View();
         }
-        public ActionResult ForgetPwd(string zhang) //忘记密码
+        public ActionResult ForgetPwd(int zhang=0) //忘记密码
         {
             ViewBag.zh = zhang;
             return View();

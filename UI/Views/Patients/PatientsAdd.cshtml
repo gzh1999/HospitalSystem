@@ -4,115 +4,281 @@
 }
 
 <style>
-    #div1 {
-        margin-left: 50px;
-        text-align: left
+    /*div布局*/
+    body {
+        /*background-color: LightBlue;*/
+        font-family: Verdana;
+        font-size: 13px;
     }
 
-    #size {
-        font-size: 10px;
+    .divHeaderTable {
+        width: 100%;
+        padding-bottom: 5px;
+        display: block;
     }
 
-    #BackColor {
-        background-color: gainsboro;
+    .divHeaderRow {
+        width: 100%; /* add extra that you want to for header column */
+        display: block;
+        height: 105px;
     }
+
+    .divHeaderColumn {
+        float: left;
+        width: 33%;
+        display: block;
+    }
+
+    .divTable {
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .divRow {
+        width: 99%;
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .divColumn {
+        float: left;
+        width: 24%;
+        display: block;
+    }
+
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #3c00ff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
 
     table {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
     }
 
-    #color {
-        color: red;
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    .black_overlay {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 1001;
+        /*-moz-opacity: 0.8;*/
+        opacity: .80;
+        filter: alpha(opacity=88);
+    }
+
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 55%;
+        height: 55%;
+        padding: 20px;
+        border: 10px solid orange;
+        background-color: white;
+        z-index: 1002;
+        overflow: auto;
     }
 </style>
-<p style="text-align:right">
-    <div style="width:100px"></div>
-</p>
-<div style="background-color:white;text-align:center" id="div1">
-    <table>
-        <tr>
-            <td>
+
+<div style="margin-left:1000px">
+    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="PatientsAdd()" />
+    <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Patients/PatientsShow'" />
+</div>
+
+<div>
+    <div id="divHeader" class="divHeaderTable">
+        <h1 style="color:blue;margin-left: 40px">患者信息</h1>
+    </div>
+    <div id="content" class="divTable">
+        <div class="divRow">
+            <div class="divColumn">
                 <div>
-                    <span id="size">患者姓名</span><span id="color">*</span><br /><input id="Name" type="text" placeholder="请填写患者姓名" />
+                    <label id="lblSolutation"> 患者姓名</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">患者卡号</span><br /><input id="Card" type="text" placeholder="请输入病人卡号" />
+                    <input id="Name" type="text" class="form-control" placeholder="请填写患者姓名" />
                 </div>
-            </td>
-            <td>
+            </div>
+            <div class="divColumn">
                 <div>
-                    <span id="size">患者年龄</span><span id="color">*</span><br /><input id="Age" type="text" placeholder="请输入数字" />
+                    <label id="lblFname"> 患者卡号</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">出生日期</span><span id="color">*</span><br /><input id="Birthday" type="text" onclick="WdatePicker()" />
+                    <input id="Card" type="text" class="form-control" placeholder="请输入病人卡号" />
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </div>
+            <div class="divColumn">
                 <div>
-                    <span id="size">性别</span><span id="color">*</span><br />
-                    <select id="Sex"></select>
+                    <label id="lblMname">患者年龄</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">手机号码：</span><br /><input id="Phone" type="text" placeholder="请输入手机号码" />
+                    <input id="Age" type="text" class="form-control" placeholder="请输入数字" />
                 </div>
-            </td>
-            <td>
+            </div>
+            <div class="divColumn">
                 <div>
-                    <span id="size">证件号码：</span><br /><input id="Number" type="text" placeholder="请输入证件号码" />
+                    <label id="lblLname"> 出生日期</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">患者来源：</span><br />
-                    <select id="PatientSource">
+                    <input id="Birthday" type="date" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 性别</label>
+                </div>
+                <div>
+                    <select id="Sex" class="form-control"></select>
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 手机号码</label>
+                </div>
+                <div>
+                    <input id="Phone" class="form-control" type="text" placeholder="请输入手机号码" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 证件号码</label>
+                </div>
+                <div>
+                    <input id="Number" type="text" class="form-control" placeholder="请输入证件号码" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 患者来源</label>
+                </div>
+                <div>
+                    <select id="PatientSource" class="form-control">
+                        <option>==请选择==</option>
                         <option>亲朋介绍</option>
                         <option>自己找的</option>
                         <option>报纸</option>
                         <option>网络</option>
                     </select>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
                 <div>
-                    <span id="size">会员类型：</span><span id="color">*</span><br /><select id="VIPTypeId"></select>
+                    <label id="Label9"> 会员类型</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">挂号时间</span><br /><input id="RegistrationTime" type="text" onclick="WdatePicker()" />
+                    <select id="VIPTypeId" class="form-control"></select>
                 </div>
-            </td>
-            <td>
+
+            </div>
+            <div class="divColumn">
                 <div>
-                    <span id="size">民族：</span><br /><input id="Ethnic" type="text" />
+                    <label id="Label7"> 挂号时间</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">婚姻状况：</span><br />
-                    <select id="MaritalStatus">
+                    <input id="RegistrationTime" class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 民族</label>
+                </div>
+                <div>
+                    <input id="Ethnic" class="form-control" type="text" placeholder="请输入民族" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 婚姻状况</label>
+                </div>
+                <div>
+                    <select id="MaritalStatus" class="form-control">
+                        <option>==请选择==</option>
                         <option>已婚</option>
                         <option>未婚</option>
                     </select>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
                 <div>
-                    <span id="size">学历：</span><br />
-                    <select id="Education">
+                    <label id="Label9"> 学历</label>
+                </div>
+                <div>
+                    <select id="Education" class="form-control">
+                        <option>==请选择==</option>
                         <option>小学</option>
                         <option>初中</option>
                         <option>高中</option>
@@ -122,37 +288,32 @@
                         <option>博士生</option>
                     </select>
                 </div>
-            </td>
-            <td colspan="2">
+
+            </div>
+            <div class="divColumn">
                 <div>
-                    <span id="size">地址</span><br /><input id="Address" type="text" style="width:100%" placeholder="请输入详细地址" />
+                    <label id="Label8"> 地址</label>
                 </div>
-            </td>
-            <td>
                 <div>
-                    <span id="size">备注</span><br /><input id="Remark" type="text" style="width:100%" />
+                    <input id="Address" type="text" class="form-control" placeholder="请输入详细地址" />
                 </div>
-            </td>
-        </tr>
-        <tr style="text-align:left">
-            <td>
-                <div style="margin-top:30px">
-                    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="PatientsAdd()" />
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 备注</label>
                 </div>
-            </td>
-            <td>
-                <div style="margin-top:30px">
-                    <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Patients/PatientsShow'" />
+                <div>
+                    <input id="Remark" class="form-control" type="text" />
                 </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 @section scripts{
 
-    <script src="~/Scripts/My97DatePicker/My97DatePicker/WdatePicker.js"></script>
     <script>
         $(function () {
             SexBand();

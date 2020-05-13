@@ -91,17 +91,19 @@
 <br />
 <table>
     <tr>
+        <td>挂号科室：</td>
         <td class="col-md-1">
-            挂号科室：<select id="Select1"></select>
+            <select id="Select1" class="form-control"></select>
+        </td>
+        <td>就诊时间：</td>
+        <td class="col-md-1">
+            <input id="time" type="Date" class="form-control" onclick="WdatePicker()" />
         </td>
         <td class="col-md-1">
-            就诊时间：<input id="time" type="Date" onclick="WdatePicker()" />
+            <input id="name" type="text" class="form-control" placeholder="请输入患者姓名" />
         </td>
         <td class="col-md-1">
-            <input id="name" type="text" placeholder="请输入患者姓名" />
-        </td>
-        <td class="col-md-1">
-            <input id="Button1" type="button" value="查询" class="btn-success" onclick="Select()" />
+            <input id="Button1" type="button"  value="查询" class="btn-success" onclick="Select()" />
         </td>
         <td class="col-md-1">
             <input id="Button1" type="button" value="新增挂号" class="btn-success" onclick="location.href='/Registration/RegistrationAdd'" />
@@ -110,7 +112,7 @@
 </table>
 <table class="table" style="width:1400px;height:100px">
     <thead >
-        <tr style="background:#a9c6c9">
+        <tr style="background:#CCE8EB">
             <td><b>序号</b></td>
             <td><b>挂号单号</b></td>
             <td><b>患者姓名</b></td>
@@ -190,7 +192,7 @@
                         '<td>' + (this.RegistrationFee + this.DiagnosisFee) + '</td>' +
                         '<td>' + (this.RegistrationFee + this.DiagnosisFee) + '</td>' +
                         '<td>' + (this.PatientState ? "已就诊" : "未就诊") + '</td>' +
-                        '<td>' + '<a href=/Registration/RegistrationUpdate/' + this.Id + '>编辑<a/>' + '&nbsp;&nbsp; ' + '<a href=/Registration/RegistrationAdd/' + this.Id + '>就诊<a/>' + '&nbsp;&nbsp;' + '<a href="javascript:;" onclick="Delete(' + this.Id + ')">退号<a/>' + '</td > '
+                        '<td>' + '<a href=/Registration/RegistrationUpdate/' + this.Id + '>编辑<a/>' + '&nbsp;&nbsp; ' + '<a href=/Probably/JieZhen/' + this.Id + '>就诊<a/>' + '&nbsp;&nbsp;' + '<a href="javascript:;" onclick="Delete(' + this.Id + ')">退号<a/>' + '</td > '
                         + '</tr>';
                     $("#tb").append(line);
                 })

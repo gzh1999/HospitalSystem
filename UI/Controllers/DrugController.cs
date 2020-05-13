@@ -44,6 +44,15 @@ namespace UI.Controllers
         {
             return View();
         }
-
+        //药品调价
+        public ActionResult DrugadJustPrice()
+        {
+            return View();
+        }
+        //药品调价的反填
+        public ActionResult DrugadJustPriceFill()
+        {
+            return View();
+        }
     }
 }

@@ -98,15 +98,26 @@
 
         //即document.cookie= name+"="+value+";path=/";   时间可以不要，但路径(path)必须要填写，因为JS的默认路径是当前页，如果不填，此cookie只在当前页面生效！~
     }
-
+    
+    var qweqwe = 0;
     $("#abiqoqian").click(function () {
-        var zhh = $("#Uname").val();
-        location.href = '/UserInfo/ForgetPwd/?zhang=' + zhh;
+        var s = $("#Uname").val();
+        $.ajax({
+            url: 'http://localhost:65510/api/UserInfo/FantianName/?Name='+s,
+            type: 'get',
+            dataType: 'json',
+            success: function (dd) {
+                qweqwe= dd.Id;
+              location.href = '/UserInfo/ForgetPwd/?zhang=' +qweqwe;
+            }
+        })
+       
 
     })
     $("#LOGIN1").click(function () {
         location.href = '/UserInfo/Register';
     })
+   
 
      $("#LOGIN").click(function () {
          var account = $("#Uname").val();

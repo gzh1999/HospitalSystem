@@ -1,11 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "OutRepertoryAdd";
+    ViewBag.Title = "JieZhen";
 }
+
+<h2>接诊</h2>
 
 
 <style>
-    /*div布局*/
+
     body {
         /*background-color: LightBlue;*/
         font-family: Verdana;
@@ -182,91 +184,174 @@
             left: 5px;
         }
 </style>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-    @*<link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />*@
-</head>
-<body>
-    <input id="Button1" type="button" class="button" value="审核提交" onclick="OutRepertoryAddStatus()" />
-    <input id="Button1" type="button" class="button" value="直接出库" onclick="OutRepertoryAdd()" />
-    <input id="Button1" type="button" class="button" value="返回" onclick="location.href='/Repertory/OutRepertoryShow'" />
-
-    <hr style="height:2px;border-top:2px dotted #555555" />
-    <div style="width:99%; height:250px;border:1px solid #000;background-color:LightBlue">
-        <div id="divHeader" class="divHeaderTable">
-            <h1 style="color:blue;margin-left: 40px">新增出库信息</h1>
-        </div>
-        <div id="content" class="divTable">
-            <div class="divRow">
-                <div class="divColumn">
-                    <div>
-                        <label id="lblSolutation"> 出库单号</label>
-                    </div>
-                    <div>
-                        <input type="text" id="OutRepertoryNumber" class="form-control" />
-                    </div>
+<div>
+    <div id="divHeader" class="divHeaderTable">
+        <h1 style="color:blue;margin-left: 40px">患者信息</h1>
+    </div>
+    <div id="content" class="divTable">
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="lblSolutation"> 患者姓名</label>
                 </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="lblFname"> 出库日期</label>
-                    </div>
-                    <div>
-                        <input id="OutRepertoryTime" class="form-control" style="height:50px" type="date" />
-                    </div>
-                </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="lblMname">出库人员</label>
-                    </div>
-                    <div>
-                        <select id="RoleName" style="width: 250px;height: 50px;">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="lblLname"> 出库类型</label>
-                    </div>
-                    <div>
-                        <select id="OutRepertoryTypeId" style="width: 250px;height: 50px;">
-                            <option></option>
-                        </select>
-                    </div>
+                <div>
+                    <input id="Name" type="text" class="form-control" placeholder="请填写患者姓名" />
                 </div>
             </div>
-            <div class="divRow">
-                <div class="divColumn">
-                    <div>
-                        <label id="Label9"> 制单日期</label>
-                    </div>
-                    <div>
-                        <input id="DrugCreateTime" class="form-control" disabled="true" style="height:50px" type="date" />
-                    </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname"> 患者卡号</label>
+                </div>
+                <div>
+                    <input id="Card" type="text" class="form-control" placeholder="请输入病人卡号" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblMname">患者年龄</label>
+                </div>
+                <div>
+                    <input id="Age" type="text" class="form-control" placeholder="请输入数字" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblLname"> 出生日期</label>
+                </div>
+                <div>
+                    <input id="Birthday" type="datetime-local" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 性别</label>
+                </div>
+                <div>
+                    <select id="Sex" class="form-control"></select>
+                </div>
 
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 手机号码</label>
                 </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="Label7"> 制单人员</label>
-                    </div>
-                    <div>
-                        <input type="text" id="RepertoryNumber" disabled="true" class="form-control" value="张三" />
-                    </div>
+                <div>
+                    <input id="Phone" class="form-control" type="text" placeholder="请输入手机号码" />
                 </div>
-                <div class="divColumn">
-                    <div>
-                        <label id="Label8"> 备注</label>
-                    </div>
-                    <div>
-                        <input type="text" id="Remark" class="form-control" />
-                    </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 证件号码</label>
+                </div>
+                <div>
+                    <input id="Number" type="text" class="form-control" placeholder="请输入证件号码" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 患者来源</label>
+                </div>
+                <div>
+                    <select id="PatientSource" class="form-control">
+                        <option>==请选择==</option>
+                        <option>亲朋介绍</option>
+                        <option>自己找的</option>
+                        <option>报纸</option>
+                        <option>网络</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 会员类型</label>
+                </div>
+                <div>
+                    <select id="VIPTypeId" class="form-control"></select>
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 挂号时间</label>
+                </div>
+                <div>
+                    <input id="RegistrationTime" class="form-control" type="datetime-local" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 民族</label>
+                </div>
+                <div>
+                    <input id="Ethnic" class="form-control" type="text" placeholder="请输入民族" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 婚姻状况</label>
+                </div>
+                <div>
+                    <select id="MaritalStatus" class="form-control">
+                        <option>==请选择==</option>
+                        <option>已婚</option>
+                        <option>未婚</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 学历</label>
+                </div>
+                <div>
+                    <select id="Education" class="form-control">
+                        <option>==请选择==</option>
+                        <option>小学</option>
+                        <option>初中</option>
+                        <option>高中</option>
+                        <option>大专</option>
+                        <option>本科</option>
+                        <option>研究生</option>
+                        <option>博士生</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 地址</label>
+                </div>
+                <div>
+                    <input id="Address" type="text" class="form-control" placeholder="请输入详细地址" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 备注</label>
+                </div>
+                <div>
+                    <input id="Remark" class="form-control" type="text" />
                 </div>
             </div>
         </div>
     </div>
+</div>
+<br />
+
+<hr />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title> </title>
+    @*<link href="CSS/StyleSheet.css" rel="Stylesheet" type="text/css" />*@
+</head>
+<body>
+   
+
     <table class="table" style="width:1400px" id="tab">
         <thead style="background:#a9c6c9">
             <tr>
@@ -275,7 +360,6 @@
                 </th>
                 <th style="text-align:center;">药品编码</th>
                 <th style="text-align:center;">药品名称</th>
-                <th style="text-align:center;">采药价格</th>
                 <th style="text-align:center;">售药价</th>
                 <th style="text-align:center;">生产厂家</th>
                 <th style="text-align:center;">药品数量</th>
@@ -288,10 +372,13 @@
         </tbody>
     </table>
 
-    <p>采药金额合计:<span id="DrugPriceSum" style="color:red"></span>元</p>
-    <p>零售金额合计:<span id="DrugSellingSum" style="color:red"></span>元</p>
+    <p>总价格合计:<span id="DrugSellingSum" style="color:red"></span>元</p>
     <div style="margin-left:700px;margin-top:50px;">
         <input id="Button1" class="button" type="button" value="添加药品" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'" />
+    </div>
+    <h3><a href="#">打印药方</a></h3>
+    <div style="margin-left:700px;margin-top:50px;">
+        <input id="Button1" class="button" type="button" value="结束就诊" onclick="Update()" />
     </div>
     <div id="light" class="white_content">
         <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">点这里关闭本窗口</a>
@@ -337,24 +424,141 @@
         <a href="javascript:;" onclick="DrugShow(CurrentPage-1)">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(CurrentPage+1)">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:;" onclick="DrugShow(TotalPage)">尾页</a>
-        <input id="Button1" class="button" type="button" value="确定" onclick="OutDrugRepertoryAdd()" />
-        <input id="Button1" class="button" type="button" value="取消" onclick="location.href='/Repertory/OutRepertoryAdd'" />
+        <input id="Button1" class="button" type="button" value="确定" onclick="DrugRepertoryAdd()" />
+        <input id="Button1" class="button" type="button" value="取消" onclick="location.href='/Probably/WorkBench'" />
     </div>
     <div id="fade" class="black_overlay"></div>
 
     <div style="text-align:center; background-color:aqua;margin-top:100px">欢迎登陆医院系统</div>
 </body>
 </html>
-
+<script src="~/Scripts/My97DatePicker/My97DatePicker/WdatePicker.js"></script>
 @section scripts{
+
     <script>
+         function Delete(id) {
+        if (confirm("患者信息删除后无法恢复，确定删除吗？")) {
+            $.ajax({
+                url: "http://localhost:65510/api/Patients/Delete/" + @ViewContext.RouteData.Values["id"],
+                type: "post",
+                data: { id: id },
+                success: function (d) {
+                    if (d > 0) {
+                        alert("删除成功！");
+                        Select();
+                    }
+                    else {
+                        alert("删除失败！");
+                    }
+                }
+            })
+        }
+    }
+
+
         $(function () {
+            SexBand();
+            VIP();
+        })
+        //性别
+        function SexBand() {
+            $.ajax({
+                url: "http://localhost:65510/api/Sex/Get/",
+                type: "get",
+                success: function (d) {
+                    $("#Sex").empty();
+                    $("#Sex").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = '<option value="' + this.Id + '">' + this.SexName + '</option>';
+                        $("#Sex").append(opt);
+                    })
+                }
+            })
+        }
+        //会员等级
+        function VIP() {
+            $.ajax({
+                url: "http://localhost:65510/api/BrandSetting/Get/",
+                type: "get",
+                success: function (d) {
+                    Select();
+                    $("#VIPTypeId").empty();
+                    $("#VIPTypeId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = '<option value="' + this.SettingId + '">' + this.SettingGrade + '</option>';
+                        $("#VIPTypeId").append(opt);
+                    })
+                }
+            })
+        }
+        //反填患者信息
+    function Select() {
+        $.ajax({
+            url: "http://localhost:65510/api/Patients/Get/"+ @ViewContext.RouteData.Values["id"],
+            type: "get",
+            success: function (d) {
+                $("#Name").val(d.PatientName);
+                $("#Card").val(d.PatientCard);
+                $("#Age").val(d.PatientAge);
+                $("#Birthday").val(d.Birthdate);
+                $("#Sex").val(d.PatientSexId);
+                $("#Phone").val(d.PatientPhone);
+                $("#Number").val(d.CertificateNumber);
+                $("#PatientSource").val(d.PatientSource);
+                $("#VIPTypeId").val(d.VIPTypeId);
+                $("#RegistrationTime").val(d.RegistrationTime);
+                $("#Ethnic").val(d.Ethnic);
+                $("#MaritalStatus").val(d.MaritalStatus);
+                $("#Education").val(d.Education);
+                $("#Address").val(d.SiteTionContent);
+                $("#Remark").val(d.Remark);
+                }
+        })
+    }
+    //编辑患者信息
+        function Update() {
+            var id = @ViewContext.RouteData.Values["id"];
+            var obj = {};
+            obj.PatientName = $("#Name").val();
+            obj.PatientCard = $("#Card").val();
+            obj.PatientAge = $("#Age").val();
+            obj.Birthdate = $("#Birthday").val();
+            obj.PatientSexId = $("#Sex").val();
+            obj.PatientPhone = $("#Phone").val();
+            obj.CertificateNumber = $("#Number").val();
+            obj.PatientSource = $("#PatientSource").val();
+            obj.VIPTypeId = $("#VIPTypeId").val();
+            obj.RegistrationTime = $("#RegistrationTime").val();
+            obj.Ethnic = $("#Ethnic").val();
+            obj.MaritalStatus = $("#MaritalStatus").val();
+            obj.Education = $("#Education").val();
+            obj.SiteTionContent = $("#Address").val();
+            obj.Remark = $("#Remark").val();
+            obj.Id = id;
+            $.ajax({
+                url: "http://localhost:65510/api/Patients/Put/",
+                type: "post",
+                data: obj,
+                success: function (d) {
+                    if (d > 0) {
+
+                        Delete();
+                        location.href = "/Patients/PatientsShow";
+                    }
+                    else {
+                        alert("失败！");
+                    }
+                }
+            })
+    }
+     $(function () {
             RoleBandsel();
-            OutRepertoryTypeBandsel();
+            RepertoryTypeBandsel();
+            ManufacturersBandsel();
             DrugTypeBandsel();
 
         });
-        //绑定出库人员表
+        //绑定入库人员表
         function RoleBandsel() {
             $.ajax({
                 url: 'http://localhost:65510/api/Role/Get',
@@ -370,26 +574,40 @@
                 }
             })
         }
-        //绑定出库类型
-        function OutRepertoryTypeBandsel() {
+        //绑定入库类型表
+        function RepertoryTypeBandsel() {
             $.ajax({
-                url: 'http://localhost:65510/api/RepertoryAddStatus/Get',
+                url: 'http://localhost:65510/api/RepertoryType/Get',
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
-                    $("#OutRepertoryTypeId").empty();
-                    $("#OutRepertoryTypeId").append("<option value=''>==请选择==</option>");
+                    $("#RepertoryTypeName").empty();
+                    $("#RepertoryTypeName").append("<option value=''>==请选择==</option>");
                     $(d).each(function () {
-                        var opt = "<option value='" + this.Id + "'>" + this.OutRepertoryTypeName + "</option>";
-                        $("#OutRepertoryTypeId").append(opt);
+                        var opt = "<option value='" + this.Id + "'>" + this.RepertoryTypeName + "</option>";
+                        $("#RepertoryTypeName").append(opt);
                     })
-                    DrugShow(1);
-                    OutDrugRepertoryShow();
                 }
             })
         }
-
-
+        //绑定生产厂家
+        function ManufacturersBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Manufacturers/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#ManufacturersName").empty();
+                    $("#ManufacturersName").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.ManufacturersName + "</option>";
+                        $("#ManufacturersName").append(opt);
+                    })
+                    DrugShow(1);
+                    DrugRepertoryShow();
+                }
+            })
+        }
         var PageSize = 6;
         var CurrentPage = 1;
         var TotalPage = 1;
@@ -403,7 +621,7 @@
             $.ajax({
                 url: 'http://localhost:65510/api/Drug/Get',
                 type: 'get',
-                data: obj,
+                data:obj,
                 dataType: 'json',
                 success: function (d) {
 
@@ -465,8 +683,9 @@
         }
 
 
-        //选中药品添加到出库存
-        function OutDrugRepertoryAdd() {
+        //选中药品添加到库存
+        function DrugRepertoryAdd()
+        {
             var ids = [];
             $(".cktop:checked").each(function () {
                 ids.push(this.value);
@@ -476,18 +695,21 @@
                 return;
             }
             $.ajax({
-                url: 'http://localhost:65510/api/OutDrugRepertory/Post',
+                url: 'http://localhost:65510/api/DrugRepertory/Post',
                 type: 'post',
-                data: { Id: ids.toString() },
+                data: { Id:ids.toString()},
                 //data: JSON.stringify(ids),
                 dataType: 'json',
                 success: function (d) {
-                    if (d > 0) {
+                    if(d > 0)
+                    {
                         alert("添加药品成功");
-                        location.href = '/Repertory/OutRepertoryAdd';
+                        DrugRepertoryShow();
+                        
 
                     }
-                    else {
+                    else
+                    {
                         alert("添加药品失败");
                     }
                 }
@@ -495,9 +717,9 @@
 
         }
         //显示药品入库信息
-        function OutDrugRepertoryShow() {
+        function DrugRepertoryShow() {
             $.ajax({
-                url: 'http://localhost:65510/api/OutDrugRepertory/Get',
+                url: 'http://localhost:65510/api/DrugRepertory/Get',
                 type: 'get',
                 dataType: 'json',
                 success: function (d) {
@@ -508,29 +730,19 @@
                             + '<td><input class="cktop2" type="checkbox" value=' + this.Id + ' /></td>'
                             + '<td>' + this.DrugNumber + '</td>'
                             + '<td>' + this.DrugName + '</td>'
-                            + '<td>' + this.DrugPrice + '</td>'
                             + '<td>' + this.DrugSelling + '</td>'
                             + '<td>' + this.ManufacturersName + '</td>'
-                            + '<td>' + this.DrugCount + '</td>'
+                            + '<td>' + this.DrugCount+ '</td>'
                             + '<td>' + this.DrugCreateTime + '</td>'
                             + '<td>' + this.DrugTypeName + '</td>'
-                            + '<td><input id="Button1" class="info-close" type="button" style="color:blue" value="×" onclick=OutDrugRepertoryDel(' + this.Id + ') /></td>'
+                            +'<td><input id="Button1" class="info-close" type="button" style="color:blue" value="×" onclick=DrugRepertoryDel('+this.Id+') /></td>'
                             + '</tr>'
                         $("#DrugShow").append(line);
-                        //采购金额合计
-                        var sum1 = 0;
-                        var tableId = document.getElementById("tab");
-                        for (var i = 0; i < tableId.rows.length; i++) {
-                            var a = Number(tableId.rows[i].cells[3].innerHTML) || 0;
-                            sum1 += a;
-                        }
-                        var demoP = document.getElementById("DrugPriceSum");
-                        demoP.innerHTML = + sum1;
                         //零售金额合计
                         var sum2 = 0;
                         var tableId = document.getElementById("tab");
                         for (var i = 0; i < tableId.rows.length; i++) {
-                            var a = Number(tableId.rows[i].cells[4].innerHTML) || 0;
+                            var a = Number(tableId.rows[i].cells[3].innerHTML) || 0;
                             sum2 += a;
                         }
                         var demoP = document.getElementById("DrugSellingSum");
@@ -541,17 +753,19 @@
         }
 
         //删除药品入库信息
-        function OutDrugRepertoryDel(Id) {
-            if (confirm("确认要删除吗？")) {
+        function DrugRepertoryDel(Id)
+        {
+            if (confirm("确认要删除吗？"))
+            {
                 $.ajax({
-                    url: 'http://localhost:65510/api/OutDrugRepertory/Delete/' + Id,
+                    url: 'http://localhost:65510/api/DrugRepertory/Delete/' + Id,
                     type: 'Post',
                     data: { Id: Id },
                     dataType: 'json',
                     success: function (d) {
                         if (d > 0) {
                             alert('删除成功');
-                            OutDrugRepertoryShow();
+                            DrugRepertoryShow();
                         }
                         else {
                             alert('删除失败');
@@ -572,7 +786,8 @@
             }
         }
         //直接入库
-        function OutRepertoryAdd() {
+        function RepertoryAdd()
+        {
             var ids = [];
             $(".cktop2:checked").each(function () {
                 ids.push(this.value);
@@ -582,32 +797,34 @@
                 return;
             }
             var obj = {};
-            obj.OutRepertoryNumber = $("#OutRepertoryNumber").val();
-            obj.OutRepertoryTime = $("#OutRepertoryTime").val();
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.RepertoryTime = $("#RepertoryTime").val();
             obj.RoleId = $("#RoleName").val();
-            obj.OutRepertoryTypeId = $("#OutRepertoryTypeId").val();
+            obj.RepertoryTypeId = $("#RepertoryTypeName").val();
+            obj.ManufacturersId = $("#ManufacturersName").val();
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
             obj.Remark = $("#Remark").val();
-            obj.OutDrugRepertoryId = ids;
+            obj.DrugRepertoryId = ids;
 
             $.ajax({
-                url: 'http://localhost:65510/api/OutRepertory/Post',
+                url: 'http://localhost:65510/api/Repertory/Post',
                 type: 'post',
                 data: obj,
                 dataType: 'json',
                 success: function (d) {
                     if (d > 0) {
-                        alert('药品出库成功');
-                        location.href = '/Repertory/OutRepertoryShow';
+                        alert('药品入库成功');
+                        location.href = '/Repertory/RepertoryShow';
                     }
                     else {
-                        alert('药品出库失败');
+                        alert('药品入库失败');
                     }
                 }
             })
         }
 
         //新增入库提交审核
-        function OutRepertoryAddStatus() {
+        function RepertoryAddStatus() {
             var ids = [];
             $(".cktop2:checked").each(function () {
                 ids.push(this.value);
@@ -617,29 +834,32 @@
                 return;
             }
             var obj = {};
-            obj.OutRepertoryNumber = $("#OutRepertoryNumber").val();
-            obj.OutRepertoryTime = $("#OutRepertoryTime").val();
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
+            obj.RepertoryTime = $("#RepertoryTime").val();
             obj.RoleId = $("#RoleName").val();
-            obj.OutRepertoryTypeId = $("#OutRepertoryTypeId").val();
+            obj.RepertoryTypeId = $("#RepertoryTypeName").val();
+            obj.ManufacturersId = $("#ManufacturersName").val();
+            obj.RepertoryNumber = $("#RepertoryNumber").val();
             obj.Remark = $("#Remark").val();
-            obj.OutDrugRepertoryId = ids;
+            obj.DrugRepertoryId = ids;
 
             $.ajax({
-                url: 'http://localhost:65510/api/OutRepertoryAddStatus/Post',
+                url: 'http://localhost:65510/api/RepertoryAddStatus/Post',
                 type: 'post',
                 data: obj,
                 dataType: 'json',
                 success: function (d) {
                     if (d > 0) {
-                        alert('药品出库成功');
-                        location.href = '/Repertory/OutRepertoryShow';
+                        alert('药品入库成功');
+                        location.href = '/Repertory/RepertoryShow';
                     }
                     else {
-                        alert('药品出库失败');
+                        alert('药品入库失败');
                     }
                 }
             })
         }
     </script>
 }
+
 

@@ -4,32 +4,58 @@
 }
 
 <style>
-    h3 {
-        color: blue
-    }
-
-    span {
-        color: red
-    }
-
     div {
-        margin-left: 30px
+        /*margin-left: 30px;*/
+    }
+
+    #size {
+        font-size: 10px;
+    }
+
+    #BackColor {
+        background-color: gainsboro;
+    }
+
+    table {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    /*文本框样式*/
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
 </style>
-<h4>编辑挂号信息</h4>
-<div>
-    <h3>挂号信息</h3>
+<div id="BackColor">
     <table>
         <tr>
             <td>
                 <div>
-                    <b>科室</b><span>*</span>：<br /><select id="Office"></select>
+                    <span id="size">挂号单号</span><br /><input id="RegistrationNumber" type="text" class="form-control" />
                 </div>
             </td>
             <td>
                 <div>
-                    <b>接诊类型</b><span>*</span>：<br />
-                    <select id="ReceptionType">
+                    <span id="size">科室</span><span>*</span>：<br /><select id="Office" class="form-control"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">接诊类型</span><span>*</span>：<br />
+                    <select id="ReceptionType" class="form-control">
                         <option>初诊</option>
                         <option>复诊</option>
                     </select>
@@ -37,94 +63,102 @@
             </td>
             <td>
                 <div>
-                    <b>接诊医生</b><span>*</span>：<br /><select id="Doctor"></select>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    <b>挂号费（元）</b><span>*</span><br /><input id="RegistrationFee" type="text" readonly="readonly" style="background-color:gainsboro" />
-                </div>
-            </td>
-            <td>
-                <div>
-                    <b>诊疗费（元）</b><span>*</span><br /><input id="DiagnosisFee" type="text" readonly="readonly" style="background-color:gainsboro" />
-                </div>
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-    <h3>患者信息</h3>
-    <table>
-        <tr>
-            <td>
-                <div>
-                    <b>患者姓名</b><span>*</span><br /><input id="Name" type="text" readonly="readonly" style="background-color:gainsboro" />
-                </div>
-            </td>
-            <td>
-                <div>
-                    <b>患者卡号</b><br /><input id="Card" type="text" readonly="readonly" style="background-color:gainsboro" />
-                </div>
-            </td>
-            <td>
-                <div>
-                    <b>患者年龄</b><span>*</span><br /><input id="Age" type="text" placeholder="请输入数字" />
-                </div>
-            </td>
-            <td>
-                <div>
-                    <b>出生日期</b><span>*</span><br /><input id="Birthday" type="text" onclick="WdatePicker()" />
+                    <span id="size">接诊医生</span><span>*</span>：<br /><select id="Doctor" class="form-control"></select>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div>
-                    <b>性别</b><span>*</span><br />
-                    <select id="Sex"></select>
+                    <span id="size">挂号费（元）</span><span>*</span><br /><input id="RegistrationFee" type="text" class="form-control" />
                 </div>
             </td>
             <td>
                 <div>
-                    <b>手机号码：</b><br /><input id="Phone" type="text" />
+                    <span id="size">诊疗费（元）</span><span>*</span><br /><input id="DiagnosisFee" type="text" class="form-control" />
                 </div>
             </td>
             <td>
                 <div>
-                    <b>证件号码：</b><br /><input id="Number" type="text" />
+                    <span id="size">挂号日期</span><br /><input id="RegistrationTime" type="date" class="form-control" onclick="WdatePicker()" />
                 </div>
             </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div>
-                    <b>地址</b><br /><input id="Address" type="text" style="width:100%" placeholder="请输入详细地址" />
-                </div>
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div>
-                    <b>备注</b><br /><input id="Remark" type="text" style="width:100%" />
-                </div>
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
             <td>
-                <input id="Button1" type="button" value="编辑" class="btn btn-danger" onclick="Update()" />
+                <div>
+                    <span id="size">挂号员</span><br /><input id="RegistrationName" type="text" class="form-control" />
+                </div>
             </td>
         </tr>
     </table>
 </div>
+<h3>患者信息</h3>
+<div>
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">患者姓名</span><span>*</span><br /><input id="Name" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者卡号</span><br /><input id="Card" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">患者年龄</span><span>*</span><br /><input id="Age" type="text" class="form-control" placeholder="请输入数字" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">出生日期</span><span>*</span><br /><input id="Birthday" type="datetime-local" class="form-control" onclick="WdatePicker()" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span id="size">性别</span><span>*</span><br />
+                    <select id="Sex" class="form-control"></select>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">手机号码：</span><br /><input id="Phone" type="text" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span id="size">证件号码：</span><br /><input id="Number" type="text" class="form-control" />
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <span id="size">地址</span><br /><input id="Address" type="text" class="form-control" style="width:100%" placeholder="请输入详细地址" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <span id="size">备注</span><br /><input id="Remark" class="form-control" type="text" style="width:100%" />
+                </div>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> </td>
+        </tr>
+    </table>
+</div>
+<input id="Button1" type="button" value="修改" class="btn btn-danger" onclick="Update()" />
 @section scripts{
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -188,6 +222,8 @@
             url: "http://localhost:65510/api/Registration/Get/"+ @ViewContext.RouteData.Values["id"],
             type: "get",
             success: function (d) {
+                $("#RegistrationNumber").val(d.RegistrationNumber);
+                $("#RegistrationName").val(d.RegistrationName);
                 $("#Office").val(d.OfficeId);
                 $("#ReceptionType").val(d.ReceptionType);
                 $("#Doctor").val(d.AddStaffId);
@@ -223,6 +259,9 @@
             obj.CertificateNumber = $("#Number").val();
             obj.SiteTionContent = $("#Address").val();
             obj.Remark = $("#Remark").val();
+
+            obj.RegistrationNumber=$("#RegistrationNumber").val();
+            obj.RegistrationName= $("#RegistrationName").val();
             obj.Id = id;
             $.ajax({
                 url: "http://localhost:65510/api/Registration/Put/",

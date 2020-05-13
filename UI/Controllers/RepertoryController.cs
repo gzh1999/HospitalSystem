@@ -99,6 +99,11 @@ namespace UI.Controllers
         {
             return View();
         }
+        //新增入库(提交审核)
+        public ActionResult OutRepertoryAddStatus()
+        {
+            return View();
+        }
         //显示药品出库信息
         public ActionResult OutDrugRepertoryShow()
         {
@@ -106,6 +111,46 @@ namespace UI.Controllers
         }
         //删除药品信息表
         public ActionResult OutDrugRepertoryDel()
+        {
+            return View();
+        }
+        //出库详情审核通过
+        public ActionResult OutRepertoryFill()
+        {
+            return View();
+        }
+        ////入库详情审核提交未通过
+        public ActionResult OutRepertoryFill2()
+        {
+            return View();
+        }
+        ////入库详情审核编辑
+        public ActionResult OutRepertoryFill3()
+        {
+            return View();
+        }
+        //修改出库审核状态为通过
+        public ActionResult OutAuditStatusUptTG()
+        {
+            return View();
+        }
+        //修改出库审核状态未通过
+        public ActionResult OutAuditStatusUptBTG()
+        {
+            return View();
+        }
+        //库存管理(查看库存明细)
+        public ActionResult ManageInventory()
+        {
+            return View();
+        }
+        //库存管理(查看库存明细)的反填
+        public ActionResult ManageInventoryFill()
+        {
+            return View();
+        }
+        //库存管理(查看库存明细)的反填
+        public ActionResult OutRepertoryXiang()
         {
             return View();
         }

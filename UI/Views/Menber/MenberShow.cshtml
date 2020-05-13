@@ -5,16 +5,12 @@
 
 <p $nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;$nbsp;></p>
 
-<div>
-    <h2>
-        <input id="Button1" type="button" class="btn btn-default" value="会员列表" onclick="location.href=' /Menber/MenberShow'" />
-        <input id="Button1" type="button" class="btn btn-default" value="储值管理" onclick="location.href=' MenbeShow'" />
-        <input id="Button1" type="button" class="btn btn-default" value="积分管理" onclick="location.href=' MenbShow'" />
-        <input id="Button1" type="button" class="btn btn-default" value="会员设置" onclick="location.href=' SettingShow'" />
-        <input id="Checkbox1" type="checkbox" /> 会员预警到期
-    </h2>
-</div>
-
+<h2>
+    <input id="Button1" type="button" class="btn btn-default" value="会员列表" onclick="location.href=' /Menber/MenberShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="储值管理" onclick="location.href=' MenbeShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="积分管理" onclick="location.href=' MenbShow'" />
+    <input id="Button1" type="button" class="btn btn-default" value="会员设置" onclick="location.href=' SettingShow'" />
+</h2>
 <br />
 <br />
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -58,7 +54,6 @@
         background-color: #51ccee;
     }
 
-    /*表格样式*/
     .form-control {
         display: block;
         width: 250px;
@@ -101,6 +96,7 @@
         table tr:nth-child(even) {
             background: #F5FAFA;
         }
+
     /*删除按钮css样式*/
 
     .info-close {
@@ -137,13 +133,13 @@
             left: 5px;
         }
 </style>
- 会员等级
 <div>
-    <select id="selectTravelCity" title="Select Travel Destination" class=" btn btn-group-vertical">
+    会员等级
+    <select id="selectTravelCity" title="Select Travel Destination" class=" btn btn-group">
     </select>
+    <input id="name" type="text" placeholder="会员姓名" style="height: 50px;top: 110px; left: 950px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+    <input id="Submit1" type="submit" value="查找" class=" btn btn-primary" onclick="MenberShow(1)" style="width: 70px;height: 50px;top: 110px;left: 1250px" />
 
-    <input id="name" type="text" placeholder="会员姓名" style=" height: 50px; top: 150px; left: 800px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-    <input id="Submit1" type="submit" value="查找" class=" btn btn-primary" onclick="MenberShow(1)" style="width: 70px;height: 50px;top: 150px;left: 1150px" />
 </div>
 
 <table class="table">
@@ -157,7 +153,6 @@
             <th>手机号码</th>
             <th>累计消费（元）</th>
             <th>储值余额（元）</th>
-            <th>累计储值（元）</th>
             <th>积分</th>
             <th>开卡时间</th>
             <th>到期时间</th>
@@ -169,8 +164,6 @@
     </tbody>
 </table>
 
-
-
 <td>总记录数<span id="TotalCount"></span>条</td>
 <td>总共<span id="TotalPage"></span>页</td>
 <td>当前第<span id="CurrentPage"></span>页</td>
@@ -178,6 +171,209 @@
 <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="MenberShow(CurrentPage-1)" /></td>
 <td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="MenberShow(CurrentPage+1)" /></td>
 <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="MenberShow(TotalPage)" /></td>
+
+
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">积分变动</h4>
+            </div>
+            <br /><br />
+            <input id="Button1" class="btn btn-default" type="button" value="充值" data-toggle='modal' data-target='#myModal4' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="退款" data-toggle='modal' data-target='#myModal5' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="增加积分" data-toggle='modal' data-target='#myModal1' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button2" class="btn btn-default" type="button" value="扣减积分" data-toggle='modal' data-target='#myModal2' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button3" class="btn btn-default" type="button" value="积分清零" data-toggle='modal' data-target='#myModal3' data-dismiss="modal" aria-hidden="true" />
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">增加积分</label>
+                </div>
+                <div>
+                    <input type="text" id="textZeng" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">备注</label>
+                </div>
+                <div>
+                    <textarea id="TextArea1" rows="2" cols="20" class="form-control"></textarea>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="rcbtn" onclick="IntegralUpt()">确定</button>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">积分变动</h4>
+            </div>
+            <br /><br />
+            <input id="Button1" class="btn btn-default" type="button" value="充值" data-toggle='modal' data-target='#myModal4' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="退款" data-toggle='modal' data-target='#myModal5' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="增加积分" data-toggle='modal' data-target='#myModal1' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="扣减积分" data-toggle='modal' data-target='#myModal2' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="积分清零" data-toggle='modal' data-target='#myModal3' data-dismiss="modal" aria-hidden="true" />
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">扣减积分</label>
+                </div>
+                <div>
+                    <input type="text" id="textKou" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">备注</label>
+                </div>
+                <div>
+                    <textarea id="TextArea1" rows="2" cols="20" class="form-control"></textarea>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="rcbtn" onclick="IntegralKouUpt()">确定</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">积分变动</h4>
+            </div>
+            <br /><br />
+            <input id="Button1" class="btn btn-default" type="button" value="充值" data-toggle='modal' data-target='#myModal4' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="退款" data-toggle='modal' data-target='#myModal5' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="增加积分" data-toggle='modal' data-target='#myModal1' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="扣减积分" data-toggle='modal' data-target='#myModal2' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="积分清零" data-toggle='modal' data-target='#myModal3' data-dismiss="modal" aria-hidden="true" />
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">备注</label>
+                </div>
+                <div>
+                    <textarea id="TextArea1" rows="2" cols="20" class="form-control"></textarea>
+                    <input type="text" id="Pay" class="form-control" placeholder="*清零后无法恢复，请谨慎操作" />
+                </div>
+            </div>
+            <br />
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="rcbtn" onclick="Integraling()">确定</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">余额充值</h4>
+            </div>
+            <br /><br />
+            <input id="Button1" class="btn btn-default" type="button" value="充值" data-toggle='modal' data-target='#myModal4' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="退款" data-toggle='modal' data-target='#myModal5' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="增加积分" data-toggle='modal' data-target='#myModal1' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="扣减积分" data-toggle='modal' data-target='#myModal2' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="积分清零" data-toggle='modal' data-target='#myModal3' data-dismiss="modal" aria-hidden="true" />
+            <br /><br />
+            <div class="divColumn1">
+                <div>
+                    <label id="lblFname1">充值金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="textJINe" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="divColumn2">
+                <div>
+                    <label id="lblFname">赠送金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="textZengs" class="form-control" />
+                </div>
+            </div>
+
+            <br />  <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input id="Radio1" type="radio" />现金
+                    <input id="Radio2" type="radio" />微信
+                    <input id="Radio3" type="radio" />支付宝
+                    <input id="Radio4" type="radio" />银行卡
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="rcbtn" onclick="chengeUpt()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">余额退款</h4>
+            </div>
+            <br /><br />
+            <input id="Button1" class="btn btn-default" type="button" value="充值" data-toggle='modal' data-target='#myModal4' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="退款" data-toggle='modal' data-target='#myModal5' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="增加积分" data-toggle='modal' data-target='#myModal1' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="扣减积分" data-toggle='modal' data-target='#myModal2' data-dismiss="modal" aria-hidden="true" />
+            <input id="Button1" class="btn btn-default" type="button" value="积分清零" data-toggle='modal' data-target='#myModal3' data-dismiss="modal" aria-hidden="true" />
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">退款金额（元）</label>
+                </div>
+                <div>
+                    <input type="text" id="textTui" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <input id="Radio1" type="radio" />现金
+            <input id="Radio1" type="radio" />微信
+            <input id="Radio1" type="radio" />支付宝
+            <input id="Radio1" type="radio" />银行卡
+            <br /><br />
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname">备注</label>
+                </div>
+                <div>
+                    <textarea id="TextArea1" rows="2" cols="20" class="form-control"></textarea>
+                    <input type="text" id="Pay" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="rcbtn" onclick="chengetui1Upt()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section scripts{
@@ -202,17 +398,15 @@
                         //将数据放入表格
                         $("#selectTravelCity").append(opt);
                     });
-                    MenberShow(1);
+                    MenberShow(1)
                 }
             })
         }
         //会员显示表
         function MenberShow(page) {
             var asd = {};
-            asd.SettingGrade = $("#selectTravelCity").val();
+            asd.SettingGrade = $("#band").val();
             asd.MenberName = $("#name").val();
-            asd.MenberCard = $("#name").val();
-            asd.MenberPhone = $("#band").val();
             $.ajax({
                 url: 'http://localhost:65510/api/Menber/Get',
                 type: 'get',
@@ -240,31 +434,240 @@
                             + '<td>' + this.MenberPhone + '</td>'
                             + '<td>' + this.Cumulative + '</td>'
                             + '<td>' + this.Storage + '</td>'
-                            + '<td>' + this.Accumulative + '</td>'
                             + '<td>' + this.Integral + '</td>'
                             + '<td>' + this.Activate + '</td>'
                             + '<td>' + this.Expiration + '</td>'
-                            + '<td>' + '<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>' + '</td>'
-                            + '<td>' + "<a href=/Drug/DrugUpt/" + this.Id + ">操作</a>" + '</td>'
+                            + '<td>' + "<a onclick=MenberUpt(" + this.MenberId + ")>" + (this.Condition ? "启用" : "禁用") + "</a>" + '</td>'
+                            + '<td>' + '<a data-toggle="modal" data-target="#myModal4" onclick=GetId(' + this.MenberId + ')>操作</a>' + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })
                 }
             })
         }
+        var Id = 0
+        function GetId(MenberId) {
+            Id = MenberId;
+
+        }
+        function chengeUpt() {
+            var s = {
+                id: Id,
+                pays: $("#textJINe").val()
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putes/',
+                type: 'get',
+                data: s,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        changeUpt();
+                        DrawbackUpt();
+                    }
+
+                }
+            })
+        }
+        function changeUpt() {
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Puts?id=' + Id,
+                type: 'get',
+
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+
+                        alert('充值成功'); 
+                        
+
+                    }
+                    else {
+                        alert('充值失败');
+                    }
+                }
+            })
+        }
+        function chengetui1Upt() {
+            var s = {
+                id: Id,
+                tui: $("#textTui").val()
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/PutTui1/',
+                type: 'get',
+                data: s,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        changetuiUpt()
+                    }
+
+                }
+            })
+        }
+        function changetuiUpt() {
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Puttui?id=' + Id,
+                type: 'get',
+
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        
+                        alert('退款成功');
+                        location.href = '/Menber/MenberShow';
+
+                    }
+                    else {
+                        alert('退款失败');
+                    }
+                }
+            })
+        }
+        function DrawbackUpt() {
+            var y = {
+                id: Id,
+                Drawbacks: $("#textZengs").val()
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putesss/',
+                type: 'get',
+                data: y,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        DrawbacksUpt();
+                    }
+
+                }
+            })
+        }
+
+        function DrawbacksUpt() {
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putsss?id=' + Id,
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        location.href = '/Menber/MenberShow';
+                    }
+                }
+            })
+        }
+        //修改状态
         function MenberUpt(id) {
             $.ajax({
-                url: 'https://localhost:44329/api/Menber/Put/',
+                url: 'http://localhost:65510/api/Menber/Put/',
                 type: 'post',
                 data: { MenberId: id },
                 dataType: 'json',
                 success: function (d) {
                     if (d > 0) {
                         alert('修改状态成功');
-                        SettingShow();
+                        MenberShow();
                     }
                     else {
                         alert('修改状态失败');
+                    }
+                }
+            })
+        }
+        //添加积分
+        function IntegralUpt() {
+            var s = {
+                id: Id,
+                tui: $("#textZeng").val()
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putjizeng1/',
+                type: 'get',
+                data: s,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        IntegraUpt();
+                    }
+
+                }
+            })
+        }
+        function IntegraUpt() {
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putjizeng?id=' + Id,
+                type: 'get',
+
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+
+                        alert('积分充值成功');
+                        location.href = '/Menber/MenberShow';
+                    }
+                    else {
+                        alert('积分充值失败');
+                    }
+                }
+            })
+        }
+        //积分扣减
+        function IntegralKouUpt() {
+            var s = {
+                id: Id,
+                tui: $("#textKou").val()
+            }
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/PutjiKou1/',
+                type: 'get',
+                data: s,
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        IntegraKoujianUpt();
+                    }
+
+                }
+            })
+        }
+        function IntegraKoujianUpt() {
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/PutjiKou?id=' + Id,
+                type: 'get',
+
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+
+                        alert('积分扣减成功');
+                        location.href = '/Menber/MenberShow';
+                    }
+                    else {
+                        alert('积分扣减失败');
+                    }
+                }
+            })
+        }
+        //积分清零
+        function Integraling() {
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Change/Putling?id=' + Id,
+                type: 'get',
+
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+
+                        alert('积分清零成功');
+                        location.href = '/Menber/MenberShow';
+                    }
+                    else {
+                        alert('积分清零失败');
                     }
                 }
             })

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Show";
+    ViewBag.Title = "Showrole";
 }
 
 <style>
@@ -47,7 +47,6 @@
         table tr:nth-child(even) {
             background: #F5FAFA;
         }
-
     /*删除按钮css样式*/
 
     .info-close {
@@ -85,7 +84,6 @@
         }
 </style>
 
-
 <div>
     <div style="float:left">
         <input id="Button1" type="button" class="btn btn-default" value="员工列表" onclick="location.href=' /Hospital/Show'" />
@@ -93,7 +91,7 @@
         <input id="Button1" type="button" class="btn btn-default" value="角色列表" onclick="location.href=' /Hospital/Showrole'" />
     </div>
     <div style="margin-left:400px">
-        <input id="Button1" type="button" value="＋新增" class="btn btn-info" onclick="location.href='/Hospital/Add'" />
+        <input id="Button1" type="button" value="＋新增" class="btn btn-info" onclick="location.href='/Hospital/Addrole'" />
         <input id="Button2" type="button" value="批量删除" class="btn btn-info" onclick="delAll()" />
     </div>
 </div>
@@ -101,38 +99,26 @@
 <hr style="color:blueviolet" />
 <br />
 
+
 <div style="float:left">
     <table>
         <tr>
-            <td>所属科室</td>
-            <td>
-                <select id="OfficeId" class="form-control">
-                    <option></option>
-                </select>
-            </td>
-            <td><input id="StaffName" class="form-control" type="text" placeholder="员工姓名" /></td>
-            <td><input id="Button1" type="button" value="搜索" class="btn-danger" onclick="Show(1)" /></td>
+            <td><input id="RoleName" type="text" placeholder="角色名称" class="form-control" /></td>
+            <td><input id="Button1" type="button" value="搜索" class="btn btn-default" onclick="Showrole(1)" /></td>
         </tr>
     </table>
 </div>
-
 
 <table class="table">
     <thead>
         <tr style="background:#a9c6c9">
             <td><input class="top" type="checkbox" onclick="allSelect()" />全选/反选</td>
             <td>序号</td>
-            <td>工号</td>
-            <td>员工姓名</td>
-            <td>员工性别</td>
-            <td>员工年龄</td>
-            <td>手机号码</td>
-            <td>所属诊所</td>
-            <td>所属科室</td>
-            <td>角色</td>
+            <td>角色名称</td>
+            <td>角色描述</td>
             <td>创建时间</td>
             <td>创建人员</td>
-            <td>员工状态</td>
+            <td>角色状态</td>
             <td>操作</td>
         </tr>
     </thead>
@@ -142,55 +128,31 @@
 <td>总记录数<span id="TotalCount"></span>条</td>
 <td>总共<span id="TotalPage"></span>页</td>
 <td>当前第<span id="CurrentPage"></span>页</td>
-<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Show(1)" /></td>
-<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Show(CurrentPage-1)" /></td>
-<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Show(CurrentPage+1)" /></td>
-<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Show(TotalPage)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="Showrole(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="Showrole(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="Showrole(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="Showrole(TotalPage)" /></td>
 
 
 @section scripts{
     <script>
         //页面第一次加载
         $(function () {
-            Band();
+            Showrole();
         })
-        //绑定科室下拉
-        function Band() {
-            $.ajax({
-                url: "http://localhost:65510/api/BandOffice/Get",
-                type: "get",
-                dataType: "json",
-                success: function (d) {
-                    Show(1);
-                    //清空下拉框
-                    $("#OfficeId").empty();
-                    $("#OfficeId").append("<option value=''>==请选择==</option>");
-                    //拼接一个下拉项
-                    $(d).each(function () {
-                        var opt = "<option value=" + this.Id + ">" + this.OfficeName + "</option>";
-                        //将数据放入表格
-                        $("#OfficeId").append(opt);
-                    });
-
-                }
-            })
-        }
         //商品列表显示
         var PageSize = 6;
         var CurrentPage = 1;
         var TotalPage = 1;
-        function Show(page) {
+        function Showrole(page) {
             var obj = {};
-            obj.StaffName = $("#StaffName").val();
-            obj.OfficeId = $("#OfficeId").val();
-
+            obj.RoleName = $("#RoleName").val();
             obj.CurrentPage = page;
             obj.PageSize = PageSize;
             $.ajax({
-                url: "http://localhost:65510/api/AddStaff/Get",
+                url: "http://localhost:65510/api/RoleShow/Get",
                 type: "get",
                 data: obj,
-                dataType: "json",
                 success: function (d) {
                     $("#TotalCount").text(d.TotalCount)
                     $("#TotalPage").text(d.TotalPage)
@@ -202,25 +164,19 @@
                     //清空表格
                     $("#tb").empty();
                     //循环遍历
-                    $(d.addStaffs).each(function () {
+                    $(d.roles).each(function () {
                         //拼接tr一行
                         var line = '<tr>'
                             + '<td><input class="ck" type="checkbox"value="' + this.Id + '" /></td>'
                             + '<td>' + this.Id + '</td>'
-                            + '<td>' + this.StaffNumber + '</td>'
-                            + '<td>' + this.StaffName + '</td>'
-                            + '<td>' + (this.StaffSex ? "男" : "女") + '</td>'
-                            + '<td>' + this.StaffAge + '</td>'
-                            + '<td>' + this.StaffPhone + '</td>'
-                            + '<td>' + this.StaffBelong + '</td>'
-                            + '<td>' + this.OfficeName + '</td>'
                             + '<td>' + this.RoleName + '</td>'
-                            + '<td>' + this.StaffAddTimes + '</td>'
+                            + '<td>' + this.RoleContent + '</td>'
+                            + '<td>' + this.RoleTime + '</td>'
                             + '<td>' + this.CreatePerson + '</td>'
-                            + '<td>' + (this.StateIsok ? "在职" : "未在职") + '</td>'
-                            + '<td>' + "<a href=/Hospital/Upt/" + this.Id + ">编辑&nbsp;&nbsp;</a>"
-                            + "<a href='javascripts:;' onclick='Del(" + this.Id + ")'>删除&nbsp;&nbsp;</a>"
-                            + "<a href='javascripts:;' onclick=UptStatus(" + this.Id + ")>" + (this.StateIsok ? "未在职" : "在职") + "</a>" + '</td>'
+                            + '<td>' + (this.RoleStatus ? "启用" : "禁用") + '</td>'
+                            + '<td>' + "<a href=/Hospital/Uptrole/" + this.Id + " >编辑&nbsp;&nbsp;</a>"
+                            + "<a href='javascripts:;' onclick='Delrole(" + this.Id + ")'>删除&nbsp;&nbsp;</a>"
+                            + "<a href='javascripts:;' onclick='UptStatussrole(" + this.Id + ")'>" + (this.RoleStatus ? "禁用" : "启用") + "</a>" + '</td>'
                             + '</tr>'
                         //将数据放入表格
                         $("#tb").append(line);
@@ -228,17 +184,17 @@
                 }
             });
         }
-        //删除员工信息
-        function Del(id) {
+        //删除角色信息
+        function Delrole(id) {
             if (confirm("确认删除码？")) {
                 $.ajax({
-                    url: "http://localhost:65510/api/AddStaff/Delete/" + id,
+                    url: "http://localhost:65510/api/RoleShow/Delete/" + id,
                     type: "post",
                     data: { id: id },
                     success: function (d) {
                         if (d > 0) {
                             alert("删除成功");
-                            location.href = "/Hospital/Show";
+                            location.href = "/Hospital/Showrole";
                         }
                         else {
                             alert("删除失败");
@@ -273,7 +229,7 @@
                 }
                 //删除
                 $.ajax({
-                    url: "http://localhost:65510/api/AddStaff/Delete/" + ids,
+                    url: "http://localhost:65510/api/RoleShow/Delete/" + ids,
                     type: "post",
                     data: { id: ids.toString() },
                     success: function (d) {
@@ -288,18 +244,18 @@
                 })
             }
         }
-        //修改员工状态
-        function UptStatus(id) {
+        //修改角色状态
+        function UptStatussrole(id) {
             if (confirm("确认要进行此操作吗？")) {
                 $.ajax({
-                    url: 'http://localhost:65510/api/UptStatus/Put/' + id,
+                    url: 'http://localhost:65510/api/UptStatussrole/Put/' + id,
                     type: 'post',
                     data: { id: id },
                     dataType: 'json',
                     success: function (d) {
                         if (d > 0) {
                             alert('操作成功');
-                            Show();
+                            Showrole();
                         }
                         else {
                             alert('操作失败');

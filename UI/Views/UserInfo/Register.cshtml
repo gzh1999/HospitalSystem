@@ -110,7 +110,7 @@
                 dataType: "json",
                 data: { yan: yzm },
                 success: function (res) {
-                    if (res > 0) {
+                    if (res !=0) {
                         $.ajax({
                             url: "http://localhost:65510/api/UserInfo/AddLogin",
                             type: "post",

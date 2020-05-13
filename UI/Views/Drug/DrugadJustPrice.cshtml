@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewBag.Title = "DrugadJustPrice";
+}
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+
+<style>
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    /*删除按钮css样式*/
+
+    .info-close {
+        /*position: fixed;*/
+        right: calc(50% - 10px);
+        width: 30px;
+        height: 30px;
+        background: #ff0000;
+        opacity: .6;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 2002;
+    }
+
+        .info-close:before {
+            position: absolute;
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(45deg);
+            top: 14px;
+            left: 5px;
+        }
+
+        .info-close:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 14px;
+            left: 5px;
+        }
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+
+<div style="margin-left:50px;margin-top:20px">
+    <table>
+        <tr>
+            <td>请选择药品名称：</td>
+            <td><input id="DrugName" type="text" class="form-control" /></td>
+            <td>选择创建日期：</td>
+            <td><input id="Time" type="date" class="form-control" /></td>
+            <td>药品状态：</td>
+            <td>
+                <select id="DrugTypeId" class="form-control">
+                    <option></option>
+                </select>
+            </td>
+            <td><input id="Button1" type="button" value="查询啊" class="btn btn-danger" onclick="DrugadJustPrice(1)" /></td>
+        </tr>
+    </table>
+</div>
+
+<table class="table" style="width:1400px;height:100px">
+    <thead style="background:#a9c6c9">
+        <tr>
+            <th style="text-align:center;">序号</th>
+            <th style="text-align:center;">药品编码</th>
+            <th style="text-align:center;">药品名称</th>
+            <th style="text-align:center;">药品类型</th>
+            <th style="text-align:center;">规格</th>
+            <th style="text-align:center;">生产厂家</th>
+            <th style="text-align:center;">操作</th>
+        </tr>
+    </thead>
+    <tbody id="td" style="color:brown">
+    </tbody>
+</table>
+
+<td>总记录数<span id="TotalCount"></span>条</td>
+<td>总共<span id="TotalPage"></span>页</td>
+<td>当前第<span id="CurrentPage"></span>页</td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="DrugadJustPrice(1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="DrugadJustPrice(CurrentPage-1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="DrugadJustPrice(CurrentPage+1)" /></td>
+<td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="DrugadJustPrice(TotalPage)" /></td>
+
+
+@section scripts{
+    <script>
+        var PageSize = 6;
+        var CurrentPage = 1;
+        var TotalPage = 1;
+
+        $(function () {
+            DrugTypeBandsel();
+        });
+        //药品分类绑定
+
+        function DrugTypeBandsel() {
+            $.ajax({
+                url: 'http://localhost:65510/api/DrugType/Get',
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    $("#DrugTypeId").empty();
+                    $("#DrugTypeId").append("<option value=''>==请选择==</option>");
+                    $(d).each(function () {
+                        var opt = "<option value='" + this.Id + "'>" + this.DrugTypeName + "</option>";
+                        $("#DrugTypeId").append(opt);
+                    })
+                    DrugadJustPrice(1);
+                }
+            })
+        }
+
+        //药品显示表
+        function DrugadJustPrice(page) {
+            var obj = {};
+            obj.DrugName = $("#DrugName").val();
+            obj.DrugCreateTime = $("#Time").val();
+            obj.DrugTypeId = $("#DrugTypeId").val();
+
+            obj.CurrentPage = page;
+            obj.PageSize = PageSize;
+
+            $.ajax({
+                url: 'http://localhost:65510/api/Drug/Get',
+                type: 'get',
+                data: obj,
+                dataType: 'json',
+                success: function (d) {
+
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+
+
+                    $("#td").empty();
+                    $(d.drugs).each(function () {
+                        var line = '<tr>'
+                            + '<td>' + this.Id + '</td>'
+                            + '<td>' + this.DrugNumber + '</td>'
+                            + '<td>' + this.DrugName + '</td>'
+                            + '<td>' + this.DrugTypeName + '</td>'
+                            + '<td>' + this.Specification + '</td>'
+                            + '<td>' + this.ManufacturersName + '</td>'
+                            + '<td>' + "<a href=/Drug/DrugadJustPriceFill/" + this.Id + ">调价</a> "+'</td>'
+                            + '</tr>'
+                        $("#td").append(line);                       
+                    })
+                }
+            })
+        }
+
+    </script>
+}
+

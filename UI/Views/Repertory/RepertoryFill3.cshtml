@@ -173,11 +173,11 @@
                 dataType: 'json',
                 success: function (d) {
                     $("#RepertoryNumber").val(d.RepertoryNumber);
-                    $("#ManufacturersId").val(d.ManufacturersId);
+                    $("#ManufacturersId").val(d.ManufacturersName);
                     $("#RepertoryTime").val(d.RepertoryTime);
                     $("#MakeTime").val(d.MakeTime);
-                    $("#RoleId").val(d.RoleId);
-                    $("#RepertoryTypeId").val(d.RepertoryTypeId);
+                    $("#RoleId").val(d.CreatePerson);
+                    $("#RepertoryTypeId").val(d.RepertoryTypeName);
                     $("#Remark").val(d.Remark);
 
                     $("#DrugId").val(d.DrugId);

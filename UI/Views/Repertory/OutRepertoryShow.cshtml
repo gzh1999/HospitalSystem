@@ -121,7 +121,7 @@
                     <option></option>
                 </select>
             </td>
-            <td>入库类型：</td>
+            <td>出库类型：</td>
             <td>
                 <select id="OutRepertoryTypeId" class="form-control">
                     <option></option>
@@ -209,7 +209,7 @@
         function OutRepertoryShow(page) {
             var obj = {};
             obj.AuditStatusId = $("#AuditStatusId").val();
-            obj.OutDrugRepertoryId = $("#OutDrugRepertoryId").val();
+            obj.OutRepertoryTypeId = $("#OutRepertoryTypeId").val();
             obj.OutRepertoryNumber = $("#OutRepertoryNumber").val();
 
             obj.CurrentPage = page;
@@ -241,7 +241,7 @@
                             + '<td>' + this.DrugSelling + '</td>'
                             + '<td>' + this.OutRepertoryTime + '</td>'
                             + '<td>' + this.AuditStatusName + '</td>'
-                            + '<td>' + (this.AuditStatusId == 1 ? "<a onclick=RepertoryFill3(" + this.Id + ")>编辑</a>" : (this.AuditStatusId == 2 ? "<a onclick=RepertoryFill1(" + this.Id + ")>查看</a>" : (this.AuditStatusId == 3 ? "<a onclick=RepertoryFill2(" + this.Id + ")>查看</a>" : null))) + "<a onclick=OutRepertoryDel(" + this.Id + ")>&nbsp;&nbsp;删除</a>"  + '</td>'
+                            + '<td>' + (this.AuditStatusId == 1 ? "<a onclick=OutRepertoryFill3(" + this.Id + ")>编辑</a>" : (this.AuditStatusId == 2 ? "<a onclick=OutRepertoryFill(" + this.Id + ")>查看</a>" : (this.AuditStatusId == 3 ? "<a onclick=OutRepertoryFill2(" + this.Id + ")>查看</a>" : null))) + "<a onclick=OutRepertoryDel(" + this.Id + ")>&nbsp;&nbsp;删除</a>"  + '</td>'
                             + '</tr>'
                         $("#td").append(line);
                     })
@@ -249,17 +249,17 @@
             })
         }
         //入库详情审核通过
-        function RepertoryFill1(id)
+        function OutRepertoryFill(id)
         {
-            location.href = '/Repertory/RepertoryFill1?id=' + id;
+            location.href = '/Repertory/OutRepertoryFill?id=' + id;
         }
         //入库详情审核提交未通过
-        function RepertoryFill2(id) {
-            location.href = '/Repertory/RepertoryFill2?id=' + id;
+        function OutRepertoryFill2(id) {
+            location.href = '/Repertory/OutRepertoryFill2?id=' + id;
         }
         //入库详情审核编辑
-        function RepertoryFill3(id) {
-            location.href = '/Repertory/RepertoryFill3?id=' + id;
+        function OutRepertoryFill3(id) {
+            location.href = '/Repertory/OutRepertoryFill3?id=' + id;
         }
         //删除入库信息
         function OutRepertoryDel(Id) {

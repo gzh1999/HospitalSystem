@@ -4,81 +4,303 @@
 }
 
 
-<div>
-    <div style="float:left"><h2>新增员工信息</h2></div>
-    <div style="float:right"><input id="Submit1" type="submit" value="保存" onclick="Add()" /></div>
-    <div style="float:right"><input id="Button1" type="button" value="返回" onclick="location.href='/Hospital/Show'" /></div>
+<style>
+    /*div布局*/
+    body {
+        /*background-color: LightBlue;*/
+        font-family: Verdana;
+        font-size: 13px;
+    }
+
+    .divHeaderTable {
+        width: 100%;
+        padding-bottom: 5px;
+        display: block;
+    }
+
+    .divHeaderRow {
+        width: 100%; /* add extra that you want to for header column */
+        display: block;
+        height: 105px;
+    }
+
+    .divHeaderColumn {
+        float: left;
+        width: 33%;
+        display: block;
+    }
+
+    .divTable {
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .divRow {
+        width: 99%;
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .divColumn {
+        float: left;
+        width: 24%;
+        display: block;
+    }
+
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #3c00ff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+    }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
+    .black_overlay {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 1001;
+        /*-moz-opacity: 0.8;*/
+        opacity: .80;
+        filter: alpha(opacity=88);
+    }
+
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 55%;
+        height: 55%;
+        padding: 20px;
+        border: 10px solid orange;
+        background-color: white;
+        z-index: 1002;
+        overflow: auto;
+    }
+</style>
+
+<div style="margin-left:1000px">
+    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="Add()" />
+    <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Hospital/Show'" />
 </div>
 
-<table>
-    <tr>
-        <td>员工编号</td>
-        <td>员工姓名</td>
-        <td>员工年龄</td>
-        <td>性别</td>
-    </tr>
-    <tr>
-        <td><input id="StaffNumber" type="text" placeholder="请输入员工编号" /></td>
-        <td><input id="StaffName" type="text" placeholder="请输入员工姓名" /></td>
-        <td><input id="StaffAge" type="text" placeholder="请输入员工年龄" /></td>
-        <td><input id="RadioBoy" type="radio" />男<input id="RadioGirl" type="radio" />女</td>
-    </tr>
-    <tr>
-        <td>手机号码</td>
-        <td>电子邮箱</td>
-        <td>证件号码</td>
-        <td>职位</td>
-    </tr>
-    <tr>
-        <td><input id="StaffPhone" type="text" placeholder="请输入手机号码" /></td>
-        <td><input id="StaffEmail" type="text" placeholder="请输入电子邮箱" /></td>
-        <td><input id="StaffCertificateNumber" type="text" placeholder="请输入证件号码" /></td>
-        <td><input id="StaffPosition" type="text" placeholder="请输入职位名称" /></td>
-    </tr>
-    <tr>
-        <td>地址</td>
-        <td>详细地址</td>
-        <td></td>
-        <td>所属诊所</td>
-    </tr>
-    <tr>
-        <td>
-            <select id="Pro" onchange="BandCity(this.value)"></select>
-            <select id="City"></select>
-        </td>
-        <td>
-            <input id="StaffSiteTionContent" type="text" placeholder="请输入详细地址" />
-        </td>
-        <td></td>
-        <td><input id="StaffBelong" type="text" placeholder="请输入诊所" /></td>
-    </tr>
-    <tr>
-        <td>所属科室</td>
-        <td>角色</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><select id="OfficeName"></select></td>
-        <td><select id="RoleName"></select></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>密码</td>
-        <td>员工状态</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><input id="Password" type="text" placeholder="6-12位，包含数字和字母" /></td>
-        <td>启用<input id="Checkbox1" type="checkbox" /></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+<div>
+    <div id="divHeader" class="divHeaderTable">
+        <h1 style="color:blue;margin-left: 40px">新增员工信息</h1>
+    </div>
+    <div id="content" class="divTable">
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="lblSolutation"> 员工编号</label>
+                </div>
+                <div>
+                    <input id="StaffNumber" class="form-control" type="text" placeholder="请输入员工编号" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblFname"> 员工姓名</label>
+                </div>
+                <div>
+                    <input id="StaffName" class="form-control" type="text" placeholder="请输入员工姓名" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblMname">员工年龄</label>
+                </div>
+                <div>
+                    <input id="StaffAge" class="form-control" type="text" placeholder="请输入员工年龄" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="lblLname"> 手机号码</label>
+                </div>
+                <div>
+                    <input id="StaffPhone" class="form-control" type="text" placeholder="请输入手机号码" />
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 电子邮箱</label>
+                </div>
+                <div>
+                    <input id="StaffEmail" class="form-control" type="text" placeholder="请输入电子邮箱" />
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 证件号码</label>
+                </div>
+                <div>
+                    <input id="StaffCertificateNumber" class="form-control" type="text" placeholder="请输入证件号码" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8">省</label>
+                </div>
+                <div>
+                    <select id="Pro" class="form-control" onchange="BandCity(this.value)"></select>
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8">市</label>
+                </div>
+                <div>
+                    <select id="City" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 详细地址</label>
+                </div>
+                <div>
+                    <input id="StaffSiteTionContent" class="form-control" type="text" placeholder="请输入详细地址" />
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label7"> 职位</label>
+                </div>
+                <div>
+                    <input id="StaffPosition" class="form-control" type="text" placeholder="请输入职位名称" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 所属诊所</label>
+                </div>
+                <div>
+                    <input id="StaffBelong" class="form-control" type="text" placeholder="请输入诊所" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 所属科室</label>
+                </div>
+                <div>
+                    <select id="OfficeName" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="divRow">
+            <div class="divColumn">
+                <div>
+                    <label id="Label9"> 角色</label>
+                </div>
+                <div>
+                    <select id="RoleName" class="form-control"></select>
+                </div>
+
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 密码</label>
+                </div>
+                <div>
+                    <input id="Password" type="text" class="form-control" placeholder="6-12位，包含数字和字母" />
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 员工状态</label>
+                </div>
+                <div>
+                    <input id="StateIsok" type="radio" name="1" checked="checked" />启用
+                    <input id="StateIsok" type="radio" name="1" />禁用
+                </div>
+            </div>
+            <div class="divColumn">
+                <div>
+                    <label id="Label8"> 性别</label>
+                </div>
+                <div> 
+                    <input id="RadioBoy" type="radio" name="2" checked="checked" />男
+                    <input id="RadioGirl" type="radio"  name="2" />女
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -152,7 +374,7 @@
             $.ajax({
                 url: "http://localhost:65510/api/SelectCity/Get",
                 type: "get",
-                data: { proid: proid},
+                data: { proid: proid },
                 success: function (d) {
                     //清空下拉框
                     $("#City").empty();
@@ -185,18 +407,15 @@
             obj.StaffSiteTionId = $("#StaffSiteTionId").val();
             //单选的获取
             obj.StaffSex = $("#RadioBoy").prop("checked");
-            //多选框
-            if (Checkbox1.checked) {
-                obj.Checkbox1 = Checkbox1.value;
-            }
+            obj.StateIsok = $("#StateIsok").prop("checked");
             //二级联动
-            obj.StaffSiteTionId = $("#Pro option:selected").val() + $("#City option:selected").val();
+            obj.StaffSiteTionId = $("#Pro option:selected").text() + $("#City option:selected").text();
 
             //添加（ajax）
             $.ajax({
                 url: "http://localhost:65510/api/AddStaff/Post",
                 type: "post",
-                data:  obj,
+                data: obj,
                 success: function (d) {
                     if (d > 0) {
                         alert("添加成功");

@@ -127,7 +127,7 @@
                             url: "http://localhost:65510/api/UserInfo/UpdateLog",
                             type: "post",
                             dataType: "json",
-                            data: { qqyouxiang: account, PassWord: password,Uname:@ViewBag.zh},
+                            data: { qqyouxiang: account, PassWord: password,Id:@ViewBag.zh},
                             success: function (res) {
                                 if (res > 0) {
                                     alert('修改成功');

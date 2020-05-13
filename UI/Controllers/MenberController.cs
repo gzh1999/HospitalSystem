@@ -43,5 +43,9 @@ namespace UI.Controllers
         {
             return View();
         }
+        public ActionResult change()
+        {
+            return View();
+        }
     }
 }

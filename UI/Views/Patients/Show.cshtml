@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "PatientsUpdate";
+    ViewBag.Title = "Show";
 }
+
 
 <style>
     /*div布局*/
@@ -148,7 +149,7 @@
 </style>
 
 <div style="margin-left:1000px">
-    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="Update()" />
+    <input id="Button1" style="width:100px" type="button" value="保存" class="btn btn-primary" onclick="PatientsAdd()" />
     <input id="Button2" style="width:100px" type="button" value="返回" class="btn btn-default" onclick="location.href='/Patients/PatientsShow'" />
 </div>
 
@@ -187,7 +188,7 @@
                     <label id="lblLname"> 出生日期</label>
                 </div>
                 <div>
-                    <input id="Birthday" type="datetime-local" class="form-control" />
+                    <input id="Birthday" type="date" class="form-control" />
                 </div>
             </div>
         </div>
@@ -223,7 +224,6 @@
                 </div>
                 <div>
                     <select id="PatientSource" class="form-control">
-                        <option>==请选择==</option>
                         <option>亲朋介绍</option>
                         <option>自己找的</option>
                         <option>报纸</option>
@@ -247,7 +247,7 @@
                     <label id="Label7"> 挂号时间</label>
                 </div>
                 <div>
-                    <input id="RegistrationTime" class="form-control" type="datetime-local"  />
+                    <input id="RegistrationTime" class="form-control" type="date" />
                 </div>
             </div>
             <div class="divColumn">
@@ -278,7 +278,6 @@
                 </div>
                 <div>
                     <select id="Education" class="form-control">
-                        <option>==请选择==</option>
                         <option>小学</option>
                         <option>初中</option>
                         <option>高中</option>
@@ -309,105 +308,5 @@
         </div>
     </div>
 </div>
-@section scripts{
 
-   
-    <script>
-        $(function () {
-            SexBand();
-            VIP();
-        })
-        //性别
-        function SexBand() {
-            $.ajax({
-                url: "http://localhost:65510/api/Sex/Get/",
-                type: "get",
-                success: function (d) {
-                    $("#Sex").empty();
-                    $("#Sex").append("<option value=''>==请选择==</option>");
-                    $(d).each(function () {
-                        var opt = '<option value="' + this.Id + '">' + this.SexName + '</option>';
-                        $("#Sex").append(opt);
-                    })
-                }
-            })
-        }
-        //会员等级
-        function VIP() {
-            $.ajax({
-                url: "http://localhost:65510/api/BrandSetting/Get/",
-                type: "get",
-                success: function (d) {
-                    Select();
-                    $("#VIPTypeId").empty();
-                    $("#VIPTypeId").append("<option value=''>==请选择==</option>");
-                    $(d).each(function () {
-                        var opt = '<option value="' + this.SettingId + '">' + this.SettingGrade + '</option>';
-                        $("#VIPTypeId").append(opt);
-                    })
-                }
-            })
-        }
-        //反填患者信息
-    function Select() {
-        $.ajax({
-            url: "http://localhost:65510/api/Patients/Get/"+ @ViewContext.RouteData.Values["id"],
-            type: "get",
-            success: function (d) {
-                $("#Name").val(d.PatientName);
-                $("#Card").val(d.PatientCard);
-                $("#Age").val(d.PatientAge);
-                $("#Birthday").val(d.Birthdate);
-                $("#Sex").val(d.PatientSexId);
-                $("#Phone").val(d.PatientPhone);
-                $("#Number").val(d.CertificateNumber);
-                $("#PatientSource").val(d.PatientSource);
-                $("#VIPTypeId").val(d.VIPTypeId);
-                $("#RegistrationTime").val(d.RegistrationTime);
-                $("#Ethnic").val(d.Ethnic);
-                $("#MaritalStatus").val(d.MaritalStatus);
-                $("#Education").val(d.Education);
-                $("#Address").val(d.SiteTionContent);
-                $("#Remark").val(d.Remark);
-                }
-        })
-    }
-    //编辑患者信息
-        function Update() {
-            var id = @ViewContext.RouteData.Values["id"];
-            var obj = {};
-            obj.PatientName = $("#Name").val();
-            obj.PatientCard = $("#Card").val();
-            obj.PatientAge = $("#Age").val();
-            obj.Birthdate = $("#Birthday").val();
-            obj.PatientSexId = $("#Sex").val();
-            obj.PatientPhone = $("#Phone").val();
-            obj.CertificateNumber = $("#Number").val();
-            obj.PatientSource = $("#PatientSource").val();
-            obj.VIPTypeId = $("#VIPTypeId").val();
-            obj.RegistrationTime = $("#RegistrationTime").val();
-            obj.Ethnic = $("#Ethnic").val();
-            obj.MaritalStatus = $("#MaritalStatus").val();
-            obj.Education = $("#Education").val();
-            obj.SiteTionContent = $("#Address").val();
-            obj.Remark = $("#Remark").val();
-            obj.Id = id;
-            $.ajax({
-                url: "http://localhost:65510/api/Patients/Put/",
-                type: "post",
-                data: obj,
-                success: function (d) {
-                    if (d > 0) {
-                        alert("编辑成功！");
-                        location.href = "/Patients/PatientsShow";
-                    }
-                    else {
-                        alert("编辑失败！");
-                    }
-                }
-            })
-        }
-    </script>
-}
-
-
+    

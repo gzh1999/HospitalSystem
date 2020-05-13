@@ -141,7 +141,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\SetAdd.cs" />
+    <Compile Include="Models\Setting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +296,7 @@
     <Content Include="html登录模板\js\vendor\typeahead\css\typeahead.js-bootstrap.css" />
     <Content Include="html登录模板\js\vendor\typeahead\typeahead.min.js" />
     <Content Include="html登录模板\js\vendor\wizard\jquery.bootstrap.wizard.min.js" />
+    <Content Include="images\logo.jpg" />
     <Content Include="layui-v2.5.6\dropdown_2.0.0\dropdown.css" />
     <Content Include="layui-v2.5.6\dropdown_2.0.0\dropdown.js" />
     <Content Include="layui-v2.5.6\layui-v2.5.6\layui\css\layui.css" />
@@ -455,6 +456,7 @@
     <Content Include="后台模板\assets\img\avatar-3.jpg" />
     <Content Include="后台模板\assets\img\avatar-4.jpg" />
     <Content Include="后台模板\assets\img\avatar-5.jpg" />
+    <Content Include="后台模板\assets\img\avatar-6.jpg" />
     <Content Include="后台模板\assets\img\bg1.jpg" />
     <Content Include="后台模板\assets\img\inform.png" />
     <Content Include="后台模板\assets\img\rember.png" />
@@ -542,10 +544,24 @@
     <Content Include="Views\Registration\RegistrationShow.cshtml" />
     <Content Include="Views\Registration\RegistrationAdd.cshtml" />
     <Content Include="Views\Registration\RegistrationUpdate.cshtml" />
+    <Content Include="Views\Repertory\OutRepertoryFill.cshtml" />
+    <Content Include="Views\Repertory\OutRepertoryFill2.cshtml" />
+    <Content Include="Views\Repertory\OutRepertoryFill3.cshtml" />
+    <Content Include="Views\Drug\DrugadJustPrice.cshtml" />
+    <Content Include="Views\Drug\DrugadJustPriceFill.cshtml" />
+    <Content Include="Views\Patients\Show.cshtml" />
+    <Content Include="Views\Repertory\ManageInventory.cshtml" />
+    <Content Include="Views\Repertory\ManageInventoryFill.cshtml" />
+    <Content Include="Views\Probably\JieZhen.cshtml" />
+    <Content Include="Views\Hospital\Showoff.cshtml" />
+    <Content Include="Views\Hospital\Addoff.cshtml" />
+    <Content Include="Views\Hospital\Uptoff.cshtml" />
+    <Content Include="Views\Hospital\Showrole.cshtml" />
+    <Content Include="Views\Hospital\Addrole.cshtml" />
+    <Content Include="Views\Hospital\Uptrole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

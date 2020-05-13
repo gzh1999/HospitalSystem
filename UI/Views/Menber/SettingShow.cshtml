@@ -1,11 +1,10 @@
-﻿@model UI.Models.SetAdd
+﻿@model UI.Models.Setting
 @{
     ViewBag.Title = "SettingShow";
 }
 
-
 <h2>
-    <input id="Button1" class="btn btn-default" type="button" value="会员列表" onclick="location.href=' /Stu/MenberShow'" />
+    <input id="Button1" class="btn btn-default" type="button" value="会员列表" onclick="location.href=' /Menber/MenberShow'" />
     <input id="Button1" class="btn btn-default" type="button" value="储值管理" onclick="location.href=' MenbeShow'" />
     <input id="Button1" class="btn btn-default" type="button" value="积分管理" onclick="location.href=' MenbShow'" />
     <input id="Button1" class="btn btn-default" type="button" value="会员设置" onclick="location.href=' SettingShow'" />
@@ -32,6 +31,7 @@
         .choose-label:before {
             content: '';
             position: absolute;
+            position;
             left: 0;
             width: 20px;
             height: 20px;
@@ -50,6 +50,50 @@
     .chooseBtn:checked + label.choose-label {
         background-color: #51ccee;
     }
+
+    .form-control {
+        display: block;
+        width: 250px;
+        height: 50px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        table td, table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+
     /*删除按钮css样式*/
 
     .info-close {
@@ -88,10 +132,9 @@
 </style>
 <body>
     <input class="btn btn-primary" type="button" value="+ 新增会员类型" data-toggle='modal' data-target='#myModal2' style="float:right;margin-bottom:15px" />
-    <input class="btn btn-warning" type="button" value="❁ 会员条件设置" data-toggle='modal' data-target='#myModal1' style="float:right;margin-bottom:15px" />
 
-    <table class="table table-bordered">
-        <thead class="alert-dismissable" style="background:#a9c6c9">
+    <table class="table ">
+        <thead style="background:#a9c6c9">
             <tr>
                 <th>序号</th>
                 <th>会员等级</th>
@@ -107,17 +150,16 @@
         <tbody id="td">
         </tbody>
     </table>
-    <table class=" table-bordered table">
-        <tr>
-            <td>总记录数<span id="TotalCount"></span>条</td>
-            <td>总共<span id="TotalPage"></span>页</td>
-            <td>当前第<span id="CurrentPage"></span>页</td>
-            <td><a href="javascript:;" onclick="SettingShow(1)">首页</a></td>
-            <td><a href="javascript:;" onclick="SettingShow(CurrentPage-1)">上一页</a></td>
-            <td><a href="javascript:;" onclick="SettingShow(CurrentPage+1)">下一页</a></td>
-            <td><a href="javascript:;" onclick="SettingShow(TotalPage)">尾页</a></td>
-        </tr>
-    </table>
+
+
+    <td>总记录数<span id="TotalCount"></span>条</td>
+    <td>总共<span id="TotalPage"></span>页</td>
+    <td>当前第<span id="CurrentPage"></span>页</td>
+    <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☀" onclick="SettingShow(1)" /></td>
+    <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="<<" onclick="SettingShow(CurrentPage-1)" /></td>
+    <td><input id="Button1" class="info-close" type="button" style="color:#000000" value=">>" onclick="SettingShow(CurrentPage+1)" /></td>
+    <td><input id="Button1" class="info-close" type="button" style="color:#000000" value="☾" onclick="SettingShow(TotalPage)" /></td>
+
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -221,9 +263,8 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
-
         </div>
-
+    </div>
 </body>
 
 
@@ -261,7 +302,7 @@
                             + '<td>' + this.Integral + '</td>'
                             + '<td>' + this.Upgrade + '</td>'
                             + '<td>' + this.Remarks + '</td>'
-                            + '<td>' +'<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'+ '</td>'
+                            + '<td>' + "<a onclick=SettingUpt(" + this.SettingId + ")>" + (this.Condition ? "启用" : "禁用") + "</a>" + '</td>'
                             + '<td>' + "<a data-toggle='modal' data-target='#myModal2'" + this.Id + ">编辑</a>" + '</td>'
                             + '</tr>'
                         $("#td").append(line);
@@ -269,8 +310,8 @@
                 }
             })
         }
-        // "<a onclick=SettingUpt(" + this.SettingId + ")>" + (this.Condition ? type = true : type = false) + + "</a>"
-       // '<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'
+        // "<a onclick=SettingUpt(" + this.SettingId + ")>" + (this.Condition ? type = true : type = false) + + "</a>"   position:absolute  class="choose-label"
+        // '<input type="checkbox" name="sex" id="upt" class="chooseBtn" /><label for="upt" class="choose-label"></label>'
         function SettingAdd() {
             var obj = {};
             obj.SettingGrade = $("#SettingGrade").val();
@@ -287,7 +328,6 @@
                 data: obj,
                 success: function (d) {
                     if (d == 1) {
-                        alert('添加成功');
                         location.href = "/Menber/SettingShow";
                     }
                 }
@@ -295,9 +335,9 @@
         }
         function SettingUpt(id) {
             $.ajax({
-                url: 'http://localhost:65510/api/VIPSet/Put',
+                url: 'http://localhost:65510/api/VIPSet/Put/',
                 type: 'post',
-                data: { SettingId: id},
+                data: { SettingId: id },
                 dataType: 'json',
                 success: function (d) {
                     if (d > 0) {
